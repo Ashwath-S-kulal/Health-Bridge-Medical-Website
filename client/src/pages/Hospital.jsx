@@ -332,9 +332,6 @@ export default function HealthCommandCenter() {
           </div>
         </main>
       </div>
-
-      
-
       {selectedHospital && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 lg:p-4">
           <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-md" onClick={() => setSelectedHospital(null)} />
