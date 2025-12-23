@@ -17,6 +17,8 @@ export const google = async (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
           expires: expiryDate,
+          secure:true,
+          sameSite:'none'
         })
         .status(200)
         .json(rest);
@@ -46,6 +48,8 @@ export const google = async (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
           expires: expiryDate,
+          secure:true,
+          sameSite:'none'
         })
         .status(200)
         .json(rest);
