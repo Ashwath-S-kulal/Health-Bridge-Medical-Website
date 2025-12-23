@@ -6,7 +6,7 @@ import { deleteUser, getAllUsers, updateUserRole } from '../controller/admin.con
 
 const router = express.Router();
 
-router.get('/getallusers',verifyToken,verifyAdmin,getAllUsers); 
+router.get('/getallusers',verifyToken,getAllUsers); 
 router.delete('/deleteuser/:id',verifyToken,verifyAdmin,deleteUser); 
 router.put("/:id/role", verifyToken, verifyAdmin, updateUserRole);
 
