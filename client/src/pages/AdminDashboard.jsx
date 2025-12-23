@@ -18,11 +18,16 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/admin/getallusers`, {
-        headers: { Authorization: `Bearer ${token}` },
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
       });
 
       if (!res.ok) {
-        const text = await res.text(); // read HTML or error
+        const text = await res.text();
         throw new Error(`Request failed: ${res.status} - ${text}`);
       }
 
