@@ -6,6 +6,7 @@ export const getAllUsers = async (req, res) => {
     const users = await User.find().select("-password");
     res.status(200).json(users);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Failed to fetch users" });
   }
 };
@@ -25,6 +26,7 @@ export const deleteUser = async (req, res) => {
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
+    console.error(error)
     res.status(500).json({ message: "Failed to delete user" });
   }
 };
