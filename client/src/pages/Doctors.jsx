@@ -22,7 +22,7 @@ const DoctorDirectory = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/doctors/getdoctor');
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URI}/api/doctors/getdoctor`);
       setDoctors(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error("Error fetching doctors:", error);

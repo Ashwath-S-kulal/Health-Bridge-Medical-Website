@@ -17,10 +17,9 @@ const SymptomNavigator = () => {
   const [loading, setLoading] = useState(true);
   const [fetchingDetails, setFetchingDetails] = useState(false);
 
-  const API_BASE = "/api/symptoms";
 
   useEffect(() => {
-    fetch(`${API_BASE}/list`)
+    fetch(`${import.meta.env.VITE_BASE_URI}/api/symptoms/list`)
       .then(res => res.json())
       .then(data => {
         setUniqueDiseases(Array.isArray(data) ? data : []);
@@ -42,7 +41,7 @@ const SymptomNavigator = () => {
 
     setFetchingDetails(true);
     try {
-      const res = await fetch(`${API_BASE}?disease=${encodeURIComponent(disease)}`);
+      const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/symptoms?disease=${encodeURIComponent(disease)}`);
       const data = await res.json();
       setDiseaseSymptoms(Array.isArray(data) ? data : []);
     } catch (err) {

@@ -52,7 +52,7 @@ const UltraMedicalHub = () => {
                                     <div className="absolute -top-10 -right-10 w-24 h-24 bg-blue-400 blur-[40px] opacity-50" />
                                     <h4 className="text-lg font-extrabold mb-2">Medical Professionals</h4>
                                     <p className="text-sm text-blue-50 leading-relaxed mb-6">
-                                        Are you a licensed physician? Help us save lives by joining our **Volunteer Network**.
+                                        Are you a licensed Doctor.? Help us save lives by joining our <span className='font-bold'>Volunteer Network. </span> 
                                         Simply send your credentials to our admin team to get verified.
                                     </p>
                                     <NavLink to="/doctormailtoadmin">

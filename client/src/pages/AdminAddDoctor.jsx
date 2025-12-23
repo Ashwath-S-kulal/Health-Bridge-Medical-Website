@@ -55,7 +55,7 @@ const DoctorManagement = () => {
     const fetchDoctors = async () => {
         try {
             setIsListLoading(true);
-            const response = await axios.get('/api/doctors/getdoctor');
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URI}/api/doctors/getdoctor`);
             setDoctors(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error("Error fetching doctors:", error);
@@ -95,11 +95,11 @@ const DoctorManagement = () => {
 
             if (editId) {
                 // Update Logic
-                await axios.put(`/api/doctors/update/${editId}`, processedData);
+                await axios.put(`${import.meta.env.VITE_BASE_URI}/api/doctors/update/${editId}`, processedData);
                 alert("Profile updated successfully");
             } else {
                 // Create Logic
-                await axios.post('/api/doctors/adddoctor', processedData);
+                await axios.post(`${import.meta.env.VITE_BASE_URI}/api/doctors/adddoctor`, processedData);
                 alert("Doctor profile successfully synchronized.");
             }
 
@@ -124,7 +124,7 @@ const DoctorManagement = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this provider?")) return;
         try {
-            await axios.delete(`/api/doctors/delete/${id}`);
+            await axios.delete(`${import.meta.env.VITE_BASE_URI}/api/doctors/delete/${id}`);
             fetchDoctors();
         } catch (error) {
             alert("Delete failed");

@@ -9,7 +9,7 @@ const DiseaseInfo = () => {
 
   // 1. Fetch the unique list of diseases for the dropdown
   useEffect(() => {
-    fetch('/api/diseasedesc/list')
+    fetch(`${import.meta.env.VITE_BASE_URI}/api/diseasedesc/list`)
       .then(res => res.json())
       .then(list => setDiseaseList(list))
       .catch(err => console.error("Error fetching list:", err));
@@ -20,7 +20,7 @@ const DiseaseInfo = () => {
     setLoading(true);
     const queryParam = selectedFilter !== "All" ? `?name=${selectedFilter}` : "";
 
-    fetch(`/api/diseasedesc/${queryParam}`)
+    fetch(`${import.meta.env.VITE_BASE_URI}/api/diseasedesc/${queryParam}`)
       .then(res => res.json())
       .then(results => {
         setData(results);

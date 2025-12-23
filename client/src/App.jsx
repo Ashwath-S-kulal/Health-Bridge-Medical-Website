@@ -1,9 +1,8 @@
 import "./index.css";
 import "./App.css";
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter , Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import Signup from './pages/SignUp';
 import Hospital from './pages/Hospital.jsx';
 import PrivateRoute from './Components/PrivateRoute.jsx';
 import Medical from './pages/medical.jsx';
@@ -18,15 +17,16 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import DoctorDirectory from "./pages/Doctors.jsx";
 import AdminAddDoctor from "./pages/AdminAddDoctor.jsx";
 import VolunteerRegistration from "./pages/DoctorMailToAdmin.jsx";
+import ScrollToTop from "./Components/ScrollToTop.jsx";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
+        <ScrollToTop />
         <Routes>
           <Route path='/' element={<MedicalLandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/hospital" element={<Hospital />} />
           <Route path="/medical" element={<Medical />} />
           <Route path="/disease" element={<Disease />} />
@@ -38,7 +38,7 @@ function App() {
 
 
           <Route element={<PrivateRoute />}>
-            <Route path="profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
 
           <Route element={<AdminRoute />}>
@@ -48,7 +48,7 @@ function App() {
           
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 

@@ -9,7 +9,7 @@ const DiseasePrecautions = () => {
 
   // Fetch unique names for dropdown
   useEffect(() => {
-    fetch('/api/precaution/list')
+    fetch(`${import.meta.env.VITE_BASE_URI}/api/precaution/list`)
       .then(res => res.json())
       .then(list => setDiseaseList(list))
       .catch(err => console.error("List Fetch Error:", err));
@@ -20,7 +20,7 @@ const DiseasePrecautions = () => {
     setLoading(true);
     const query = selectedFilter !== "All" ? `?disease=${selectedFilter}` : "";
     
-    fetch(`/api/precaution/${query}`)
+    fetch(`${import.meta.env.VITE_BASE_URI}/api/precaution/${query}`)
       .then(res => res.json())
       .then(results => {
         setData(results);

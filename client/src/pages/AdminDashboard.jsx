@@ -17,7 +17,7 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("/api/admin/getallusers", {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/admin/getallusers`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -39,7 +39,7 @@ export default function AdminDashboard() {
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
       try {
-        const res = await fetch(`/api/admin/deleteuser/${userId}`, {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/admin/deleteuser/${userId}`, {
           method: 'DELETE',
         });
         const data = await res.json();
@@ -60,7 +60,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `/api/admin/${userId}/role`,
+        `${import.meta.env.VITE_BASE_URI}/api/admin/${userId}/role`,
         {
           method: "PUT",
           headers: {
