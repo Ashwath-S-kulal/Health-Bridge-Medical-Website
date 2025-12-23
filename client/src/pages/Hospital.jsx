@@ -336,10 +336,10 @@ export default function HealthCommandCenter() {
       
 
       {selectedHospital && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-4">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setSelectedHospital(null)} />
-          <div className="relative bg-white w-full h-full md:h-auto md:max-w-lg md:rounded-[2.5rem] shadow-2xl overflow-y-auto md:overflow-hidden animate-in zoom-in-95 duration-300">
-            <div className="h-48 md:h-64 bg-slate-100 relative">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 lg:p-4">
+          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-md" onClick={() => setSelectedHospital(null)} />
+          <div className="relative bg-white w-full max-w-lg rounded-[2rem] lg:rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 max-h-[95vh] overflow-y-auto">
+            <div className="h-32 md:h-64 bg-slate-100 relative">
                <iframe
                 title="Hospital Map"
                 width="100%"

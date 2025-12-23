@@ -26,23 +26,6 @@ app.use(express.json());
 
 await connectDB(); 
 
-
-// Add this before your app.use('/api/auth', ...)
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  
-  // Handle the OPTIONS preflight immediately
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  next();
-});
-
-
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
