@@ -28,13 +28,18 @@ app.use(express.urlencoded({ extended: true }));
 //   allowedHeaders: ['Content-Type', 'Authorization'] // Authorization MUST be here
 // }));
 
-app.use(
-  cors({
-    origin: ["https://health-bridge-medical-website-wgbm.vercel.app/"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  }),
-);
+
+app.use(cors({
+  origin: [
+    "https://health-bridge-medical-website-wgbm.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+// ✅ handle preflight explicitly
+app.options("*", cors());
 
 app.use(express.json());
 
