@@ -15,6 +15,31 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cookieParser());
+app.use(cors());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL,
+//   credentials: true,
+//   allowedHeaders: ['Content-Type', 'Authorization'] // Authorization MUST be here
+// }));
+
+
+app.use(cors({
+  origin: [
+    "https://health-bridge-medical-website-wgbm.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+// ✅ handle preflight explicitly
+app.options("*", cors());
 
 app.use(express.json());
 
