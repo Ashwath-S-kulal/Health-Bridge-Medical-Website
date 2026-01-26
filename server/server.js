@@ -16,11 +16,20 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cookieParser()); 
 
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL, 
+//   credentials: true,
+//   allowedHeaders: ['Content-Type', 'Authorization'] // Authorization MUST be here
+// }));
+
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL, 
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'] // Authorization MUST be here
+  origin: [
+    "https://health-bridge-medical-website-wgbm.vercel.app/"
+  ],
+  credentials: true
 }));
+
 
 app.use(express.json());
 
