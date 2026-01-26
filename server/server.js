@@ -1,7 +1,6 @@
 import express from "express";
-import cors from "cors";
-import "dotenv/config";
 import cookieParser from "cookie-parser";
+import "dotenv/config";
 import { connectDB } from "./db.js";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
@@ -14,38 +13,38 @@ import doctorRoutes from "./routes/doctor.routes.js";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// --- MIDDLEWARE ---
 app.use(cookieParser());
-app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// --- CORS CONFIG FOR PRODUCTION ---
+app.use((req, res, next) => {
+  const allowedOrigin = "https://health-bridge-medical-website-wgbm.vercel.app";
 
+  res.header("Access-Control-Allow-Origin", allowedOrigin);
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  );
 
-// app.use(cors({
-//   origin: process.env.FRONTEND_URL,
-//   credentials: true,
-//   allowedHeaders: ['Content-Type', 'Authorization'] // Authorization MUST be here
-// }));
+  // handle preflight
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
 
+  next();
+});
 
-app.use(cors({
-  origin: [
-    "https://health-bridge-medical-website-wgbm.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
-
-// ✅ handle preflight explicitly
-app.options("*", cors());
-
-app.use(express.json());
-
+// --- CONNECT TO DB ---
 await connectDB();
 
-// Routes
+// --- ROUTES ---
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/diseasedesc", diseaseDescRoutes);
@@ -54,6 +53,7 @@ app.use("/api/symptoms", symptomsRoutes);
 app.use("/api/admin", AdminRoutes);
 app.use("/api/doctors", doctorRoutes);
 
+// --- START SERVER ---
 app.listen(PORT, () => {
-  console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Backend running on port ${PORT}`);
 });
