@@ -95,11 +95,11 @@ const DoctorManagement = () => {
 
             if (editId) {
                 // Update Logic
-                await axios.put(`${import.meta.env.VITE_BASE_URI}/api/doctors/update/${editId}`, processedData,{ headers: { "Content-Type": "application/json" } });
+                await axios.put(`${import.meta.env.VITE_BASE_URI}/api/doctors/update/${editId}`, processedData,{ headers: { "Content-Type": "application/json" }, withCredentials: true });
                 alert("Profile updated successfully");
             } else {
                 // Create Logic
-                await axios.post(`${import.meta.env.VITE_BASE_URI}/api/doctors/adddoctor`, processedData,{ headers: { "Content-Type": "application/json" }});
+                await axios.post(`${import.meta.env.VITE_BASE_URI}/api/doctors/adddoctor`, processedData,{ headers: { "Content-Type": "application/json" }, withCredentials: true});
                 alert("Doctor profile successfully synchronized.");
             }
 

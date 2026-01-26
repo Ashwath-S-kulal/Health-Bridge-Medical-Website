@@ -23,7 +23,8 @@ export default function AdminDashboard() {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        credentials: 'include'
+        credentials: 'include',
+         withCredentials: true
       });
 
       if (!res.ok) {
