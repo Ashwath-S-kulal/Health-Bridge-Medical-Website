@@ -1,8 +1,8 @@
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  signInWithRedirect, 
-  getRedirectResult 
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { app } from "../firebase.js";
@@ -22,9 +22,8 @@ export default function OAuth() {
   };
 
   useEffect(() => {
-    const handleRedirect = async () => {
-      const result = await getRedirectResult(auth);
-      if (result) {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
         const res = await fetch(
           `${import.meta.env.VITE_BASE_URI}/api/auth/google`,
           {
@@ -33,9 +32,9 @@ export default function OAuth() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              name: result.user.displayName,
-              email: result.user.email,
-              photo: result.user.photoURL,
+              name: user.displayName,
+              email: user.email,
+              photo: user.photoURL,
             }),
           }
         );
@@ -44,9 +43,9 @@ export default function OAuth() {
         dispatch(signInSuccess(data));
         navigate("/");
       }
-    };
+    });
 
-    handleRedirect();
+    return () => unsubscribe();
   }, []);
 
   return (
