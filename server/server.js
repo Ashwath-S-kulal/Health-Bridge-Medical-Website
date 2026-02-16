@@ -50,13 +50,9 @@
 //   console.log(`🚀 Backend running on Port :${PORT}`);
 // });
 
-
-
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
 import cookieParser from "cookie-parser";
-import { connectDB } from "./db.js";
 
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
@@ -80,23 +76,9 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Handle preflight
-app.options("*", cors());
-
-// Connect DB (Important for serverless)
-let isConnected = false;
-const connectDatabase = async () => {
-  if (!isConnected) {
-    await connectDB();
-    isConnected = true;
-    console.log("✅ Database connected");
-  }
-};
-
-// Middleware to ensure DB connection
-app.use(async (req, res, next) => {
-  await connectDatabase();
-  next();
+// Test Route
+app.get("/", (req, res) => {
+  res.json({ message: "API Working 🚀" });
 });
 
 // Routes
@@ -108,5 +90,4 @@ app.use("/api/symptoms", symptomsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/doctors", doctorRoutes);
 
-// Export for Vercel
 export default app;
