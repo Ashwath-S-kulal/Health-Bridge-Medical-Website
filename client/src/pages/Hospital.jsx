@@ -163,7 +163,16 @@ export default function HealthCommandCenter() {
     setLoading(false)
   }, [locationInput]);
 
-  async function initData(lat, lon, forcedAddress = null) {
+ 
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => initData(pos.coords.latitude, pos.coords.longitude),
+      () => setError("GPS Permission Denied")
+    );
+  }, []);
+
+   async function initData(lat, lon, forcedAddress = null) {
     setLoading(true);
     setError("");
     setSuggestions([]);
@@ -207,13 +216,6 @@ export default function HealthCommandCenter() {
       setShowMobileSidebar(false);
     }
   }
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => initData(pos.coords.latitude, pos.coords.longitude),
-      () => setError("GPS Permission Denied")
-    );
-  }, []);
 
   const displayedHospitals = useMemo(() => {
     let list = hospitals;
