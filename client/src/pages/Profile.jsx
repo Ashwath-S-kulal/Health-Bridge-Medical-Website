@@ -30,12 +30,14 @@ export default function Profile() {
     try {
       dispatch(updateUserStart());
       const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/update/${currentUser._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  credentials: "include", // ✅ important!
+  body: JSON.stringify(formData),
+});
+
       const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data));

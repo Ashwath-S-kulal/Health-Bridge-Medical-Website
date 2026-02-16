@@ -3,15 +3,10 @@ import { connectDB } from "../db.js";
 
 let isConnected = false;
 
-async function connectDatabase() {
+export default async function handler(req, res) {
   if (!isConnected) {
     await connectDB();
     isConnected = true;
-    console.log("✅ MongoDB Connected");
   }
-}
-
-export default async function handler(req, res) {
-  await connectDatabase();
   return app(req, res);
 }
