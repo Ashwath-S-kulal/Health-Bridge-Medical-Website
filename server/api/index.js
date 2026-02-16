@@ -1,12 +1,7 @@
 import app from "../server.js";
-import { connectDB } from "../db.js";
-
-let isConnected = false;
+import connectDB from "../config/db.js";
 
 export default async function handler(req, res) {
-  if (!isConnected) {
-    await connectDB();
-    isConnected = true;
-  }
+  await connectDB();
   return app(req, res);
 }
