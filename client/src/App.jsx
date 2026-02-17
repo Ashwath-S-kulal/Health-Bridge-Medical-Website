@@ -1,7 +1,7 @@
 import "./index.css";
 import "./App.css";
 import React from 'react';
-import { BrowserRouter , Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Hospital from './pages/Hospital.jsx';
 import PrivateRoute from './Components/PrivateRoute.jsx';
@@ -18,6 +18,8 @@ import DoctorDirectory from "./pages/Doctors.jsx";
 import AdminAddDoctor from "./pages/AdminAddDoctor.jsx";
 import VolunteerRegistration from "./pages/DoctorMailToAdmin.jsx";
 import ScrollToTop from "./Components/ScrollToTop.jsx";
+import MedicineFinder from "./pages/MedicineFinder.jsx";
+import DoctorProfile from "./Components/Doctorprofile.jsx";
 
 function App() {
   return (
@@ -34,7 +36,10 @@ function App() {
           <Route path="/diseasedesc" element={<DiseaseDesc />} />
           <Route path="/precaution" element={<Precaution />} />
           <Route path="/doctors" element={<DoctorDirectory />} />
-          <Route path="/doctormailtoadmin" element={<VolunteerRegistration/>}/>
+          <Route path="/doctormailtoadmin" element={<VolunteerRegistration />} />
+          <Route path="/medicinefinder" element={<MedicineFinder />} />
+          <Route path="/doctor/:id" element={<DoctorProfile />} />
+
 
 
           <Route element={<PrivateRoute />}>
@@ -45,7 +50,7 @@ function App() {
             <Route path='/profile/adminpanel' element={<AdminDashboard />} />
             <Route path="/adminadddoctors" element={<AdminAddDoctor />} />
           </Route>
-          
+
         </Routes>
       </div>
     </BrowserRouter>

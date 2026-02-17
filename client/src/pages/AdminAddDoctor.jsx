@@ -95,11 +95,33 @@ const DoctorManagement = () => {
 
             if (editId) {
                 // Update Logic
-                await axios.put(`${import.meta.env.VITE_BASE_URI}/api/doctors/update/${editId}`, processedData,{ headers: { "Content-Type": "application/json" }, withCredentials: true });
+                const token = localStorage.getItem("token");
+
+                await axios.put(
+                    `${import.meta.env.VITE_BASE_URI}/api/doctors/update/${editId}`,
+                    processedData,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 alert("Profile updated successfully");
             } else {
                 // Create Logic
-                await axios.post(`${import.meta.env.VITE_BASE_URI}/api/doctors/adddoctor`, processedData,{ headers: { "Content-Type": "application/json" }, withCredentials: true});
+                const token = localStorage.getItem("token");
+
+                await axios.post(
+                    `${import.meta.env.VITE_BASE_URI}/api/doctors/adddoctor`,
+                    processedData,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 alert("Doctor profile successfully synchronized.");
             }
 
@@ -124,7 +146,16 @@ const DoctorManagement = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this provider?")) return;
         try {
-            await axios.delete(`${import.meta.env.VITE_BASE_URI}/api/doctors/delete/${id}`);
+            const token = localStorage.getItem("token");
+
+            await axios.delete(
+                `${import.meta.env.VITE_BASE_URI}/api/doctors/delete/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             fetchDoctors();
         } catch (error) {
             alert("Delete failed");

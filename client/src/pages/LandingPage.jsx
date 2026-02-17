@@ -52,7 +52,7 @@ const UltraMedicalHub = () => {
                                     <div className="absolute -top-10 -right-10 w-24 h-24 bg-blue-400 blur-[40px] opacity-50" />
                                     <h4 className="text-lg font-extrabold mb-2">Medical Professionals</h4>
                                     <p className="text-sm text-blue-50 leading-relaxed mb-6">
-                                        Are you a licensed Doctor.? Help us save lives by joining our <span className='font-bold'>Volunteer Network. </span> 
+                                        Are you a licensed Doctor.? Help us save lives by joining our <span className='font-bold'>Volunteer Network. </span>
                                         Simply send your credentials to our admin team to get verified.
                                     </p>
                                     <NavLink to="/doctormailtoadmin">
@@ -127,6 +127,36 @@ const UltraMedicalHub = () => {
                                 </div>
                                 <button className="relative z-10 w-full bg-white text-emerald-600 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 group-hover:gap-4 transition-all">
                                     FIND STORES <ChevronRight className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </NavLink>
+                    </div>
+
+                    <div className="md:col-span-4">
+                        <NavLink to="/medicinefinder" className="block h-full">
+                            <div className="h-[420px] group bg-[#6366F1] rounded-[3.5rem] p-10 shadow-xl hover:shadow-2xl hover:shadow-indigo-200 transition-all duration-700 flex flex-col justify-between overflow-hidden relative">
+                                {/* Decorative Background Icon */}
+                                <div className="absolute -right-12 -bottom-10 text-[15rem] opacity-10 group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-1000 pointer-events-none">
+                                    💊
+                                </div>
+
+                                <div className="relative z-10">
+                                    <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-500">
+                                        <Search className="w-8 h-8 animate-pulse" />
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-100 bg-white/10 px-3 py-1 rounded-md mb-4 inline-block">
+                                        FDA Database
+                                    </span>
+                                    <h3 className="text-3xl font-black text-white leading-none mb-4">
+                                        Medicine <br />Finder
+                                    </h3>
+                                    <p className="text-indigo-50 text-sm font-medium leading-relaxed max-w-[220px]">
+                                        Search drug interactions, dosage, and safety warnings for thousands of medications.
+                                    </p>
+                                </div>
+
+                                <button className="relative z-10 w-full bg-white text-indigo-600 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 group-hover:gap-4 transition-all shadow-lg active:scale-95">
+                                    SEARCH DRUGS <ArrowRight className="w-4 h-4" />
                                 </button>
                             </div>
                         </NavLink>
