@@ -1,7 +1,6 @@
-import jwt from 'jsonwebtoken';
-import bcryptjs from 'bcryptjs';
-import User from '../models/user.model.js';
-
+import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
+import User from "../models/user.model.js";
 
 export const google = async (req, res, next) => {
   try {
@@ -9,7 +8,7 @@ export const google = async (req, res, next) => {
     if (user) {
       const token = jwt.sign(
         { id: user._id, isAdmin: user.isAdmin },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       );
       const { password: hashedPassword, ...rest } = user._doc;
       const expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
@@ -17,8 +16,8 @@ export const google = async (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
           expires: expiryDate,
-          secure:true,
-          sameSite:'none'
+          secure: true,
+          sameSite: "none",
         })
         .status(200)
         .json(rest);
@@ -39,20 +38,15 @@ export const google = async (req, res, next) => {
 
       const token = jwt.sign(
         { id: newUser._id, isAdmin: newUser.isAdmin },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       );
 
       const { password: hashedPassword2, ...rest } = newUser._doc;
       const expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 days
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-          expires: expiryDate,
-          secure:true,
-          sameSite:'none'
-        })
-        .status(200)
-        .json(rest);
+      res.status(200).json({
+        ...rest,
+        token,
+      });
     }
   } catch (error) {
     next(error);
@@ -60,5 +54,5 @@ export const google = async (req, res, next) => {
 };
 
 export const signout = (req, res) => {
-  res.clearCookie('access_token').status(200).json('Signout success!');
+  res.clearCookie("access_token").status(200).json("Signout success!");
 };

@@ -20,6 +20,8 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const { currentUser, loading, error } = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -30,13 +32,14 @@ export default function Profile() {
     try {
       dispatch(updateUserStart());
       const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // ✅ important!
-        body: JSON.stringify(formData),
-      });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  },
+  body: JSON.stringify(formData),
+});
+
 
       const data = await res.json();
       if (data.success === false) {
@@ -53,10 +56,13 @@ export default function Profile() {
   const handleDeleteAccount = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/delete/${currentUser._id}`, {
-  method: 'DELETE',
-  credentials: "include",   // 🔥 ADD THIS
+   const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/delete/${currentUser._id}`, {
+  method: "DELETE",
+  headers: {
+    "Authorization": `Bearer ${token}`
+  }
 });
+
 
       const data = await res.json();
       if (data.success === false) {
@@ -69,16 +75,12 @@ export default function Profile() {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-await fetch(`${import.meta.env.VITE_BASE_URI}/api/auth/signout`, {
-  credentials: "include",
-});
-      dispatch(signOut())
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const handleSignOut = () => {
+  localStorage.removeItem("token");
+  dispatch(signOut());
+};
+
+
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 antialiased">

@@ -18,7 +18,6 @@ export default function OAuth() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",   // 🔥 ADD THIS
         body: JSON.stringify({
           name: result.user.displayName,
           email: result.user.email,
@@ -27,6 +26,8 @@ export default function OAuth() {
       });
 
       const data = await res.json();
+      localStorage.setItem("token", data.token);
+
       console.log(data);
       console.log(res);
       dispatch(signInSuccess(data));
