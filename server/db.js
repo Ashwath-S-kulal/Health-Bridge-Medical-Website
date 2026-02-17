@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-// Load environment variables
 dotenv.config();
+
+let isConnected = false;
 
 export const connectDB = async () => {
   if (isConnected) {
@@ -15,24 +16,26 @@ export const connectDB = async () => {
       throw new Error("MONGO_URI is not defined in .env file");
     }
 
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-    });
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+
+    isConnected = true;
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+
+    // Runtime event listeners
+    mongoose.connection.on("disconnected", () => {
+      console.warn("⚠️ MongoDB disconnected.");
+      isConnected = false;
+    });
+
+    mongoose.connection.on("error", (err) => {
+      console.error("❌ MongoDB runtime error:", err.message);
+    });
+
     return conn.connection;
+
   } catch (err) {
     console.error("❌ MongoDB Connection Error:", err.message);
-    process.exit(1); // Exit process with failure
+    process.exit(1);
   }
-
-
-  // Optional: handle runtime disconnects
-  mongoose.connection.on("disconnected", () => {
-    console.warn("⚠️ MongoDB disconnected. Trying to reconnect...");
-  });
-
-  mongoose.connection.on("error", (err) => {
-    console.error("❌ MongoDB runtime error:", err.message);
-  });
 };
