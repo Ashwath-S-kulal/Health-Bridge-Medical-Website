@@ -54,8 +54,10 @@ export default function Profile() {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/delete/${currentUser._id}`, {
-        method: 'DELETE',
-      });
+  method: 'DELETE',
+  credentials: "include",   // 🔥 ADD THIS
+});
+
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data));
@@ -69,7 +71,9 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     try {
-      await fetch(`${import.meta.env.VITE_BASE_URI}/api/auth/signout`);
+await fetch(`${import.meta.env.VITE_BASE_URI}/api/auth/signout`, {
+  credentials: "include",
+});
       dispatch(signOut())
     } catch (error) {
       console.log(error);
