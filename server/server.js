@@ -30,8 +30,6 @@ app.use(cors({
 
 
 
-// ✅ handle preflight explicitly
-app.options("*", cors());
 
 app.use(express.json());
 

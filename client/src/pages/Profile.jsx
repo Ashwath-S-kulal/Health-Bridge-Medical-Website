@@ -29,14 +29,14 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/update/${currentUser._id}`, {
-  method: "PUT",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  credentials: "include", // ✅ important!
-  body: JSON.stringify(formData),
-});
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // ✅ important!
+        body: JSON.stringify(formData),
+      });
 
       const data = await res.json();
       if (data.success === false) {
@@ -107,9 +107,9 @@ export default function Profile() {
               onClick={handleSignOut}
               className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-red-500 transition-colors"
             >
-              <FaSignOutAlt size={14}/> Sign Out
+              <FaSignOutAlt size={14} /> Sign Out
             </button>
-            
+
             {currentUser?.isAdmin && (
               <NavLink to="/profile/adminpanel">
                 <button
