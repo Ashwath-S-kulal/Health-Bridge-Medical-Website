@@ -11,6 +11,7 @@ import precautionRoutes from "./routes/precaution.route.js";
 import symptomsRoutes from "./routes/symptoms.route.js";
 import adminRoutes from "./routes/admin.routes.js";
 import doctorRoutes from "./routes/doctor.routes.js";
+import medicineDataRoutes from "./routes/medicineData.route.js"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -51,6 +52,7 @@ app.use("/api/precaution", precautionRoutes);
 app.use("/api/symptoms", symptomsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/doctors", doctorRoutes);
+app.use("/api/medicine", medicineDataRoutes)
 
 /* ===========================
    ✅ TEST ROUTE

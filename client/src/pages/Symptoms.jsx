@@ -17,6 +17,7 @@ const SymptomNavigator = () => {
   const [loading, setLoading] = useState(true);
   const [fetchingDetails, setFetchingDetails] = useState(false);
 
+const [cache, setCache] = useState({});
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BASE_URI}/api/symptoms/list`)
@@ -39,18 +40,27 @@ const SymptomNavigator = () => {
       return; 
     }
 
+    // 2. CHECK CACHE FIRST
+    if (cache[disease]) {
+      setDiseaseSymptoms(cache[disease]);
+      return;
+    }
+
     setFetchingDetails(true);
     try {
       const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/symptoms?disease=${encodeURIComponent(disease)}`);
       const data = await res.json();
-      setDiseaseSymptoms(Array.isArray(data) ? data : []);
+      const results = Array.isArray(data) ? data : [];
+      
+      // 3. STORE IN CACHE
+      setCache(prev => ({ ...prev, [disease]: results }));
+      setDiseaseSymptoms(results);
     } catch (err) {
       console.error("Fetch error:", err);
     } finally {
       setFetchingDetails(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-cyan-300/40">
       {/* CSS Injection for the custom loading bar animation */}

@@ -20,6 +20,7 @@ import VolunteerRegistration from "./pages/DoctorMailToAdmin.jsx";
 import ScrollToTop from "./Components/ScrollToTop.jsx";
 import MedicineFinder from "./pages/MedicineFinder.jsx";
 import DoctorProfile from "./Components/Doctorprofile.jsx";
+import MedicineFinderOurData from "./pages/MedicineFinderOurData.jsx";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/doctors" element={<DoctorDirectory />} />
           <Route path="/doctormailtoadmin" element={<VolunteerRegistration />} />
           <Route path="/medicinefinder" element={<MedicineFinder />} />
+          <Route path="/medicinefinderourdata" element={<MedicineFinderOurData />} />
           <Route path="/doctor/:id" element={<DoctorProfile />} />
 
 

@@ -25,7 +25,7 @@ const UltraMedicalHub = () => {
     return (
         <div className="min-h-screen bg-[#F0F4F8] text-[#1A2B3B] font-sans selection:bg-blue-100 overflow-x-hidden">
             <Header />
-            
+
             {/* Hero Section */}
             <div className="pt-24 pb-12 px-4 sm:px-6">
                 <main className="max-w-7xl mx-auto">
@@ -33,21 +33,21 @@ const UltraMedicalHub = () => {
                         {/* Main Hero Card */}
                         <div className="lg:col-span-8 bg-white p-8 md:p-16 rounded-[32px] md:rounded-[48px] shadow-xl border border-slate-200 flex flex-col justify-center relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-blue-100 transition-colors duration-700" />
-                            
+
                             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider mb-6 w-fit relative z-10">
                                 <span className="w-2 h-2 bg-blue-600 rounded-full animate-ping" />
                                 Next Generation Care
                             </span>
-                            
+
                             <h1 className="relative z-10 text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
                                 Health Care <br />
                                 <span className="text-blue-600">for everyone.</span>
                             </h1>
-                            
+
                             <p className="relative z-10 text-base md:text-lg text-slate-500 max-w-lg mb-10 leading-relaxed">
                                 Combining world-class clinical expertise with advanced AI to provide personalized health journeys and real-time medical support.
                             </p>
-                            
+
                             <div className="relative z-10 flex flex-col sm:flex-row gap-4">
                                 <button className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95">
                                     Get Started
@@ -61,7 +61,7 @@ const UltraMedicalHub = () => {
                         {/* Volunteer/Sidebar Card */}
                         <div className="lg:col-span-4 bg-blue-600 p-8 md:p-10 rounded-[32px] md:rounded-[48px] text-white flex flex-col justify-between shadow-xl shadow-blue-100 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
-                            
+
                             <div className="mb-10">
                                 <div className="relative p-6 bg-white/10 backdrop-blur-md rounded-[24px] border border-white/20 overflow-hidden group">
                                     <h4 className="text-xl font-bold mb-3">Medical Professionals</h4>
@@ -76,21 +76,38 @@ const UltraMedicalHub = () => {
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
-                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200">Patient Resources</h4>
-                                <div className="grid grid-cols-1 gap-4">
-                                    {[
-                                        { title: "Emergency Care", desc: "Find 24/7 ER departments near you" },
-                                        { title: "Bed Capacity", desc: "Check real-time hospital availability" }
-                                    ].map((item, i) => (
-                                        <div key={i} className="flex gap-4 items-start p-2 rounded-xl hover:bg-white/5 transition-colors">
-                                            <div className="h-2 w-2 rounded-full bg-blue-300 mt-2 shrink-0" />
-                                            <div>
-                                                <div className="text-sm font-bold">{item.title}</div>
-                                                <div className="text-[11px] text-blue-100/80 leading-tight">{item.desc}</div>
+                            <div className="space-y-6">
+                                <div>
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200 mb-4">Patient Resources</h4>
+                                    <div className="grid grid-cols-1 gap-4">
+                                        {[
+                                            { title: "Emergency Care", desc: "Find 24/7 ER departments near you" },
+                                            { title: "Bed Capacity", desc: "Check real-time hospital availability" }
+                                        ].map((item, i) => (
+                                            <div key={i} className="flex gap-4 items-start p-2 rounded-xl hover:bg-white/5 transition-colors">
+                                                <div className="h-2 w-2 rounded-full bg-blue-300 mt-2 shrink-0" />
+                                                <div>
+                                                    <div className="text-sm font-bold">{item.title}</div>
+                                                    <div className="text-[11px] text-blue-100/80 leading-tight">{item.desc}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* --- NEW FIND DOCTORS BUTTON --- */}
+                                <div className="pt-2">
+                                    <NavLink to="/doctors">
+                                        <div className="flex items-center justify-between w-full bg-white backdrop-blur-sm border border-white/20 p-4 rounded-2xl hover:bg-blue-400/50 transition-all group active:scale-[0.98]">
+                                            <div className="flex flex-col items-start">
+                                                <span className="text-[10px] font-black uppercase tracking-widest text-blue-700">Consultation</span>
+                                                <span className="text-sm font-bold text-blue-400">Find Doctors for Consultant</span>
+                                            </div>
+                                            <div className="bg-blue-600 p-2 rounded-lg group-hover:bg-white group-hover:text-blue-600 transition-colors">
+                                                <ChevronRight size={18} />
                                             </div>
                                         </div>
-                                    ))}
+                                    </NavLink>
                                 </div>
                             </div>
                         </div>
@@ -223,7 +240,7 @@ const UltraMedicalHub = () => {
                 <div className="w-full mt-12">
                     <div className="relative w-full overflow-hidden bg-white rounded-[32px] md:rounded-[48px] border border-slate-200 shadow-2xl shadow-indigo-100 group transition-all duration-500 hover:shadow-indigo-200">
                         <div className="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-indigo-50 rounded-full blur-3xl opacity-60" />
-                        
+
                         <div className="relative flex flex-col lg:flex-row items-center justify-between p-8 md:p-16 gap-10">
                             <div className="flex-1 space-y-6 text-center lg:text-left">
                                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100">
@@ -266,7 +283,7 @@ const UltraMedicalHub = () => {
                                     Available 24/7 for consultation
                                 </p>
                             </div>
-                            
+
                             <div className="absolute right-12 bottom-0 opacity-[0.03] pointer-events-none hidden xl:block">
                                 <Stethoscope size={300} strokeWidth={1} />
                             </div>
@@ -284,7 +301,7 @@ const UltraMedicalHub = () => {
                             Health<span className="text-indigo-600">Bridge</span>
                         </span>
                     </div>
-                    
+
                     <div className="flex gap-8 mb-10">
                         {[Twitter, Linkedin, Github].map((Icon, i) => (
                             <a key={i} href="#" className="text-slate-300 hover:text-indigo-500 transition-all hover:scale-110">

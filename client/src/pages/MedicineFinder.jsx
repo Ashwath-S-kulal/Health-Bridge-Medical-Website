@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Tesseract from "tesseract.js";
 import Header from "../Components/Header";
-import { Camera, ChevronRight, Pill, Search } from "lucide-react";
+import { ArrowRight, Camera, ChevronRight, Pill, Search } from "lucide-react";
 
 const App = () => {
   const [drugName, setDrugName] = useState("");
@@ -306,6 +306,26 @@ const App = () => {
           </div>
         )}
       </div>
+
+      <div className="mt-20 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <div className="bg-white p-12 rounded-[3.5rem] border border-slate-200 shadow-sm max-w-4xl mx-auto">
+              <h3 className="text-2xl font-black mb-2">Can't find your specific medicine?</h3>
+              <p className="text-slate-400 font-medium mb-8">Our internal database contains 11,826 localized medications not always indexed by the FDA.</p>
+              
+              <button 
+                onClick={() => window.location.href = '/medicinefinderourdata'} // or navigate('/medivault')
+                className="group relative inline-flex items-center gap-4 bg-slate-900 text-white px-12 py-6 rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all shadow-2xl active:scale-95"
+              >
+                Find here in MediVault
+                <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+              </button>
+
+              <div className="mt-10 flex items-center justify-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Internal Database Online</span>
+              </div>
+            </div>
+          </div>
     </div>
   );
 };
@@ -332,3 +352,4 @@ const SafetyRow = ({ label, text }) => (
 );
 
 export default App;
+
