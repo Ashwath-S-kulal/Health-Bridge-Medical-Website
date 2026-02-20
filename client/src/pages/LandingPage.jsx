@@ -45,7 +45,7 @@ const Dashboard = () => {
     <div className="flex min-h-screen bg-[#F0F4F8]">
       <Sidebar />
 
-      <main className="flex-1 w-full lg:ml-64 p-4 md:p-8 transition-all duration-300">
+      <main className="flex-1 pt-10 w-full lg:ml-64 p-4 md:p-8 transition-all duration-300">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pt-12 md:pt-0">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-slate-900">
@@ -70,7 +70,7 @@ const Dashboard = () => {
 
         {/* AI Banner - Stacks on mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
-          <div className="col-span-1 lg:col-span-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[32px] p-6 md:p-10 text-white relative overflow-hidden shadow-xl shadow-blue-100">
+          <div className="col-span-1 lg:col-span-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl p-6 md:p-10 text-white relative overflow-hidden shadow-xl shadow-blue-100">
             <div className="relative z-10 max-w-md">
               <h2 className="text-xl md:text-2xl font-bold mb-3">AI Symptom Analysis</h2>
               <p className="text-blue-100 text-sm mb-6 md:mb-8">Input your symptoms to receive a personalized care protocol.</p>
@@ -89,7 +89,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="col-span-1 lg:col-span-4 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm">
+          <div className="col-span-1 lg:col-span-4 bg-white rounded-xl p-6 border border-slate-100 shadow-sm">
             <h3 className="font-bold text-slate-900 mb-4">Nearby Support</h3>
             <div className="space-y-3 flex flex-col gap-2">
               <NavLink to="/hospital"><SupportItem icon={<MapPin className="text-cyan-500" size={18} />} label="Hospitals" /></NavLink>
@@ -124,7 +124,7 @@ const Dashboard = () => {
           <div className="pb-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               {/* Main Hero Card */}
-              <div className="lg:col-span-8 bg-white p-6 md:p-12 lg:p-16 rounded-[32px] md:rounded-[48px] shadow-xl border border-slate-200 flex flex-col justify-center relative overflow-hidden group">
+              <div className="lg:col-span-8 bg-white p-6 md:p-12 lg:p-16 rounded-md md:rounded-xl shadow-xl border border-slate-200 flex flex-col justify-center relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-blue-100 transition-colors duration-700" />
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-6 w-fit relative z-10">
                   <span className="w-2 h-2 bg-blue-600 rounded-full animate-ping" />
@@ -148,7 +148,7 @@ const Dashboard = () => {
               </div>
 
               {/* Volunteer Card */}
-              <div className="lg:col-span-4 bg-blue-600 p-6 md:p-8 rounded-[32px] md:rounded-[48px] text-white flex flex-col justify-between shadow-xl shadow-blue-100 relative overflow-hidden">
+              <div className="lg:col-span-4 bg-blue-600 p-6 md:p-8 rounded-md md:rounded-xl text-white flex flex-col justify-between shadow-xl shadow-blue-100 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
                 <div className="mb-10">
                   <div className="relative p-6 bg-white/10 backdrop-blur-md rounded-[24px] border border-white/20 overflow-hidden group">
@@ -196,13 +196,11 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Features Grid */}
           <section className="py-12">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
-              {/* Card 1: Nearby Hospitals */}
               <div className="lg:col-span-4">
                 <NavLink to="/hospital" className="block h-full">
-                  <div className="h-full min-h-[350px] group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col justify-between relative overflow-hidden cursor-pointer hover:-translate-y-2">
+                  <div className="h-full min-h-[350px] group bg-white rounded-xl p-8 border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col justify-between relative overflow-hidden cursor-pointer hover:-translate-y-2">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative z-10">
                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 bg-blue-50 px-3 py-1 rounded-md">Live Tracking</span>
@@ -216,10 +214,9 @@ const Dashboard = () => {
                 </NavLink>
               </div>
 
-              {/* Card 2: Medical Locator */}
               <div className="lg:col-span-4">
                 <NavLink to="/medical" className="block h-full">
-                  <div className="h-full min-h-[350px] group bg-emerald-500 rounded-[2.5rem] p-8 shadow-xl hover:shadow-2xl hover:shadow-emerald-200 transition-all duration-700 flex flex-col justify-between overflow-hidden relative">
+                  <div className="h-full min-h-[350px] group bg-emerald-500 rounded-xl p-8 shadow-xl hover:shadow-2xl hover:shadow-emerald-200 transition-all duration-700 flex flex-col justify-between overflow-hidden relative">
                     <div className="absolute -right-8 -top-8 text-[10rem] opacity-10 group-hover:rotate-12 transition-transform duration-1000 pointer-events-none">🧪</div>
                     <div className="relative z-10">
                       <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 text-white"><Pill className="w-8 h-8" /></div>
@@ -232,10 +229,9 @@ const Dashboard = () => {
                 </NavLink>
               </div>
 
-              {/* Card 3: Medicine Finder */}
               <div className="lg:col-span-4">
                 <NavLink to="/medicinefinder" className="block h-full">
-                  <div className="h-full min-h-[350px] group bg-[#6366F1] rounded-[2.5rem] p-8 shadow-xl hover:shadow-2xl hover:shadow-indigo-200 transition-all duration-700 flex flex-col justify-between overflow-hidden relative">
+                  <div className="h-full min-h-[350px] group bg-[#6366F1] rounded-xl p-8 shadow-xl hover:shadow-2xl hover:shadow-indigo-200 transition-all duration-700 flex flex-col justify-between overflow-hidden relative">
                     <div className="absolute -right-10 -bottom-10 text-[8rem] opacity-10 group-hover:-rotate-12 transition-transform duration-1000 pointer-events-none">💊</div>
                     <div className="relative z-10">
                       <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 text-white"><Search className="w-8 h-8" /></div>
@@ -248,20 +244,30 @@ const Dashboard = () => {
                 </NavLink>
               </div>
 
-              {/* Card 4: Disease Encyclopedia */}
-              <div className="md:col-span-2 lg:col-span-12 xl:col-span-4">
+              <div className="lg:col-span-12 xl:col-span-4">
                 <NavLink to="/diseasedesc" className="block h-full">
-                  <div className="h-full min-h-[300px] group bg-slate-900 rounded-[2.5rem] p-8 md:p-10 shadow-2xl transition-all duration-700 flex flex-col justify-between relative overflow-hidden">
+                  <div className="h-full min-h-[320px] group bg-slate-900 rounded-xl p-8 md:p-10 shadow-2xl transition-all duration-700 flex flex-col justify-between relative overflow-hidden border border-slate-800 hover:border-indigo-500/50">
+
+                    <BookOpen className="absolute -right-8 -bottom-8 w-48 h-48 text-white/[0.03] group-hover:text-indigo-500/10 group-hover:scale-110 transition-all duration-700" />
+
                     <div className="relative z-10">
                       <div className="inline-flex items-center gap-2 text-indigo-400 mb-6">
                         <div className="h-[2px] w-8 bg-indigo-500" />
                         <span className="text-[10px] font-black uppercase tracking-[0.2em]">Verified Database</span>
                       </div>
-                      <h3 className="text-3xl font-black text-white leading-tight">Disease <br />Encyclopedia</h3>
+                      <h3 className="text-3xl md:text-4xl font-black text-white leading-tight tracking-tighter ">
+                        Disease <br /> <span className="text-indigo-500">Encyclopedia</span>
+                      </h3>
                     </div>
-                    <div className="relative z-10 space-y-4">
+
+                    <div className="relative z-10">
+                      <p className="text-slate-400 text-sm font-medium mb-6 max-w-[240px]">
+                        Comprehensive clinical guide to global medical conditions.
+                      </p>
                       <div className="flex items-center gap-4 text-slate-400 group-hover:text-white transition-colors">
-                        <BookOpen className="w-5 h-5" />
+                        <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-indigo-600 transition-colors">
+                          <BookOpen className="w-5 h-5" />
+                        </div>
                         <span className="text-xs font-bold uppercase tracking-widest">5,000+ Conditions</span>
                       </div>
                     </div>
@@ -269,14 +275,18 @@ const Dashboard = () => {
                 </NavLink>
               </div>
 
-              {/* Card 5 & 6: Symptom & Safety */}
               <div className="md:col-span-1 lg:col-span-6 xl:col-span-4">
                 <NavLink to="/symptoms" className="block h-full">
-                  <div className="h-full min-h-[140px] group bg-white rounded-[2.5rem] p-6 border border-slate-100 shadow-xl flex items-center gap-4 hover:bg-rose-50 transition-all duration-500">
-                    <div className="w-16 h-16 bg-rose-500 rounded-[1.2rem] flex items-center justify-center text-white shrink-0"><Activity size={24} /></div>
+                  <div className="h-full min-h-[160px] group bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-rose-500/10 hover:border-rose-200 transition-all duration-500 flex items-center gap-6">
+                    <div className="w-20 h-20 bg-rose-500 rounded-[1.5rem] flex items-center justify-center text-white shrink-0 shadow-lg shadow-rose-200 group-hover:rotate-6 transition-transform">
+                      <Activity size={32} />
+                    </div>
                     <div className="flex-1 overflow-hidden">
-                      <h4 className="text-lg font-black text-slate-900 truncate">Symptom Mapping</h4>
-                      <p className="text-slate-400 text-[9px] font-bold uppercase tracking-widest mt-1">Analyze signals instantly</p>
+                      <h4 className="text-xl font-black text-slate-900 tracking-tight  italic">Symptom Mapping</h4>
+                      <p className="text-slate-400 text-[10px] font-black  tracking-[0.1em] mt-2 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                        Live Pattern Analysis
+                      </p>
                     </div>
                   </div>
                 </NavLink>
@@ -284,20 +294,24 @@ const Dashboard = () => {
 
               <div className="md:col-span-1 lg:col-span-6 xl:col-span-4">
                 <NavLink to="/precaution" className="block h-full">
-                  <div className="h-full min-h-[140px] group bg-white rounded-[2.5rem] p-6 border border-slate-100 shadow-xl flex items-center gap-4 hover:bg-blue-50 transition-all duration-500">
-                    <div className="w-16 h-16 bg-blue-900 rounded-[1.2rem] flex items-center justify-center text-white shrink-0"><ShieldAlert size={24} /></div>
+                  <div className="h-full min-h-[160px] group bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-500 flex items-center gap-6">
+                    <div className="w-20 h-20 bg-blue-900 rounded-[1.5rem] flex items-center justify-center text-white shrink-0 shadow-lg shadow-blue-200 group-hover:-rotate-6 transition-transform">
+                      <ShieldAlert size={32} />
+                    </div>
                     <div className="flex-1 overflow-hidden">
-                      <h4 className="text-lg font-black text-slate-900 truncate">Safety Protocols</h4>
-                      <p className="text-slate-400 text-[9px] font-bold uppercase tracking-widest mt-1">Prevention Guides</p>
+                      <h4 className="text-xl font-black text-slate-900 tracking-tight  italic">Safety Protocols</h4>
+                      <p className="text-slate-400 text-[10px] font-black  tracking-[0.1em] mt-2 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                        Prevention Guides
+                      </p>
                     </div>
                   </div>
                 </NavLink>
               </div>
             </div>
 
-            {/* Bottom Banner Section */}
             <div className="w-full mt-12">
-              <div className="relative w-full overflow-hidden bg-white rounded-[32px] md:rounded-[48px] border border-slate-200 shadow-2xl group transition-all duration-500">
+              <div className="relative w-full overflow-hidden bg-white rounded-md md:rounded-xl border border-slate-200 shadow-2xl group transition-all duration-500">
                 <div className="relative flex flex-col lg:flex-row items-center justify-between p-6 md:p-12 lg:p-16 gap-10">
                   <div className="flex-1 space-y-6 text-center lg:text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100">
@@ -363,7 +377,7 @@ const SupportItem = ({ icon, label }) => (
 );
 
 const DocCard = ({ name, spec, rate, initial, color, img }) => (
-  <div className="bg-white p-5 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-md transition-all group">
+  <div className="bg-white p-5 rounded-md border border-slate-100 shadow-sm hover:shadow-md transition-all group">
     <div className="flex items-start gap-4 mb-4">
       <div className={`w-12 h-12 rounded-xl overflow-hidden ${color} flex items-center justify-center font-bold text-cyan-700 uppercase shrink-0`}>
         {img ? (

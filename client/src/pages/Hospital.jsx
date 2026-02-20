@@ -122,7 +122,7 @@ export default function HealthCommandCenter() {
   return (
     <div className="flex min-h-screen bg-[#F8FAFC]">
       <Sidebar />
-      <div className="flex-1 ml-64 transition-all duration-300">
+      <div className="flex-1 ml-0 sm:ml-0 md:ml-64 transition-all duration-300">
         
         {/* TOP COMMAND BAR */}
         <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-slate-200 px-8 py-5">

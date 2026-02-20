@@ -51,10 +51,9 @@ const MedicineFinderOurData = () => {
         <div className="min-h-screen bg-[#F8FAFC]">
             <Sidebar />
 
-            {/* Main Wrapper: Responsive margin for Sidebar */}
             <div className="lg:ml-64 transition-all duration-300 pb-20">
                 
-                <header className="pt-8 md:pt-16 pb-8 md:pb-12 px-4 md:px-10 bg-white/50 backdrop-blur-sm border-b border-slate-100 mb-8">
+                <header className=" pt-20 md:pt-16 pb-8 md:pb-12 px-4 md:px-10 bg-white/50 backdrop-blur-sm border-b border-slate-100 mb-8">
                     <div className="max-w-7xl mx-auto flex flex-col xl:flex-row items-start xl:items-center gap-8 md:gap-10">
 
                         <div className="flex-1 w-full space-y-6">
@@ -63,10 +62,10 @@ const MedicineFinderOurData = () => {
                                     <Database size={24} className="text-white" />
                                 </div>
                                 <div>
-                                    <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase italic text-slate-900 leading-none">
+                                    <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-none">
                                         MediVault<span className="text-indigo-600">.</span>
                                     </h1>
-                                    <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-1">
+                                    <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em] mt-1">
                                         Verified Clinical Intelligence
                                     </p>
                                 </div>
@@ -74,7 +73,7 @@ const MedicineFinderOurData = () => {
 
                             <div className="relative group w-full">
                                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-[1.5rem] md:rounded-[2rem] blur opacity-10 group-focus-within:opacity-25 transition duration-500"></div>
-                                <div className="relative bg-white border border-slate-200 rounded-[1.2rem] md:rounded-[1.8rem] flex items-center p-1 shadow-sm transition-all focus-within:border-indigo-300">
+                                <div className="relative bg-white border border-slate-200 rounded-[1.2rem] md:rounded-full flex items-center p-1 shadow-sm transition-all focus-within:border-indigo-300">
                                     <Search className="ml-3 md:ml-5 text-slate-300 shrink-0" size={18} />
                                     <input
                                         type="text"
@@ -88,12 +87,11 @@ const MedicineFinderOurData = () => {
                             </div>
                         </div>
 
-                        {/* CTA Card - Responsive Width */}
                         <div
                             onClick={() => window.location.href = '/medicinefinder'}
                             className="w-full xl:w-[380px] group cursor-pointer"
                         >
-                            <div className="relative bg-[#F9F9F7] rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 border border-[#E5E5DE] transition-all hover:bg-[#F2F2EB]">
+                            <div className="relative bg-[#F9F9F7] rounded-xl md:rounded-2xl p-5 md:p-6 border border-[#E5E5DE] transition-all hover:bg-[#F2F2EB]">
                                 <div className="flex gap-4 md:gap-5 items-center relative z-10">
                                     <div className="shrink-0 bg-white border border-[#E5E5DE] p-3 md:p-4 rounded-2xl group-hover:bg-indigo-50 transition-all">
                                         <Cpu size={22} className="text-indigo-600" />
@@ -114,7 +112,7 @@ const MedicineFinderOurData = () => {
                 <main className="max-w-7xl mx-auto px-4 md:px-10">
                     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
                         {medicines.map((med) => (
-                            <button key={med._id} onClick={() => handleSelect(med._id)} className="group bg-white p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 hover:shadow-xl transition-all text-left flex flex-col h-full">
+                            <button key={med._id} onClick={() => handleSelect(med._id)} className="group bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border border-slate-100 hover:shadow-xl transition-all text-left flex flex-col h-full">
                                 <div className="aspect-square bg-slate-50 rounded-xl md:rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2">
                                     {med.Image_URL ? (
                                         <img src={med.Image_URL} alt="" className="max-h-full max-w-full object-contain mix-blend-multiply" />
@@ -143,23 +141,19 @@ const MedicineFinderOurData = () => {
                 </main>
             </div>
 
-            {/* Responsive Modal */}
             {selectedMed && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-4">
                     <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onClick={() => setSelectedMed(null)} />
                     <div className="relative w-full max-w-4xl bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] animate-in fade-in zoom-in duration-200">
-                        
-                        {/* Close Button Mobile */}
-                        <button 
+                                                <button 
                             onClick={() => setSelectedMed(null)}
                             className="absolute top-4 right-4 z-50 p-2 bg-white/80 backdrop-blur-md rounded-full md:hidden"
                         >
                             <X size={20} />
                         </button>
 
-                        {/* Sidebar Detail (Mobile: Top, Desktop: Left) */}
                         <div className="w-full md:w-1/3 bg-slate-50 p-6 md:p-8 flex flex-col items-center border-b md:border-b-0 md:border-r border-slate-100 overflow-y-auto">
-                            <div className="bg-white p-4 rounded-2xl shadow-sm mb-6 w-full flex justify-center aspect-square md:aspect-auto">
+                            <div className="bg-white p-4 h-fit rounded-2xl shadow-sm mb-6 w-full flex justify-center aspect-square md:aspect-auto">
                                 <img
                                     src={selectedMed.Image_URL}
                                     alt=""
@@ -181,7 +175,6 @@ const MedicineFinderOurData = () => {
                             </div>
                         </div>
 
-                        {/* Content Area */}
                         <div className="flex-1 p-6 md:p-8 overflow-y-auto">
                             <div className="hidden md:flex justify-end mb-4">
                                 <button onClick={() => setSelectedMed(null)} className="text-slate-400 hover:text-slate-900"><X size={24} /></button>

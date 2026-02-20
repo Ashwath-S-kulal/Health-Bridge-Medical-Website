@@ -15,7 +15,6 @@ const App = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // --- 1. SUGGESTIONS LOGIC (RESTORED & ACTIVE) ---
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (drugName.length < 2) {
@@ -39,7 +38,6 @@ const App = () => {
     return () => clearTimeout(timeoutId);
   }, [drugName]);
 
-  // --- 2. DATA RETRIEVAL ---
   const searchDrug = async (name) => {
     if (!name) return false;
     setLoading(true);
@@ -81,7 +79,6 @@ const App = () => {
     return false;
   };
 
-  // --- 3. OCR LOGIC ---
   const optimizeImage = (file) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -127,34 +124,30 @@ const App = () => {
   return (
     <div>
       <Sidebar />
-                <div className="ml-0 md:ml-64 pt-8 md:pt-16 pb-8 md:pb-12 px-4 md:px-10 bg-white/50 backdrop-blur-sm border-b border-slate-100 mb-8">
+      <div className="ml-0 md:ml-64 pt-16 md:pt-16 pb-8 md:pb-12 px-4 md:px-10 bg-white/50 backdrop-blur-sm border-b border-slate-100 mb-8">
         <div className="max-w-screen mx-auto ">
 
 
           <div className="max-w-6xl mx-auto mb-16 px-4">
-            {/* Header Section */}
             <div className="mb-12 text-center md:text-left">
               <h2 className="text-3xl font-black text-slate-900 tracking-tight">MedScan Intelligence</h2>
               <p className="text-slate-500 font-medium">Scan labels or search the global FDA & MediVault registry.</p>
             </div>
-
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
-              {/* 1. Main Search Container */}
+            <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
               <div className="relative flex-1 w-full group">
-                <div className="relative bg-white rounded-[2.5rem] p-3 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.06)] border border-slate-100 transition-all duration-500 group-hover:shadow-indigo-500/10 group-hover:border-indigo-100">
+                <div className="relative bg-white rounded-[2.5rem] md:rounded-full p-2 md:p-3 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.06)] border border-slate-100 transition-all duration-500 group-hover:shadow-indigo-500/10 group-hover:border-indigo-100">
 
-                  <div className="flex flex-col md:flex-row items-center gap-3">
-                    {/* Search Input Section */}
+                  <div className="flex flex-col md:flex-row items-center gap-2">
                     <div className="relative flex-1 w-full">
                       <div className="absolute left-6 top-1/2 -translate-y-1/2">
                         <Search
-                          size={22}
+                          size={20}
                           className={`${loading ? "animate-spin text-indigo-500" : "text-slate-300"} transition-colors`}
                         />
                       </div>
                       <input
                         type="text"
-                        className="w-full bg-transparent border-none rounded-full pl-16 pr-6 py-6 text-lg font-bold text-slate-800 placeholder:text-slate-300 focus:ring-0"
+                        className="w-full bg-transparent border-none rounded-full pl-14 pr-6 py-4 md:py-6 text-base md:text-lg font-bold text-slate-800 placeholder:text-slate-300 focus:ring-0"
                         placeholder="Search medication..."
                         value={drugName}
                         onFocus={() => setShowSuggestions(true)}
@@ -163,50 +156,44 @@ const App = () => {
                       />
                     </div>
 
-                    {/* Action Buttons Group */}
                     <div className="flex items-center gap-2 p-1 w-full md:w-auto">
-                      <label className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-500 px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest cursor-pointer transition-all active:scale-95 border border-slate-100">
+                      <label className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-500 px-5 md:px-6 py-4 rounded-2xl md:rounded-full font-black text-[10px] uppercase tracking-widest cursor-pointer transition-all active:scale-95 border border-slate-100 shrink-0">
                         <Camera size={18} />
-                        <span>Scan</span>
+                        <span className="hidden sm:inline">Scan</span>
                         <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                       </label>
 
                       <button
                         onClick={() => searchDrug(drugName)}
-                        className="flex-1 md:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center justify-center gap-3"
+                        className="flex-1 md:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-8 md:px-10 py-4 rounded-2xl md:rounded-full font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center justify-center gap-3 whitespace-nowrap"
                       >
                         {loading ? "Analyzing" : "Find Data"}
-                        {!loading && <ChevronRight size={18} />}
+                        {!loading && <ChevronRight size={18} className="hidden sm:block" />}
                       </button>
                     </div>
                   </div>
 
-                  {/* MINI SUGGESTION DROPDOWN */}
                   {showSuggestions && suggestions.length > 0 && (
-                    <div className="absolute left-4 right-4 top-[90%] z-50 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                      {/* Minimal Header */}
-                      <div className="px-4 py-2 bg-slate-50/80 border-b border-slate-100 flex justify-between items-center">
+                    <div className="absolute left-0 right-0 md:left-4 md:right-4 top-[105%] md:top-[90%] z-50 bg-white/95 backdrop-blur-md border border-slate-200 rounded-[2rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                      <div className="px-5 py-3 bg-slate-50/80 border-b border-slate-100 flex justify-between items-center">
                         <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Matched Records</span>
-                        <span className="text-[9px] font-bold text-indigo-500">{suggestions.length} Found</span>
+                        <span className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-full">{suggestions.length} Found</span>
                       </div>
 
-                      <div className="max-h-[240px] overflow-y-auto">
+                      <div className="max-h-[280px] overflow-y-auto">
                         {suggestions.map((s, i) => (
                           <div
                             key={i}
                             onMouseDown={() => { setDrugName(s); searchDrug(s); }}
-                            className="group px-5 py-3 hover:bg-indigo-50 cursor-pointer flex justify-between items-center transition-colors border-b border-slate-50 last:border-none"
+                            className="group px-5 py-4 hover:bg-indigo-50 cursor-pointer flex justify-between items-center transition-colors border-b border-slate-50 last:border-none"
                           >
-                            <div className="flex items-center gap-3">
-                              <div className="w-7 h-7 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:bg-indigo-100 transition-colors">
-                                <Pill size={14} />
+                            <div className="flex items-center gap-4">
+                              <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                <Pill size={16} />
                               </div>
-                              <span className="text-sm font-bold text-slate-700">{s}</span>
+                              <span className="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">{s}</span>
                             </div>
-
-                            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                              <ChevronRight size={14} className="text-indigo-400" />
-                            </div>
+                            <ChevronRight size={14} className="text-slate-300 group-hover:text-indigo-400 transition-all group-hover:translate-x-1" />
                           </div>
                         ))}
                       </div>
@@ -214,20 +201,17 @@ const App = () => {
                   )}
                 </div>
 
-                {/* Live Status Indicators */}
-                <div className="mt-6 flex justify-center md:justify-start gap-8 px-6">
+                <div className="mt-6 flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 px-6">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">FDA Live Sync</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">FDA Live Sync</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Neural OCR Active</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Neural OCR Active</span>
                   </div>
                 </div>
               </div>
-
-
             </div>
           </div>
 
@@ -240,10 +224,8 @@ const App = () => {
             </div>
           )}
 
-          {/* RESULTS DASHBOARD (Displaying all data as requested) */}
           {drugData && (
             <div className="bg-white rounded-xl shadow-2xl border border-blue-50 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* Header Result */}
               <div className="bg-slate-900 text-white p-10 md:p-14">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                   <div>
@@ -259,7 +241,6 @@ const App = () => {
               </div>
 
               <div className="grid lg:grid-cols-12 gap-0">
-                {/* Sidebar Info */}
                 <div className="lg:col-span-4 bg-slate-50 p-10 border-r border-slate-100">
                   <div className="space-y-6">
                     <SideItem label="Active Ingredients" value={drugData.active} color="text-blue-600" />
@@ -269,7 +250,6 @@ const App = () => {
                   </div>
                 </div>
 
-                {/* Main Content Info */}
                 <div className="lg:col-span-8 p-10 md:p-14 space-y-12">
                   <section>
                     <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-6 flex items-center gap-2">

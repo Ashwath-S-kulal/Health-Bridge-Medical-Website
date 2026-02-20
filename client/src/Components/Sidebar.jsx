@@ -1,55 +1,66 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { 
-  LayoutDashboard, MapPin, Stethoscope, Pill, 
-  Activity, Zap, HeartPulse, Menu, X 
+import {
+  LayoutDashboard, MapPin, Stethoscope, Pill,
+  Activity, Zap, HeartPulse, Menu, X, User
 } from 'lucide-react';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   return (
     <>
-      {/* --- Mobile Trigger Button --- */}
-      <button 
-        onClick={toggleSidebar}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-xl shadow-md border border-slate-100 text-slate-600"
-      >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 flex items-center justify-between z-50">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+            <HeartPulse size={18} />
+          </div>
+          <span className="font-bold text-slate-800 tracking-tight">HealthBridge</span>
+        </div>
 
-      {/* --- Backdrop (Mobile only) --- */}
+        <button onClick={toggleSidebar}>
+          <div className="  text-gray-600 p-1 rounded-xl border-1 border-white">
+            {isOpen ? <X size={25} /> : <Menu size={25} />}
+          </div>
+        </button>
+      </div>
+
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden"
+        <div
+          className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden animate-in fade-in duration-300"
           onClick={toggleSidebar}
         />
       )}
 
-      {/* --- Sidebar Container --- */}
+
+
+
       <aside className={`
-        fixed top-0 left-0 h-screen bg-white border-r border-slate-100 flex flex-col p-6 z-40
-        transition-transform duration-300 ease-in-out w-64
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+        fixed top-0 left-0 h-screen bg-white border-r border-slate-100 flex flex-col p-6 z-[60]
+        transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) w-64
+        ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} 
         lg:translate-x-0
       `}>
-        
-        {/* Logo Section */}
-        <NavLink to="/" onClick={() => setIsOpen(false)}>
-          <div className="flex items-center gap-3 group cursor-pointer flex-shrink-0 pl-2 mb-10">
-            <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
-              <HeartPulse className="text-white w-6 h-6" />
+
+        <div className="flex items-center justify-between mb-10">
+          <NavLink to="/" onClick={() => setIsOpen(false)}>
+            <div className="flex items-center gap-3 group cursor-pointer pl-2">
+              <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
+                <HeartPulse className="text-white w-6 h-6" />
+              </div>
+              <h1 className="text-xl font-bold tracking-tight text-slate-800">
+                Health<span className="text-blue-600"> Bridge</span>
+              </h1>
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-slate-800">
-              Health<span className="text-blue-600"> Bridge</span>
-            </h1>
-          </div>
-        </NavLink>
+          </NavLink>
+          <button onClick={toggleSidebar} className="lg:hidden p-2 text-slate-400 hover:bg-slate-50 rounded-xl">
+            <X size={20} />
+          </button>
+        </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-2 overflow-y-auto">
+        <nav className="flex-1 space-y-1.5 overflow-y-auto no-scrollbar">
           <SidebarLink to="/" icon={<LayoutDashboard size={20} />} label="Dashboard" onClick={() => setIsOpen(false)} />
           <SidebarLink to="/patient" icon={<Zap size={20} />} label="Patient Hub" onClick={() => setIsOpen(false)} />
           <SidebarLink to="/nearbyfacility" icon={<MapPin size={20} />} label="Nearby Facilities" onClick={() => setIsOpen(false)} />
@@ -58,13 +69,15 @@ const Sidebar = () => {
           <SidebarLink to="/diseasevault" icon={<Activity size={20} />} label="Disease Vault" onClick={() => setIsOpen(false)} />
         </nav>
 
-        {/* Emergency Card */}
-        <div className="mt-auto bg-[#0F172A] p-5 rounded-[24px] text-white hidden sm:block">
-          <p className="text-[10px] uppercase tracking-widest text-slate-400 mb-1 font-bold">Emergency Support</p>
-          <h4 className="font-bold text-sm mb-4 leading-tight">Need immediate help?</h4>
-          <button className="w-full bg-[#F43F5E] py-3 rounded-xl text-xs font-black uppercase hover:bg-rose-600 transition-colors">
-            Call SOS
-          </button>
+        <div className="mt-8 bg-slate-900 p-5 rounded-[2rem] text-white relative overflow-hidden">
+          <div className="relative z-10">
+            <p className="text-[9px] uppercase tracking-[0.2em] text-blue-400 mb-1 font-black">24/7 Support</p>
+            <h4 className="font-bold text-sm mb-4 leading-tight">Emergency?</h4>
+            <button className="w-full bg-rose-500 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-600 transition-all active:scale-95 shadow-lg shadow-rose-500/20">
+              Call SOS
+            </button>
+          </div>
+          <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-blue-500/10 rounded-full blur-xl" />
         </div>
       </aside>
     </>
@@ -76,14 +89,15 @@ const SidebarLink = ({ to, icon, label, onClick }) => (
     to={to}
     onClick={onClick}
     className={({ isActive }) => `
-      flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-semibold text-sm 
-      ${isActive 
-        ? 'bg-blue-50 text-blue-600 shadow-sm' 
-        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+      flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-bold text-xs  tracking-wide
+      ${isActive
+        ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 translate-x-1 mx-2'
+        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
       }
     `}
   >
-    {icon} <span>{label}</span>
+    <span className={({ isActive }) => isActive ? 'text-white' : 'text-slate-400'}>{icon}</span>
+    <span>{label}</span>
   </NavLink>
 );
 

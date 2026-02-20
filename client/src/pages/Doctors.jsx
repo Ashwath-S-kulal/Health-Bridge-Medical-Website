@@ -48,16 +48,7 @@ const DoctorDirectory = () => {
   return (
     <div className="flex min-h-screen bg-[#FDFDFF]">
       <Sidebar />
-      
-      {/* Responsive Main Content: ml-0 on mobile, lg:ml-64 on desktop */}
-      <div className="flex-1 lg:ml-64 transition-all duration-300 pb-20">
-
-        {/* Background Decorations */}
-        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-5%] left-[-5%] w-[50%] md:w-[30%] h-[30%] rounded-full bg-indigo-50/60 blur-[80px] md:blur-[100px]" />
-          <div className="absolute bottom-[-5%] right-[-5%] w-[50%] md:w-[30%] h-[30%] rounded-full bg-rose-50/60 blur-[80px] md:blur-[100px]" />
-        </div>
-
+            <div className="flex-1 lg:ml-64 transition-all duration-300 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <header className="pt-8 md:pt-16 mb-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -70,7 +61,6 @@ const DoctorDirectory = () => {
                 </h1>
               </div>
 
-              {/* Search and Mobile Filter Toggle */}
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <div className="relative flex-1 md:w-80 group">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500" size={18} />
@@ -111,7 +101,6 @@ const DoctorDirectory = () => {
             </select>
           </div>
 
-          {/* Doctors Grid */}
           {loading ? (
             <div className="flex flex-col items-center py-20 md:py-32">
               <Loader2 className="animate-spin text-indigo-600 w-10 h-10 mb-2" />
@@ -123,7 +112,7 @@ const DoctorDirectory = () => {
                 <div
                   key={doctor._id}
                   onClick={() => navigate(`/doctor/${doctor._id}`, { state: { doctor } })}
-                  className="group bg-white border border-slate-200 rounded-[1.5rem] md:rounded-[2rem] p-5 shadow-sm hover:shadow-xl transition-all cursor-pointer flex flex-col items-center text-center md:items-start md:text-left"
+                  className="group bg-white border border-slate-200 rounded-xl md:rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all cursor-pointer flex flex-col items-center text-center md:items-start md:text-left"
                 >
                   <div className="relative mb-4">
                     <img src={doctor.image} alt={doctor.name} className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-4 border-slate-50 shadow-inner" />

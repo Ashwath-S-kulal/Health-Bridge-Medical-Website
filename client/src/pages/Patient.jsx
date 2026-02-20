@@ -148,23 +148,23 @@ const PatientSupportHub = () => {
                     <main className="p-4 md:p-8 lg:p-12 mt-16 lg:mt-0">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
                             <div className="sm:col-span-2 lg:col-span-1">
-                                <div className="flex items-center gap-2 text-rose-500 mb-2">
+                                <div className="flex items-center gap-2 text-blue-500 mb-2">
                                     <Heart size={20} fill="currentColor" className="animate-pulse" />
                                     <span className="font-black tracking-[0.2em] text-[9px] uppercase">CareSupport Hub</span>
                                 </div>
                                 <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Patient Hub</h1>
                             </div>
-                            <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+                            <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
                                 <div className="w-10 h-10 bg-green-50 text-green-600 rounded-xl flex items-center justify-center shrink-0"><CheckCircle2 size={24} /></div>
                                 <div>
                                     <p className="text-[9px] font-black uppercase text-slate-400 tracking-widest">Recovered</p>
                                     <p className="text-xl font-black text-slate-900">{stats.recovered}</p>
                                 </div>
                             </div>
-                            <div className="bg-slate-900 p-5 rounded-3xl flex items-center gap-4 text-white shadow-lg shadow-slate-200">
+                            <div className="bg-slate-900 p-5 rounded-xl flex items-center gap-4 text-white shadow-lg shadow-slate-200">
                                 <div className="w-10 h-10 bg-slate-800 text-rose-400 rounded-xl flex items-center justify-center shrink-0"><Activity size={24} /></div>
                                 <div>
-                                    <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">Active Cases</p>
+                                    <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">Active</p>
                                     <p className="text-xl font-black">{stats.active}</p>
                                 </div>
                             </div>
@@ -180,14 +180,14 @@ const PatientSupportHub = () => {
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-                            <button onClick={() => setIsFormOpen(!isFormOpen)} className="bg-rose-500 hover:bg-rose-600 text-white flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-sm font-black transition-all active:scale-95 shadow-md shadow-rose-100">
+                            <button onClick={() => setIsFormOpen(!isFormOpen)} className="bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-sm font-black transition-all active:scale-95 shadow-md shadow-rose-100">
                                 {isFormOpen ? <X size={18} /> : <Plus size={18} />}
                                 {isFormOpen ? "Close" : "Add Patient"}
                             </button>
                         </div>
 
                         {isFormOpen && (
-                            <div className="bg-white border-2 border-rose-100 rounded-[2rem] p-6 md:p-8 mb-8 animate-in slide-in-from-top-4 duration-500 shadow-xl">
+                            <div className="bg-white border-2 border-blue-100 rounded-xl p-6 md:p-8 mb-8 animate-in slide-in-from-top-4 duration-500 shadow-xl">
                                 <form onSubmit={submitNewCareRequest} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                                     <div className="space-y-1">
                                         <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Full Name</label>
@@ -212,7 +212,7 @@ const PatientSupportHub = () => {
                                         <input required className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm font-bold" placeholder="City, State" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} />
                                     </div>
                                     <div className="flex items-end">
-                                        <button type="submit" className="w-full bg-slate-900 text-white font-black text-[11px] uppercase py-5 rounded-2xl hover:bg-rose-500 transition-all shadow-lg active:scale-95">Register Patient</button>
+                                        <button type="submit" className="w-fit bg-slate-900 text-white font-black text-[11px] uppercase px-5 py-3 rounded-md hover:bg-blue-500 transition-all shadow-lg active:scale-95">Register Patient</button>
                                     </div>
                                 </form>
                             </div>
@@ -223,19 +223,19 @@ const PatientSupportHub = () => {
                                 <div
                                     key={p._id}
                                     onClick={() => handleOpenCard(p)}
-                                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-5 md:p-6 rounded-3xl border transition-all 
+                                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-5 md:p-4 rounded-md border transition-all 
                                         ${p.isCured
                                             ? 'bg-slate-50 border-slate-100 opacity-75'
                                             : 'bg-white border-white shadow-sm hover:shadow-md hover:border-rose-100 cursor-pointer'}`}
                                 >
                                     <div className="flex items-center gap-4 mb-4 sm:mb-0">
-                                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0
-                                            ${p.isCured ? 'bg-slate-200 text-slate-400' : 'bg-rose-50 text-rose-500'}`}>
+                                        <div className={`w-12 h-12 rounded-md flex items-center justify-center shrink-0
+                                            ${p.isCured ? 'bg-slate-200 text-slate-400' : 'bg-blue-50 text-blue-500'}`}>
                                             {p.isCured ? <CheckCircle2 size={24} /> : <LifeBuoy size={24} />}
                                         </div>
                                         <div>
-                                            <h3 className={`text-lg font-black ${p.isCured ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{p.name}</h3>
-                                            <p className={`text-[9px] font-black uppercase tracking-widest ${p.isCured ? 'text-slate-300' : 'text-rose-400'}`}>
+                                            <h3 className={`text-md font-black ${p.isCured ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{p.name}</h3>
+                                            <p className={`text-[9px] font-black uppercase tracking-widest ${p.isCured ? 'text-slate-300' : 'text-blue-400'}`}>
                                                 {p.disease} • {p.location}
                                             </p>
                                         </div>
@@ -244,7 +244,7 @@ const PatientSupportHub = () => {
                                     <div className="flex items-center justify-between sm:justify-end gap-4">
                                         <button
                                             onClick={(e) => toggleCured(e, p._id, p.isCured)}
-                                            className={`flex-1 sm:flex-none px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all
+                                            className={`flex-1 sm:flex-none px-5 py-2 rounded-md text-[10px] font-black uppercase transition-all
                                                 ${p.isCured
                                                     ? 'bg-green-500 text-white'
                                                     : 'bg-slate-100 text-slate-500 hover:bg-green-500 hover:text-white'}`}
