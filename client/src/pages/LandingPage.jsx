@@ -29,7 +29,7 @@ const Dashboard = () => {
     const fetchDoctors = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/doctors/getdoctor');
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URI}/api/doctors/getdoctor`);
         setDoctors(response.data.slice(0, 4));
         setLoading(false);
       } catch (err) {

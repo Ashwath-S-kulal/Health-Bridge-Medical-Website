@@ -28,7 +28,7 @@ const PatientSupportHub = () => {
 
     const fetchPatients = async () => {
         try {
-            const res = await axios.get("/api/patient/get", getAuthHeaders());
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URI}/api/patient/get`, getAuthHeaders());
             setPatients(res.data);
         } catch (err) { console.error("Fetch Error:", err); }
     };
@@ -48,7 +48,7 @@ const PatientSupportHub = () => {
             const wikiPromise = axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${wikiTerm}`)
                 .then(res => setWikiData(res.data)).catch(() => setWikiData(null));
 
-            const nihPromise = axios.get(`/api/patient/nih-proxy?term=${encodeURIComponent(diseaseName)}`, getAuthHeaders())
+            const nihPromise = axios.get(`${import.meta.env.VITE_BASE_URI}/api/patient/nih-proxy?term=${encodeURIComponent(diseaseName)}`, getAuthHeaders())
                 .then(res => {
                     const parser = new DOMParser();
                     const xmlDoc = parser.parseFromString(res.data, "text/xml");
@@ -71,7 +71,7 @@ const PatientSupportHub = () => {
                     }
                 }).catch(() => setNihSections(null));
 
-            const nearbyPromise = axios.get(`/api/patient/nearby?location=${encodeURIComponent(location)}`, getAuthHeaders())
+            const nearbyPromise = axios.get(`${import.meta.env.VITE_BASE_URI}/api/patient/nearby?location=${encodeURIComponent(location)}`, getAuthHeaders())
                 .then(res => setNearbyData(res.data)).catch(() => setNearbyData({ hospitals: [], pharmacies: [] }));
 
             const internalPromise = Promise.all([
@@ -114,7 +114,7 @@ const PatientSupportHub = () => {
     const toggleCured = async (e, patientId, currentStatus) => {
         e.stopPropagation();
         try {
-            await axios.post(`/api/patient/update/${patientId}`, { isCured: !currentStatus }, getAuthHeaders());
+            await axios.post(`${import.meta.env.VITE_BASE_URI}/api/patient/update/${patientId}`, { isCured: !currentStatus }, getAuthHeaders());
             fetchPatients();
         } catch (err) { alert("Status update failed"); }
     };
@@ -122,7 +122,7 @@ const PatientSupportHub = () => {
     const submitNewCareRequest = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("/api/patient/add", formData, getAuthHeaders());
+            await axios.post(`${import.meta.env.VITE_BASE_URI}/api/patient/add`, formData, getAuthHeaders());
             setIsFormOpen(false);
             setFormData({ name: "", age: "", gender: "Male", disease: "", location: "" });
             fetchPatients();
