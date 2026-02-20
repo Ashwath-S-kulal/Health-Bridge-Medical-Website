@@ -4,6 +4,7 @@ import {
   ArrowLeft, Phone, Mail, MessageCircle, MapPin, Star, Clock, 
   GraduationCap, Calendar, Award, ShieldCheck, Share2, Languages 
 } from 'lucide-react';
+import Sidebar from './Sidebar';
 
 const DoctorProfile = () => {
   const location = useLocation();
@@ -13,7 +14,9 @@ const DoctorProfile = () => {
   if (!doctor) return <div className="p-20 text-center font-bold">Doctor not found.</div>;
 
   return (
-    <div className="min-h-screen bg-[#FDFDFF] pb-20">
+    <div>
+      <Sidebar/>
+       <div className="min-h-screen bg-[#FDFDFF] pb-20 ml-64">
       {/* 1. TOP NAVIGATION BAR */}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -124,6 +127,8 @@ const DoctorProfile = () => {
         </div>
       </div>
     </div>
+    </div>
+   
   );
 };
 

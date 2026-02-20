@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
+
+
 export const google = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });

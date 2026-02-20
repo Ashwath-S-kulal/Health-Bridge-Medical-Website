@@ -3,6 +3,7 @@ import axios from "axios";
 import Tesseract from "tesseract.js";
 import Header from "../Components/Header";
 import { ArrowRight, Camera, ChevronRight, Pill, Search } from "lucide-react";
+import Sidebar from "../Components/Sidebar";
 
 const App = () => {
   const [drugName, setDrugName] = useState("");
@@ -124,209 +125,205 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans selection:bg-blue-100">
-        <Header/>
-      <div className="max-w-screen mx-auto mt-16">
-        
-        <header className="text-center mb-10">
-          <h1 className="text-4xl font-black tracking-tight text-slate-900 uppercase">
-            Med<span className="text-blue-600">Scan</span> AI
-          </h1>
-          <p className="text-slate-400 text-[10px] font-bold tracking-[0.4em] mt-2 italic">Clinical Information Dashboard</p>
-        </header>
+    <div>
+      <Sidebar />
+                <div className="ml-0 md:ml-64 pt-8 md:pt-16 pb-8 md:pb-12 px-4 md:px-10 bg-white/50 backdrop-blur-sm border-b border-slate-100 mb-8">
+        <div className="max-w-screen mx-auto ">
 
-   <div className="max-w-4xl mx-auto mb-16">
-  {/* Main Search Container */}
-  <div className="relative bg-white rounded-[3rem] p-3 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] border border-slate-100 transition-all duration-500 hover:shadow-indigo-100/50">
-    
-    <div className="flex flex-col md:flex-row items-center gap-2">
-      
-      {/* Search Input Section */}
-      <div className="relative flex-1 w-full">
-        <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
-          <Search size={20} className={loading ? "animate-spin text-indigo-500" : ""} />
-        </div>
-        <input
-          type="text"
-          className="w-full bg-transparent border-none rounded-full pl-14 pr-6 py-5 text-lg font-semibold text-slate-800 placeholder:text-slate-300 outline-none focus:ring-0"
-          placeholder="Search medication or generic name..."
-          value={drugName}
-          onFocus={() => setShowSuggestions(true)}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-          onChange={(e) => setDrugName(e.target.value)}
-        />
-      </div>
 
-      {/* Action Buttons Group */}
-      <div className="flex items-center gap-2 p-1 w-full md:w-auto">
-        {/* Visual Scan Button */}
-        <label className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-600 px-6 py-4 rounded-[2rem] font-bold text-sm cursor-pointer transition-all active:scale-95 border border-slate-100">
-          <Camera size={18} />
-          <span className="hidden sm:inline">Scan Label</span>
-          <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-        </label>
-
-        {/* Primary Search Button */}
-        <button 
-          onClick={() => searchDrug(drugName)}
-          className="flex-1 md:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-[2rem] font-black text-sm uppercase tracking-widest shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center justify-center gap-2"
-        >
-          {loading ? "Analyzing..." : "Find Data"}
-          {!loading && <ChevronRight size={18} />}
-        </button>
-      </div>
-    </div>
-
-    {/* SUGGESTION DROPDOWN (Enhanced Design) */}
-    {showSuggestions && suggestions.length > 0 && (
-      <div className="absolute left-4 right-4 top-full mt-4 z-50 bg-white/80 backdrop-blur-xl border border-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        <div className="p-4 bg-slate-50/50 border-b border-slate-100">
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Matched Database Records</span>
-        </div>
-        <div className="max-h-[300px] overflow-y-auto">
-          {suggestions.map((s, i) => (
-            <div 
-              key={i} 
-              onMouseDown={() => { setDrugName(s); searchDrug(s); }}
-              className="group px-8 py-4 hover:bg-indigo-600 cursor-pointer flex justify-between items-center transition-all"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:bg-white/20 group-hover:text-white transition-colors">
-                  <Pill size={14} />
-                </div>
-                <span className="font-bold text-slate-700 group-hover:text-white transition-colors">{s}</span>
-              </div>
-              <ChevronRight size={16} className="text-slate-300 group-hover:text-white/50 group-hover:translate-x-1 transition-all" />
+          <div className="max-w-6xl mx-auto mb-16 px-4">
+            {/* Header Section */}
+            <div className="mb-12 text-center md:text-left">
+              <h2 className="text-3xl font-black text-slate-900 tracking-tight">MedScan Intelligence</h2>
+              <p className="text-slate-500 font-medium">Scan labels or search the global FDA & MediVault registry.</p>
             </div>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
 
-  {/* Status Footer */}
-  <div className="mt-6 flex justify-center gap-8">
-    <div className="flex items-center gap-2">
-      <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">FDA Live Sync</span>
-    </div>
-    <div className="flex items-center gap-2">
-      <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">OCR Ready</span>
-    </div>
-  </div>
-</div>
+            <div className="flex flex-col lg:flex-row gap-8 items-start">
+              {/* 1. Main Search Container */}
+              <div className="relative flex-1 w-full group">
+                <div className="relative bg-white rounded-[2.5rem] p-3 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.06)] border border-slate-100 transition-all duration-500 group-hover:shadow-indigo-500/10 group-hover:border-indigo-100">
 
-        {error && <div className="bg-red-50 border border-red-100 text-red-500 p-5 rounded-2xl text-center mb-8 font-bold text-sm">{error}</div>}
-        
-        {(loading || ocrLoading) && (
-          <div className="text-center py-10">
-            <div className="inline-block w-8 h-8 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-            <p className="text-[10px] font-black text-blue-600 tracking-[0.3em] uppercase">Accessing FDA Records...</p>
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    {/* Search Input Section */}
+                    <div className="relative flex-1 w-full">
+                      <div className="absolute left-6 top-1/2 -translate-y-1/2">
+                        <Search
+                          size={22}
+                          className={`${loading ? "animate-spin text-indigo-500" : "text-slate-300"} transition-colors`}
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        className="w-full bg-transparent border-none rounded-full pl-16 pr-6 py-6 text-lg font-bold text-slate-800 placeholder:text-slate-300 focus:ring-0"
+                        placeholder="Search medication..."
+                        value={drugName}
+                        onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                        onChange={(e) => setDrugName(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Action Buttons Group */}
+                    <div className="flex items-center gap-2 p-1 w-full md:w-auto">
+                      <label className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-500 px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest cursor-pointer transition-all active:scale-95 border border-slate-100">
+                        <Camera size={18} />
+                        <span>Scan</span>
+                        <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                      </label>
+
+                      <button
+                        onClick={() => searchDrug(drugName)}
+                        className="flex-1 md:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center justify-center gap-3"
+                      >
+                        {loading ? "Analyzing" : "Find Data"}
+                        {!loading && <ChevronRight size={18} />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* MINI SUGGESTION DROPDOWN */}
+                  {showSuggestions && suggestions.length > 0 && (
+                    <div className="absolute left-4 right-4 top-[90%] z-50 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                      {/* Minimal Header */}
+                      <div className="px-4 py-2 bg-slate-50/80 border-b border-slate-100 flex justify-between items-center">
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Matched Records</span>
+                        <span className="text-[9px] font-bold text-indigo-500">{suggestions.length} Found</span>
+                      </div>
+
+                      <div className="max-h-[240px] overflow-y-auto">
+                        {suggestions.map((s, i) => (
+                          <div
+                            key={i}
+                            onMouseDown={() => { setDrugName(s); searchDrug(s); }}
+                            className="group px-5 py-3 hover:bg-indigo-50 cursor-pointer flex justify-between items-center transition-colors border-b border-slate-50 last:border-none"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-7 h-7 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:bg-indigo-100 transition-colors">
+                                <Pill size={14} />
+                              </div>
+                              <span className="text-sm font-bold text-slate-700">{s}</span>
+                            </div>
+
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                              <ChevronRight size={14} className="text-indigo-400" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Live Status Indicators */}
+                <div className="mt-6 flex justify-center md:justify-start gap-8 px-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">FDA Live Sync</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Neural OCR Active</span>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
           </div>
-        )}
 
-        {/* RESULTS DASHBOARD (Displaying all data as requested) */}
-        {drugData && (
-          <div className="bg-white rounded-[3rem] shadow-2xl border border-blue-50 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Header Result */}
-            <div className="bg-slate-900 text-white p-10 md:p-14">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div>
-                  <span className="text-blue-400 font-black text-[10px] tracking-[0.4em] uppercase">Verified Record</span>
-                  <h2 className="text-2xl md:text-4xl font-black tracking-tighter mt-2">{drugData.brandName}</h2>
-                  <p className="text-xl text-slate-400 font-bold mt-2 uppercase">{drugData.genericName}</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/10">
-                   <p className="text-[10px] font-black text-blue-300 uppercase mb-2">Manufacturer</p>
-                   <p className="text-sm font-bold">{drugData.manufacturer}</p>
-                </div>
-              </div>
+          {error && <div className="bg-red-50 border border-red-100 text-red-500 p-5 rounded-2xl text-center mb-8 font-bold text-sm">{error}</div>}
+
+          {(loading || ocrLoading) && (
+            <div className="text-center py-10">
+              <div className="inline-block w-8 h-8 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+              <p className="text-[10px] font-black text-blue-600 tracking-[0.3em] uppercase">Accessing FDA Records...</p>
             </div>
+          )}
 
-            <div className="grid lg:grid-cols-12 gap-0">
-              {/* Sidebar Info */}
-              <div className="lg:col-span-4 bg-slate-50 p-10 border-r border-slate-100">
-                <div className="space-y-6">
-                  <SideItem label="Active Ingredients" value={drugData.active} color="text-blue-600" />
-                  <SideItem label="Inactive Compounds" value={drugData.inactive} />
-                  <SideItem label="Environmental Storage" value={drugData.storage} />
-                  <SideItem label="Support" value={drugData.questions} />
+          {/* RESULTS DASHBOARD (Displaying all data as requested) */}
+          {drugData && (
+            <div className="bg-white rounded-xl shadow-2xl border border-blue-50 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {/* Header Result */}
+              <div className="bg-slate-900 text-white p-10 md:p-14">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                  <div>
+                    <span className="text-blue-400 font-black text-[10px] tracking-[0.4em] uppercase">Verified Record</span>
+                    <h2 className="text-2xl md:text-4xl font-black tracking-tighter mt-2">{drugData.brandName}</h2>
+                    <p className="text-xl text-slate-400 font-bold mt-2 uppercase">{drugData.genericName}</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/10">
+                    <p className="text-[10px] font-black text-blue-300 uppercase mb-2">Manufacturer</p>
+                    <p className="text-sm font-bold">{drugData.manufacturer}</p>
+                  </div>
                 </div>
               </div>
 
-              {/* Main Content Info */}
-              <div className="lg:col-span-8 p-10 md:p-14 space-y-12">
-                <section>
-                  <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
-                    <span className="w-8 h-[1px] bg-slate-200"></span> Usage & Purpose
-                  </h3>
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <InfoBlock title="Purpose" content={drugData.purpose} />
-                    <InfoBlock title="Indications" content={drugData.indications} />
-                    <div className="md:col-span-2">
-                      <InfoBlock title="Dosage & Administration" content={drugData.dosage} />
-                    </div>
+              <div className="grid lg:grid-cols-12 gap-0">
+                {/* Sidebar Info */}
+                <div className="lg:col-span-4 bg-slate-50 p-10 border-r border-slate-100">
+                  <div className="space-y-6">
+                    <SideItem label="Active Ingredients" value={drugData.active} color="text-blue-600" />
+                    <SideItem label="Inactive Compounds" value={drugData.inactive} />
+                    <SideItem label="Environmental Storage" value={drugData.storage} />
+                    <SideItem label="Support" value={drugData.questions} />
                   </div>
-                </section>
+                </div>
 
-                <section className="bg-amber-50/50 p-8 md:p-12 rounded-[2.5rem] border border-amber-100">
-                  <h3 className="text-xs font-black text-amber-600 uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
-                    <span className="w-8 h-[1px] bg-amber-200"></span> Safety Protocols
-                  </h3>
-                  <div className="space-y-8">
-                    <SafetyRow label="General Warnings" text={drugData.warnings} />
-                    <SafetyRow label="Do Not Use" text={drugData.doNotUse} />
-                    <SafetyRow label="Consult Physician If" text={drugData.askDoctor} />
-                    <SafetyRow label="Stop Use Condition" text={drugData.stopUse} />
-                    <div className="grid md:grid-cols-2 gap-6 pt-4">
-                      <div className="p-4 bg-white rounded-2xl border border-amber-100">
-                        <p className="text-[10px] font-black uppercase text-amber-600 mb-1">Pregnancy/Breastfeeding</p>
-                        <p className="text-xs font-medium">{drugData.pregnancy}</p>
+                {/* Main Content Info */}
+                <div className="lg:col-span-8 p-10 md:p-14 space-y-12">
+                  <section>
+                    <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
+                      <span className="w-8 h-[1px] bg-slate-200"></span> Usage & Purpose
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <InfoBlock title="Purpose" content={drugData.purpose} />
+                      <InfoBlock title="Indications" content={drugData.indications} />
+                      <div className="md:col-span-2">
+                        <InfoBlock title="Dosage & Administration" content={drugData.dosage} />
                       </div>
-                      <div className="p-4 bg-white rounded-2xl border border-amber-100">
-                        <p className="text-[10px] font-black uppercase text-amber-600 mb-1">Child Safety</p>
-                        <p className="text-xs font-medium">{drugData.keepOutReach}</p>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                {drugData.overdose && (
-                  <section className="bg-red-600 text-white p-8 rounded-[2rem] flex items-center gap-6 shadow-lg shadow-red-200">
-                    <div className="text-3xl">⚠️</div>
-                    <div>
-                      <h4 className="font-black uppercase tracking-widest text-xs mb-1">Emergency Overdosage Protocol</h4>
-                      <p className="text-sm font-bold opacity-95">{drugData.overdose}</p>
                     </div>
                   </section>
-                )}
+
+                  <section className="bg-amber-50/50 p-8 md:p-12 rounded-[2.5rem] border border-amber-100">
+                    <h3 className="text-xs font-black text-amber-600 uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                      <span className="w-8 h-[1px] bg-amber-200"></span> Safety Protocols
+                    </h3>
+                    <div className="space-y-8">
+                      <SafetyRow label="General Warnings" text={drugData.warnings} />
+                      <SafetyRow label="Do Not Use" text={drugData.doNotUse} />
+                      <SafetyRow label="Consult Physician If" text={drugData.askDoctor} />
+                      <SafetyRow label="Stop Use Condition" text={drugData.stopUse} />
+                      <div className="grid md:grid-cols-2 gap-6 pt-4">
+                        <div className="p-4 bg-white rounded-2xl border border-amber-100">
+                          <p className="text-[10px] font-black uppercase text-amber-600 mb-1">Pregnancy/Breastfeeding</p>
+                          <p className="text-xs font-medium">{drugData.pregnancy}</p>
+                        </div>
+                        <div className="p-4 bg-white rounded-2xl border border-amber-100">
+                          <p className="text-[10px] font-black uppercase text-amber-600 mb-1">Child Safety</p>
+                          <p className="text-xs font-medium">{drugData.keepOutReach}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  {drugData.overdose && (
+                    <section className="bg-red-600/80 text-white p-8 rounded-[2rem] flex items-center gap-6 shadow-lg shadow-red-200">
+                      <div className="text-3xl">⚠️</div>
+                      <div>
+                        <h4 className="font-black uppercase tracking-widest text-xs mb-1">Emergency Overdosage Protocol</h4>
+                        <p className="text-sm font-bold opacity-95">{drugData.overdose}</p>
+                      </div>
+                    </section>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+
       </div>
-
-      <div className="mt-20 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <div className="bg-white p-12 rounded-[3.5rem] border border-slate-200 shadow-sm max-w-4xl mx-auto">
-              <h3 className="text-2xl font-black mb-2">Can't find your specific medicine?</h3>
-              <p className="text-slate-400 font-medium mb-8">Our internal database contains 11,826 localized medications not always indexed by the FDA.</p>
-              
-              <button 
-                onClick={() => window.location.href = '/medicinefinderourdata'} // or navigate('/medivault')
-                className="group relative inline-flex items-center gap-4 bg-slate-900 text-white px-12 py-6 rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all shadow-2xl active:scale-95"
-              >
-                Find here in MediVault
-                <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
-              </button>
-
-              <div className="mt-10 flex items-center justify-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Internal Database Online</span>
-              </div>
-            </div>
-          </div>
     </div>
+
   );
 };
 

@@ -12,13 +12,11 @@ import symptomsRoutes from "./routes/symptoms.route.js";
 import adminRoutes from "./routes/admin.routes.js";
 import doctorRoutes from "./routes/doctor.routes.js";
 import medicineDataRoutes from "./routes/medicineData.route.js"
+import patientRoutes from "./routes/patient.route.js"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-/* ===========================
-   ✅ CORS CONFIG (VERY IMPORTANT)
-=========================== */
 
 app.use(
   cors({
@@ -27,23 +25,14 @@ app.use(
   })
 );
 
-/* ===========================
-   ✅ MIDDLEWARE
-=========================== */
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-/* ===========================
-   ✅ DATABASE CONNECTION
-=========================== */
 
 await connectDB();
 
-/* ===========================
-   ✅ ROUTES
-=========================== */
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
@@ -53,18 +42,14 @@ app.use("/api/symptoms", symptomsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/medicine", medicineDataRoutes)
+app.use("/api/patient", patientRoutes);
 
-/* ===========================
-   ✅ TEST ROUTE
-=========================== */
+
 
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-/* ===========================
-   ✅ START SERVER
-=========================== */
 
 app.listen(PORT, () => {
   console.log(`🚀 Backend running on port ${PORT}`);

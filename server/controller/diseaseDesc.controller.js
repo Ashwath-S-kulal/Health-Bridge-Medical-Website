@@ -1,17 +1,17 @@
 import Disease from '../models/diseaseDesc.model.js';
-    export const getAllDiseases = async (req, res) => {
+
+export const getAllDiseases = async (req, res) => {
   try {
     const { name } = req.query;
     let query = {};
-    
     if (name && name !== "All") {
-      query.Disease = name;
+      // 'i' makes it case-insensitive
+      query.Disease = { $regex: new RegExp(`^${name}$`, 'i') }; 
     }
-
     const diseases = await Disease.find(query).sort({ Disease: 1 });
     res.status(200).json(diseases);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching medical records", error });
+    res.status(500).json({ message: "Error", error });
   }
 };
 

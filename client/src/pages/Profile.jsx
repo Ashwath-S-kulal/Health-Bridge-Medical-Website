@@ -1,6 +1,5 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
 import {
   updateUserStart,
   updateUserSuccess,
@@ -10,10 +9,9 @@ import {
   deleteUserFailure,
   signOut,
 } from '../redux/user/userSlice';
-import Header from '../Components/Header';
 import { NavLink } from 'react-router-dom';
-import { ShieldCheck } from 'lucide-react';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { ShieldCheck, LogOut, Camera, Trash2, CheckCircle2, AlertCircle, User, Mail, Lock, Settings } from 'lucide-react';
+import Sidebar from '../Components/Sidebar';
 
 export default function Profile() {
   const [formData, setFormData] = useState({});
@@ -22,24 +20,22 @@ export default function Profile() {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
 
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
       const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/update/${currentUser._id}`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`
-  },
-  body: JSON.stringify(formData),
-});
-
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await res.json();
       if (data.success === false) {
@@ -48,162 +44,152 @@ export default function Profile() {
       }
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
+      setTimeout(() => setUpdateSuccess(false), 3000);
     } catch (error) {
       dispatch(updateUserFailure(error));
     }
   };
 
-  const handleDeleteAccount = async () => {
-    try {
-      dispatch(deleteUserStart());
-   const res = await fetch(`${import.meta.env.VITE_BASE_URI}/api/user/delete/${currentUser._id}`, {
-  method: "DELETE",
-  headers: {
-    "Authorization": `Bearer ${token}`
-  }
-});
-
-
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(deleteUserFailure(data));
-        return;
-      }
-      dispatch(deleteUserSuccess(data));
-    } catch (error) {
-      dispatch(deleteUserFailure(error));
-    }
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    dispatch(signOut());
   };
 
-const handleSignOut = () => {
-  localStorage.removeItem("token");
-  dispatch(signOut());
-};
-
-
-
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 antialiased">
-      <Header />
-      <div className="flex flex-col md:flex-row w-full max-w-4xl bg-white rounded-[30px] overflow-hidden shadow-xl border border-slate-200 mt-20">
-
-        {/* Left Panel: Visual Identity */}
-        <div className="w-full md:w-1/3 bg-gradient-to-br from-indigo-500 to-violet-600 p-10 flex flex-col justify-between text-white">
-          <div>
-            <div className="h-10 w-10 bg-white/20 rounded-lg backdrop-blur-md flex items-center justify-center mb-6">
-              <div className="h-5 w-5 bg-white rounded-full animate-pulse" />
+    <div className="flex min-h-screen bg-[#F1F5F9]">
+      <Sidebar />
+      <div className="flex-1 lg:ml-64 w-full p-4 md:p-8 lg:p-12">
+        <div className="max-w-6xl mx-auto space-y-6">
+          <div className="flex justify-between items-center bg-white p-4 rounded-3xl shadow-sm border border-slate-200">
+            <div className="flex items-center gap-3 ml-2">
+              <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600">
+                <Settings size={20} />
+              </div>
+              <h1 className="font-bold text-slate-800 tracking-tight">Account Center</h1>
             </div>
-            <h2 className="text-3xl font-bold leading-tight">Settings</h2>
-            <p className="text-indigo-50 mt-2 text-sm">Personalize your presence on the platform.</p>
-          </div>
-
-          <div className="hidden md:block">
-            <div className="text-xs uppercase tracking-widest text-indigo-100 font-semibold mb-4 opacity-80">Account Status</div>
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 bg-emerald-400 rounded-full"></span>
-              <span className="text-sm font-medium">Verified User</span>
+            <div className="flex gap-2">
+              {currentUser?.isAdmin && (
+                <NavLink to="/profile/adminpanel" className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 rounded-xl transition-all">
+                  <ShieldCheck size={16} /> Admin
+                </NavLink>
+              )}
+              <button onClick={handleSignOut} className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all">
+                <LogOut size={16} /> Sign Out
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* Right Panel: Form Content */}
-        <div className="flex-1 p-8 md:p-12">
-          <div className='flex gap-5 mb-10'>
-            <button
-              onClick={handleSignOut}
-              className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-red-500 transition-colors"
-            >
-              <FaSignOutAlt size={14} /> Sign Out
-            </button>
-
-            {currentUser?.isAdmin && (
-              <NavLink to="/profile/adminpanel">
-                <button
-                  className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-emerald-600 transition-colors"
-                >
-                  <ShieldCheck size={14} /> Admin panel
-                </button>
-              </NavLink>
-            )}
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Profile Section */}
-            <div className="flex items-center gap-6 mb-8">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-indigo-500 rounded-full blur-md opacity-0 group-hover:opacity-20 transition-opacity"></div>
-                <img
-                  src={currentUser.profilePicture}
-                  alt="profile"
-                  className="relative h-20 w-20 rounded-2xl object-cover ring-4 ring-slate-100 group-hover:ring-indigo-100 transition-all cursor-pointer"
-                />
-                <div className="absolute -bottom-2 -right-2 bg-indigo-600 p-1.5 rounded-lg border-2 border-white shadow-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1 space-y-6">
+              <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200 flex flex-col items-center text-center">
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-indigo-200 rounded-[2.5rem] blur-2xl opacity-40 animate-pulse"></div>
+                  <img
+                    src={currentUser.profilePicture}
+                    alt="profile"
+                    className="relative h-32 w-32 rounded-[2.5rem] object-cover ring-8 ring-slate-50 shadow-inner"
+                  />
+                  <label className="absolute -bottom-2 -right-2 bg-indigo-600 p-3 rounded-2xl text-white shadow-lg cursor-pointer hover:scale-110 transition-transform">
+                    <Camera size={18} />
+                  </label>
+                </div>
+                <h2 className="text-xl font-black text-slate-800 mb-1">{currentUser.username}</h2>
+                <p className="text-slate-400 text-sm font-medium mb-6">{currentUser.email}</p>
+                <div className="w-full pt-6 border-t border-slate-50">
+                  <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                    <span>Security Score</span>
+                    <span className="text-indigo-600">85%</span>
+                  </div>
+                  <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-indigo-600 w-[85%] rounded-full"></div>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h3 className="text-slate-900 font-bold text-lg">{currentUser.username}</h3>
-                <p className="text-slate-500 text-sm">Update your details</p>
+
+              <div className="bg-red-50/50 p-6 rounded-[2rem] border border-red-100">
+                <h3 className="text-red-800 font-bold text-sm mb-2">Danger Zone</h3>
+                <p className="text-red-600/70 text-xs mb-4">Once you delete your account, there is no going back. Please be certain.</p>
+                <button className="w-full py-3 bg-white text-red-500 text-xs font-black uppercase tracking-tighter rounded-xl border border-red-200 hover:bg-red-500 hover:text-white transition-all">
+                  Deactivate Account
+                </button>
               </div>
             </div>
 
-            {/* Inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-500 ml-1">Username</label>
-                <input
-                  defaultValue={currentUser.username}
-                  type="text"
-                  id="username"
-                  className="w-full bg-slate-50 text-slate-800 p-3.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-500 ml-1">Email</label>
-                <input
-                  defaultValue={currentUser.email}
-                  type="email"
-                  id="email"
-                  className="w-full bg-slate-50 text-slate-800 p-3.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+            <div className="lg:col-span-2">
+              <form onSubmit={handleSubmit} className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-200 h-full">
+                <div className="flex flex-col h-full">
+                  <div className="mb-10">
+                    <h3 className="text-2xl font-black text-slate-800 tracking-tight">Personal Information</h3>
+                    <p className="text-slate-400 text-sm">Update your public profile and contact address.</p>
+                  </div>
 
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-500 ml-1">Current Password</label>
-              <input
-                defaultValue={currentUser.password}
-                type="password"
-                id="password"
-                className="w-full bg-slate-50 text-slate-800 p-3.5 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
-                onChange={handleChange}
-              />
-            </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div className="group space-y-2">
+                      <label className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
+                        <User size={14} className="text-indigo-500" /> Display Name
+                      </label>
+                      <input
+                        defaultValue={currentUser.username}
+                        id="username"
+                        className="w-full bg-slate-50/50 p-4 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/5 outline-none transition-all font-medium"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="group space-y-2">
+                      <label className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
+                        <Mail size={14} className="text-indigo-500" /> Email Address
+                      </label>
+                      <input
+                        defaultValue={currentUser.email}
+                        id="email"
+                        className="w-full bg-slate-50/50 p-4 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/5 outline-none transition-all font-medium"
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
 
-            <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-[0.99] disabled:opacity-50">
-              {loading ? 'Processing...' : 'Save Changes'}
-            </button>
-          </form>
+                  <div className="group space-y-2 mb-12">
+                    <label className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
+                      <Lock size={14} className="text-indigo-500" /> Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="••••••••••••"
+                      className="w-full bg-slate-50/50 p-4 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/5 outline-none transition-all font-medium"
+                      onChange={handleChange}
+                    />
+                  </div>
 
-          <div className="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center">
-            <div>
-              {error && <p className="text-xs text-red-500 font-medium">Error syncing data.</p>}
-              {updateSuccess && <p className="text-xs text-emerald-600 font-bold tracking-tight">Profile saved successfully!</p>}
+                  <div className="mt-auto flex items-center justify-between gap-6">
+                    <div className="flex-1 h-6">
+                      {updateSuccess && (
+                        <div className="flex items-center gap-2 text-emerald-600 animate-in fade-in slide-in-from-left-4">
+                          <CheckCircle2 size={18} />
+                          <span className="text-sm font-bold uppercase tracking-tighter">Profile Synced</span>
+                        </div>
+                      )}
+                      {error && (
+                        <div className="flex items-center gap-2 text-red-500 animate-pulse">
+                          <AlertCircle size={18} />
+                          <span className="text-sm font-bold uppercase tracking-tighter">Update Failed</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      disabled={loading}
+                      className="px-10 py-4 bg-slate-900 hover:bg-indigo-600 text-white font-black rounded-2xl shadow-xl shadow-slate-200 hover:shadow-indigo-100 transition-all active:scale-95 disabled:opacity-50"
+                    >
+                      {loading ? 'Updating...' : 'Save Settings'}
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <button
-              onClick={handleDeleteAccount}
-              className="text-xs font-bold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-tight"
-            >
-              Deactivate Account
-            </button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

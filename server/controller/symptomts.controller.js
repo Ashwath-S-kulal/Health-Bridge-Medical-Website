@@ -2,14 +2,14 @@ import Symptom from '../models/symptoms.model.js';
 
 export const getSymptomsByDisease = async (req, res) => {
   try {
-    const { disease } = req.query;
-    if (!disease) {
-      return res.status(400).json({ message: "Disease name is required" });
-    }
+    const { disease } = req.query; // Backend expects 'disease'
+    if (!disease) return res.status(400).json({ message: "Required" });
 
-    const records = await Symptom.find({ Disease: disease });
+    const records = await Symptom.find({ 
+        Disease: { $regex: new RegExp(`^${disease}$`, 'i') } 
+    });
     
-    // Clean the data: filter out empty strings and underscores for the frontend
+    // Your cleaning logic remains the same
     const cleanedRecords = records.map(record => {
       const row = record.toObject();
       return Object.keys(row)
