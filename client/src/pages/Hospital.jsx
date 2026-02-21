@@ -197,7 +197,7 @@ export default function HealthCommandCenter() {
             <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">Your Nearest Hospitals</h1>
             <p className="text-slate-500 text-sm flex items-center gap-2 mt-1">
               <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              Monitoring <span className="text-slate-900 font-bold">{displayedHospitals.length}</span> units in <span className="font-bold text-blue-600 underline decoration-blue-200 underline-offset-4">{currentArea.split(',')[0]}</span>
+              Monitoring <span className="text-slate-900 font-bold">{displayedHospitals.length}</span> units in <span className="font-bold text-blue-600 underline decoration-blue-200 underline-offset-4">{currentArea.split(',')}</span>
             </p>
           </div>
 
@@ -292,7 +292,6 @@ export default function HealthCommandCenter() {
                 </button>
               </div>
 
-              {/* DATA PANEL - Scrollable on mobile */}
               <div className="w-full lg:w-[450px] bg-white border-t lg:border-t-0 lg:border-l border-slate-200 flex flex-col overflow-hidden">
                 <div className="p-6 md:p-10 overflow-y-auto custom-scrollbar">
                   <div className="flex items-center gap-3 mb-6">

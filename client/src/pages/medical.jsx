@@ -1,5 +1,8 @@
 import { useEffect, useState, useMemo, useCallback, memo } from "react";
-import { X, MapPin, Phone, Copy, ExternalLink, Navigation, Search, AlertTriangle, Filter, Compass, Globe } from "lucide-react";
+import {
+    X, MapPin, Phone, Copy, Navigation, Search,
+    AlertTriangle, Filter, Compass, Globe, Clock, Activity
+} from "lucide-react";
 import Sidebar from "../Components/Sidebar";
 
 /* ---------------- HELPERS ---------------- */
@@ -15,20 +18,32 @@ const distanceKm = (lat1, lon1, lat2, lon2) => {
 const getBoundingBox = (lat, lon, radiusKm) => {
     const latDelta = radiusKm / 111;
     const lonDelta = radiusKm / (111 * Math.cos((lat * Math.PI) / 180));
-    return { 
-        south: lat - latDelta, 
-        north: lat + latDelta, 
-        west: lon - lonDelta, 
-        east: lon + lonDelta 
+    return {
+        south: lat - latDelta,
+        north: lat + latDelta,
+        west: lon - lonDelta,
+        east: lon + lonDelta
     };
 };
 
 const OVERPASS_SERVERS = [
-    "https://overpass.kumi.systems/api/interpreter", 
+    "https://overpass.kumi.systems/api/interpreter",
     "https://lz4.overpass-api.de/api/interpreter"
 ];
 
 /* ---------------- SUB-COMPONENTS ---------------- */
+
+const MetricCard = ({ icon, label, value, isStatus }) => (
+    <div className="flex justify-between items-center p-5 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+        <div className="flex items-center gap-4">
+            <div className="p-2.5 bg-slate-50 rounded-xl">{icon}</div>
+            <span className="text-slate-500 font-black text-[10px] uppercase tracking-widest">{label}</span>
+        </div>
+        <span className={`text-sm font-black tracking-tight ${isStatus ? 'text-blue-600' : 'text-slate-900'}`}>
+            {value}
+        </span>
+    </div>
+);
 
 const PharmacyCard = memo(({ s, onSelect }) => (
     <div className="group bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col relative overflow-hidden ring-1 ring-slate-100 hover:ring-emerald-200">
@@ -38,18 +53,14 @@ const PharmacyCard = memo(({ s, onSelect }) => (
             </span>
             <span className="text-[10px] font-black text-emerald-500 block uppercase">KM</span>
         </div>
-
         <div className="h-12 w-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500 mb-4">
             <Compass className="w-6 h-6" />
         </div>
-
         <h3 className="text-lg font-bold text-slate-800 mb-1 line-clamp-1 group-hover:text-emerald-600 transition-colors">{s.name}</h3>
-
         <div className="flex items-start gap-2 mb-6 h-10">
             <MapPin size={14} className="text-slate-400 mt-1 flex-shrink-0" />
             <p className="text-xs text-slate-500 font-medium line-clamp-2 italic">{s.address}</p>
         </div>
-
         <div className="mt-auto flex items-center gap-3">
             <button
                 onClick={() => onSelect(s)}
@@ -86,13 +97,11 @@ export default function App() {
 
     const loadStores = useCallback(async (latitude, longitude) => {
         if (!latitude || !longitude) return;
-        
         setLoading(true);
         setError("");
         setSuggestions([]);
 
         try {
-            // Reverse Geocode to show user where they are
             const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
             if (geoRes.ok) {
                 const geoData = await geoRes.json();
@@ -105,8 +114,8 @@ export default function App() {
             let data;
             for (const url of OVERPASS_SERVERS) {
                 try {
-                    const res = await fetch(url, { 
-                        method: "POST", 
+                    const res = await fetch(url, {
+                        method: "POST",
                         body: `data=${encodeURIComponent(query)}`,
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                     });
@@ -139,32 +148,19 @@ export default function App() {
         }
     }, []);
 
-    // Initial Geolocation Load
     useEffect(() => {
-        let isMounted = true;
-        
         navigator.geolocation.getCurrentPosition(
-            ({ coords }) => {
-                if (isMounted) loadStores(coords.latitude, coords.longitude);
-            },
+            ({ coords }) => loadStores(coords.latitude, coords.longitude),
             () => {
-                if (isMounted) {
-                    setError("GPS Permission Denied. Please search for a location manually.");
-                    setMyLocation("Manual Search Required");
-                }
+                setError("GPS Permission Denied. Please search manually.");
+                setMyLocation("Manual Search Required");
             },
             { timeout: 10000 }
         );
-
-        return () => { isMounted = false; };
     }, [loadStores]);
 
-    // Nominatim Autocomplete Logic
     useEffect(() => {
-        if (locationInput.length <= 3) {
-            setSuggestions([]);
-            return;
-        }
+        if (locationInput.length <= 3) { setSuggestions([]); return; }
         const timer = setTimeout(async () => {
             try {
                 const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`);
@@ -175,7 +171,6 @@ export default function App() {
         return () => clearTimeout(timer);
     }, [locationInput]);
 
-    // Derived State for Filtering/Sorting
     const displayList = useMemo(() => {
         return stores
             .filter(s => s.distance <= Number(filterDistance))
@@ -189,24 +184,21 @@ export default function App() {
             <Sidebar />
 
             <div className="flex-1 flex flex-col h-screen overflow-hidden lg:ml-64 transition-all duration-300">
-
-                {/* HEADER */}
-                <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 z-40 sticky top-0 pt-20 md:pt-0">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+                <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 z-40 sticky top-0 pt-16 lg:pt-0">
+                    <div className="max-w-7xl mx-auto px-4 py-4">
                         <div className="flex flex-col lg:flex-row gap-3 items-center">
-
                             <div className="relative w-full lg:flex-1">
                                 <div className="flex items-center bg-slate-100 rounded-xl px-4 py-2.5 border border-transparent focus-within:border-emerald-500 focus-within:bg-white transition-all">
                                     <MapPin className="w-4 h-4 text-emerald-500 mr-2" />
                                     <input
                                         className="bg-transparent w-full text-sm font-medium outline-none"
-                                        placeholder="Search location (City, Street...)"
+                                        placeholder="Search location..."
                                         value={locationInput}
                                         onChange={(e) => setLocationInput(e.target.value)}
                                     />
                                 </div>
                                 {suggestions.length > 0 && (
-                                    <div className="absolute top-full left-0 w-full bg-white border border-slate-200 shadow-xl rounded-xl mt-1 overflow-hidden z-50">
+                                    <div className="absolute top-full left-0 w-full bg-white border border-slate-200 shadow-2xl rounded-xl mt-1 overflow-hidden z-[60]">
                                         {suggestions.map((item, idx) => (
                                             <button
                                                 key={idx}
@@ -235,21 +227,14 @@ export default function App() {
                                 </div>
                             </div>
 
-                            <div className="flex gap-2 w-full lg:w-auto">
-                                <button
-                                    onClick={() => setShowFilters(!showFilters)}
-                                    className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs transition-all border ${showFilters ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-white border-slate-200 text-slate-600'}`}
-                                >
-                                    <Filter size={16} /> Filters
-                                </button>
-                                <div className="hidden sm:flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100">
-                                    <Navigation className="w-3 h-3 text-emerald-600" />
-                                    <span className="text-[10px] font-black text-emerald-700 uppercase tracking-tight">{displayList.length} Found</span>
-                                </div>
-                            </div>
+                            <button
+                                onClick={() => setShowFilters(!showFilters)}
+                                className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs transition-all border w-full lg:w-auto ${showFilters ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-white border-slate-200 text-slate-600'}`}
+                            >
+                                <Filter size={16} /> Filters
+                            </button>
                         </div>
 
-                        {/* FILTER PANEL */}
                         <div className={`overflow-hidden transition-all duration-300 ${showFilters ? 'max-h-96 mt-4' : 'max-h-0'}`}>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-5 bg-slate-50 rounded-xl border border-slate-200">
                                 <div className="space-y-2">
@@ -272,13 +257,12 @@ export default function App() {
                     </div>
                 </header>
 
-                {/* MAIN CONTENT */}
                 <main className="flex-1 overflow-y-auto p-4 sm:p-8">
                     <div className="max-w-7xl mx-auto">
                         {loading ? (
                             <div className="h-[60vh] flex flex-col items-center justify-center text-center">
                                 <div className="w-16 h-16 border-4 border-emerald-100 border-t-emerald-500 rounded-full animate-spin mb-4"></div>
-                                <h3 className="font-bold text-slate-800 tracking-tight">Syncing with Medical Database...</h3>
+                                <h3 className="font-bold text-slate-800 tracking-tight">Syncing Medical Database...</h3>
                             </div>
                         ) : error ? (
                             <div className="h-[60vh] flex flex-col items-center justify-center text-center">
@@ -295,16 +279,14 @@ export default function App() {
                                         <span className="truncate">{myLocation}</span>
                                     </div>
                                 </div>
-
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {displayList.map((s) => (
                                         <PharmacyCard key={s.id} s={s} onSelect={setSelectedHospital} />
                                     ))}
                                 </div>
-
                                 {displayList.length === 0 && (
                                     <div className="py-20 text-center">
-                                        <p className="text-slate-400 font-bold text-sm uppercase">No medical units found in this range</p>
+                                        <p className="text-slate-400 font-bold text-sm uppercase">No units found in range</p>
                                     </div>
                                 )}
                             </>
@@ -314,45 +296,99 @@ export default function App() {
 
                 {/* MODAL */}
                 {selectedHospital && (
-                    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4">
-                        <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setSelectedHospital(null)} />
-                        <div className="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-300">
-                            <div className="h-48 bg-slate-100 relative">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-0">
+                        <div className="absolute inset-0 bg-slate-900/90 backdrop-blur-xl" onClick={() => setSelectedHospital(null)} />
+                        <div className="relative bg-white w-full h-full md:h-full md:max-w-full  shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-500 flex flex-col lg:flex-row">
+                            <div className="relative h-full lg:h-auto  lg:flex-1 bg-slate-950">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-900 z-0">
+                                    <p className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em]">Establishing Uplink...</p>
+                                </div>
                                 <iframe
-                                    title="map"
-                                    width="100%" height="100%" frameBorder="0"
-                                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${selectedHospital.lon - 0.005},${selectedHospital.lat - 0.005},${selectedHospital.lon + 0.005},${selectedHospital.lat + 0.005}&layer=mapnik&marker=${selectedHospital.lat},${selectedHospital.lon}`}
-                                    className="grayscale opacity-80"
+                                    title="Command Map"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    loading="lazy"
+                                    srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;background:#0f172a;}</style><iframe width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=16&output=embed"></iframe>`}
+                                    className="relative z-10 w-full h-full "
                                 />
-                                <button onClick={() => setSelectedHospital(null)} className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-lg hover:text-red-500 transition-colors">
-                                    <X size={20} />
+                                <button onClick={() => setSelectedHospital(null)}
+                                    className="absolute top-4 right-4 md:top-6 md:right-6 bg-white p-3 rounded-full shadow-2xl hover:scale-110 transition-transform z-[110] border border-slate-200 active:scale-90"
+                                >                                    <X size={20} strokeWidth={3} />
                                 </button>
                             </div>
-                            <div className="p-6 sm:p-8">
-                                <div className="flex gap-2 mb-4">
-                                    <span className="bg-emerald-500 text-white text-[9px] font-black px-2 py-1 rounded-md uppercase">Pharmacy</span>
-                                    <span className="bg-slate-100 text-slate-600 text-[9px] font-black px-2 py-1 rounded-md uppercase">{selectedHospital.distance.toFixed(2)} KM Away</span>
+
+                            <div className="w-full lg:w-[480px] bg-white flex flex-col h-[60vh] lg:h-full shadow-[-20px_0_50px_rgba(0,0,0,0.1)] z-20">
+                                <div className="p-5 md:p-12 flex-1 overflow-y-auto custom-scrollbar">
+                                    <div className="flex items-center justify-between mb-4 md:mb-8">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" />
+                                            <span className="bg-blue-50 text-blue-700 text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-wider border border-blue-100">
+                                                Medical Node
+                                            </span>
+                                        </div>
+                                        <span className="text-slate-300 text-[10px] font-mono font-bold tracking-widest">
+                                            ID-{selectedHospital.id}
+                                        </span>
+                                    </div>
+
+                                    <h2 className="text-xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight leading-tight">
+                                        {selectedHospital.name}
+                                    </h2>
+
+                                    <div className="inline-flex items-start gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100 mb-6 md:mb-10 w-full">
+                                        <MapPin size={16} className="text-blue-600 mt-0.5 shrink-0" />
+                                        <p className="text-slate-600 text-xs font-semibold leading-relaxed">
+                                            {selectedHospital.address}
+                                        </p>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-2 md:gap-4 mb-8 md:mb-12">
+                                        <MetricCard
+                                            icon={<Navigation size={16} className="text-blue-500" />}
+                                            label="Proximity"
+                                            value={`${selectedHospital.distance.toFixed(2)} KM`}
+                                        />
+                                        <MetricCard
+                                            icon={<Activity size={16} className="text-rose-500" />}
+                                            label="Availability"
+                                            value={selectedHospital.opening}
+                                        />
+                                        <MetricCard
+                                            icon={<Clock size={16} className="text-emerald-500" />}
+                                            label="Status"
+                                            value="Ready"
+                                            isStatus
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-3">
+                                        <a
+                                            href={`https://www.google.com/maps/dir/?api=1&destination=${selectedHospital.lat},${selectedHospital.lon}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="w-full bg-blue-600 text-white py-3.5 md:py-5 rounded-xl md:rounded-[1.5rem] font-black text-[10px] md:text-xs uppercase tracking-[0.1em] hover:bg-blue-700 shadow-lg shadow-blue-100 flex items-center justify-center gap-3 transition-all active:scale-95"
+                                        >
+                                            <Navigation size={18} fill="white" /> Dispatch
+                                        </a>
+
+                                        <button
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(selectedHospital.address);
+                                                alert("Registry copied.");
+                                            }}
+                                            className="w-full py-3.5 md:py-5 bg-slate-900 text-white rounded-xl md:rounded-[1.5rem] font-black text-[10px] md:text-xs uppercase tracking-[0.1em] hover:bg-slate-800 flex items-center justify-center gap-3 transition-all active:scale-95"
+                                        >
+                                            <Copy size={18} /> Copy Registry
+                                        </button>
+                                    </div>
                                 </div>
-                                <h2 className="text-2xl font-bold text-slate-900 mb-2">{selectedHospital.name}</h2>
-                                <p className="text-sm text-slate-500 mb-6 flex items-start gap-2">
-                                    <MapPin size={16} className="text-emerald-500 shrink-0 mt-0.5" />
-                                    {selectedHospital.address}
-                                </p>
-                                <div className="grid grid-cols-2 gap-3 mb-4">
-                                    <a href={`tel:${selectedHospital.phone}`} className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-[10px] font-black uppercase transition-all ${selectedHospital.phone ? "border-slate-200 hover:bg-emerald-50" : "opacity-30 pointer-events-none"}`}>
-                                        <Phone size={14} /> Call Store
-                                    </a>
-                                    <button onClick={() => { navigator.clipboard.writeText(selectedHospital.address); alert("Address Copied!"); }} className="flex items-center justify-center gap-2 p-3 rounded-xl border border-slate-200 text-[10px] font-black uppercase hover:bg-blue-50 transition-all">
-                                        <Copy size={14} /> Copy Addr
-                                    </button>
+
+                                <div className="hidden md:block p-6 bg-slate-50 border-t border-slate-100 text-center">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">
+                                        Operational Health Data Interface
+                                    </p>
                                 </div>
-                                <a
-                                    href={`https://www.google.com/maps/dir/?api=1&destination=${selectedHospital.lat},${selectedHospital.lon}`}
-                                    target="_blank" rel="noreferrer"
-                                    className="flex items-center justify-center gap-2 w-full bg-slate-900 text-white py-4 rounded-xl text-xs font-bold uppercase hover:bg-emerald-600 transition-all shadow-lg shadow-slate-200"
-                                >
-                                    Open in Google Maps <ExternalLink size={14} />
-                                </a>
                             </div>
                         </div>
                     </div>
