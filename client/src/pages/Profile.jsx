@@ -58,7 +58,7 @@ export default function Profile() {
   return (
     <div className="flex min-h-screen bg-[#F1F5F9]">
       <Sidebar />
-      <div className="flex-1 lg:ml-64 w-full p-4 md:p-8 lg:p-12">
+      <div className="flex-1 lg:ml-64 w-full pt-20 md:pt-4 p-4 md:p-8 lg:p-12">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="flex justify-between items-center bg-white p-4 rounded-3xl shadow-sm border border-slate-200">
             <div className="flex items-center gap-3 ml-2">
@@ -74,7 +74,7 @@ export default function Profile() {
                 </NavLink>
               )}
               <button onClick={handleSignOut} className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all">
-                <LogOut size={16} /> Sign Out
+                <LogOut size={16} /><span className='hidden md:block'> Sign Out</span>
               </button>
             </div>
           </div>

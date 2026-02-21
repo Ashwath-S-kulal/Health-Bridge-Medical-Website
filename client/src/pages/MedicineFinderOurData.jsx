@@ -58,8 +58,8 @@ const MedicineFinderOurData = () => {
 
                         <div className="flex-1 w-full space-y-6">
                             <div className="flex items-center gap-4">
-                                <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-200">
-                                    <Database size={24} className="text-white" />
+                                <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-200 hidden md:block">
+                                    <Database size={24} className="text-white " />
                                 </div>
                                 <div>
                                     <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 leading-none">
@@ -112,7 +112,7 @@ const MedicineFinderOurData = () => {
                 <main className="max-w-7xl mx-auto px-4 md:px-10">
                     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
                         {medicines.map((med) => (
-                            <button key={med._id} onClick={() => handleSelect(med._id)} className="group bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border border-slate-100 hover:shadow-xl transition-all text-left flex flex-col h-full">
+                            <button key={med._id} onClick={() => handleSelect(med._id)} className="group bg-white p-4 md:p-6 rounded-xl md:rounded-2xl border border-slate-100 shadow-xl hover:shadow-2xl transition-all text-left flex flex-col h-full">
                                 <div className="aspect-square bg-slate-50 rounded-xl md:rounded-2xl mb-4 flex items-center justify-center overflow-hidden p-2">
                                     {med.Image_URL ? (
                                         <img src={med.Image_URL} alt="" className="max-h-full max-w-full object-contain mix-blend-multiply" />
@@ -144,7 +144,7 @@ const MedicineFinderOurData = () => {
             {selectedMed && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-4">
                     <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onClick={() => setSelectedMed(null)} />
-                    <div className="relative w-full max-w-4xl bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] animate-in fade-in zoom-in duration-200">
+                    <div className="relative w-full max-w-4xl bg-white rounded-xl md:rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] animate-in fade-in zoom-in duration-200">
                                                 <button 
                             onClick={() => setSelectedMed(null)}
                             className="absolute top-4 right-4 z-50 p-2 bg-white/80 backdrop-blur-md rounded-full md:hidden"

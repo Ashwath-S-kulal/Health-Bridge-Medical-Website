@@ -11,7 +11,11 @@ import {
   Plus,
   Twitter,
   Linkedin,
-  Instagram
+  Instagram,
+  Zap,
+  ShieldCheck,
+  CheckCircle2,
+  User
 } from 'lucide-react';
 import Sidebar from '../Components/Sidebar';
 import { useSelector } from 'react-redux';
@@ -46,59 +50,152 @@ const Dashboard = () => {
       <Sidebar />
 
       <main className="flex-1 pt-10 w-full lg:ml-64 p-4 md:p-8 transition-all duration-300">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pt-12 md:pt-0">
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold text-slate-900">
-              Welcome back, <span>{currentUser.username}</span>
-            </h1>
-            <p className="text-slate-500 text-sm">How are you feeling today?</p>
-          </div>
-          <div className="flex items-center gap-4 w-full md:w-auto">
-            <div className="relative flex-1 md:flex-none">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-full text-sm w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
-              />
+        <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 mb-12 pt-8 md:pt-0">
+          <div className="flex items-center gap-6">
+            <div onClick={() => navigate("/profile")} className="relative group cursor-pointer">
+              <div className="absolute inset-0 bg-cyan-500 rounded-[2rem] blur-xl opacity-20 group-hover:opacity-40 transition-opacity" />
+              <div className="relative w-16 h-16 rounded-[2rem] bg-white overflow-hidden border-2 border-slate-100 shadow-xl">
+                <img src={currentUser.profilePicture} alt="profile" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute -right-1 -bottom-1 bg-emerald-500 text-white p-1 rounded-lg border-2 border-white shadow-sm">
+                <CheckCircle2 size={12} />
+              </div>
             </div>
-            <button onClick={() => navigate("/profile")} className="w-10 h-10 md:w-12 md:h-12 bg-white border border-slate-200 rounded-full overflow-hidden flex-shrink-0">
-              <img src={currentUser.profilePicture} alt="profile" className="h-full w-full object-cover" />
+
+            <div >
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-black text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-md uppercase tracking-widest">
+                  Node Active
+                </span>
+              </div>
+              <h1 className="text-3xl font-black text-slate-900 tracking-tighter">
+                Hey,  {currentUser.username}
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
+            <div className="flex items-center bg-white border border-slate-100 rounded-2xl p-2 pr-6 gap-4 shadow-sm hover:shadow-md transition-all">
+              <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shrink-0">
+                <Activity size={18} />
+              </div>
+              <div>
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Live Pulse</p>
+                <p className="text-xs font-bold text-slate-900 leading-none">Synchronized</p>
+              </div>
+            </div>
+
+            <div className="hidden md:flex items-center bg-slate-900 text-white rounded-2xl p-2 pr-6 gap-4 shadow-xl shadow-slate-200">
+              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-cyan-400 shrink-0">
+                <ShieldCheck size={18} />
+              </div>
+              <div>
+                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none mb-1">Security</p>
+                <p className="text-xs font-bold leading-none">End-to-End</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate("/profile")}
+              className="h-14 px-6 bg-slate-50 border border-slate-100 rounded-2xl text-slate-400 hover:text-cyan-600 hover:bg-white hover:border-cyan-100 transition-all flex items-center gap-3 group"
+            >
+              <User size={18} className="shrink-0" />
+              <span className="text-xs font-black tracking-widest uppercase group-hover:text-slate-900">Profile</span>
             </button>
           </div>
         </header>
 
-        {/* AI Banner - Stacks on mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
-          <div className="col-span-1 lg:col-span-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl p-6 md:p-10 text-white relative overflow-hidden shadow-xl shadow-blue-100">
-            <div className="relative z-10 max-w-md">
-              <h2 className="text-xl md:text-2xl font-bold mb-3">AI Symptom Analysis</h2>
-              <p className="text-blue-100 text-sm mb-6 md:mb-8">Input your symptoms to receive a personalized care protocol.</p>
-              <div className="flex flex-col sm:flex-row gap-2 bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20">
-                <input
-                  type="text"
-                  value={symptom}
-                  onChange={(e) => setSymptom(e.target.value)}
-                  placeholder="E.g. Persistent dry cough..."
-                  className="bg-transparent flex-1 px-4 py-2 text-sm placeholder:text-blue-100 outline-none"
-                />
-                <button className="bg-white text-blue-600 px-6 py-2 rounded-xl font-bold text-sm hover:bg-blue-50 transition-colors">
-                  Analyze
-                </button>
+          <div className="col-span-1 lg:col-span-8 relative rounded-2xl overflow-hidden min-h-[340px] shadow-2xl shadow-blue-900/20 group">
+            <img
+              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=2070"
+              alt="Medical Interface"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/80 to-blue-600/20" />
+            <div className="relative z-10 p-8 md:p-12 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] font-black text-white/60 uppercase tracking-[0.4em]">
+                    Biometric Session Active
+                  </span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-[0.9]">
+                  Welcome back, <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                    Commander.
+                  </span>
+                </h2>
+                <p className="text-slate-400 text-sm mt-4 max-w-xs font-medium leading-relaxed">
+                  Your regional medical network is synchronized. All protocols are currently nominal.
+                </p>
+              </div>
+
+            </div>
+            <div className="absolute top-10 right-10 hidden md:block">
+              <div className="flex flex-col items-end gap-1 opacity-40">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="h-[2px] bg-white rounded-full" style={{ width: `${20 + (i * 10)}px` }} />
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="col-span-1 lg:col-span-4 bg-white rounded-xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-slate-900 mb-4">Nearby Support</h3>
+          <div className="col-span-1 lg:col-span-4 bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-bold text-gray-700 mb-4">Nearby Support</h3>
+              <span className="text-[10px] font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-lg">Live Data</span>
+            </div>
+
             <div className="space-y-3 flex flex-col gap-2">
-              <NavLink to="/hospital"><SupportItem icon={<MapPin className="text-cyan-500" size={18} />} label="Hospitals" /></NavLink>
-              <NavLink to="/medical"><SupportItem icon={<Pill className="text-blue-500" size={18} />} label="Pharmacies" /></NavLink>
+              <NavLink to="/hospital" className="group">
+                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent group-hover:border-cyan-100 group-hover:bg-white transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-white rounded-xl shadow-sm group-hover:text-cyan-500 transition-colors">
+                      <MapPin size={18} className="text-cyan-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-700">Hospitals</p>
+                      <p className="text-[10px] text-slate-400 font-medium">Find active nodes nearby</p>
+                    </div>
+                  </div>
+                  <ChevronRight size={14} className="text-slate-300 group-hover:text-cyan-500 transform group-hover:translate-x-1 transition-all" />
+                </div>
+              </NavLink>
+
+              <NavLink to="/medical" className="group">
+                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent group-hover:border-blue-100 group-hover:bg-white transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-white rounded-xl shadow-sm group-hover:text-blue-500 transition-colors">
+                      <Pill size={18} className="text-blue-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-700">Pharmacies</p>
+                      <p className="text-[10px] text-slate-400 font-medium">Open now: Your location</p>
+                    </div>
+                  </div>
+                  <ChevronRight size={14} className="text-slate-300 group-hover:text-blue-500 transform group-hover:translate-x-1 transition-all" />
+                </div>
+              </NavLink>
+
+              <div className="mt-4 pt-4 border-t border-slate-50">
+                <div className="flex items-center justify-between px-2">
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Network Speed</span>
+                    <span className="text-xs font-bold text-slate-700">5G / 0.04ms Latency</span>
+                  </div>
+                  <div className="h-8 w-12 bg-slate-50 rounded-lg flex items-center justify-center gap-1">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="w-1 bg-cyan-400 rounded-full" style={{ height: `${20 + (i * 15)}%` }} />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Verified Professionals */}
         <div className="mb-12">
           <div className="flex justify-between items-center mb-6">
             <h3 className="font-bold text-slate-900 text-lg">Verified Professionals</h3>

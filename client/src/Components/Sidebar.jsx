@@ -16,7 +16,7 @@ const Sidebar = () => {
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
             <HeartPulse size={18} />
           </div>
-          <span className="font-bold text-slate-800 tracking-tight">HealthBridge</span>
+          <span className="font-bold text-slate-800 tracking-tight">Health Care</span>
         </div>
 
         <button onClick={toggleSidebar}>
@@ -50,13 +50,11 @@ const Sidebar = () => {
                 <HeartPulse className="text-white w-6 h-6" />
               </div>
               <h1 className="text-xl font-bold tracking-tight text-slate-800">
-                Health<span className="text-blue-600"> Bridge</span>
+                Health<span className="text-blue-600"> Care</span>
               </h1>
             </div>
           </NavLink>
-          <button onClick={toggleSidebar} className="lg:hidden p-2 text-slate-400 hover:bg-slate-50 rounded-xl">
-            <X size={20} />
-          </button>
+         
         </div>
 
         {/* Navigation */}

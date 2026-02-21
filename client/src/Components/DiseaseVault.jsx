@@ -21,8 +21,7 @@ export default function DiseaseVault() {
           </div>
         </header>
 
-        {/* Navigation Grid - 1 col on mobile, 2 on tablet, 3 on desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8 md:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8 md:mb-12 ">
           <VaultCard 
             to="/diseasedesc"
             icon={<BookOpen />}
@@ -48,10 +47,8 @@ export default function DiseaseVault() {
           />
         </div>
 
-        {/* AI Insight Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-          {/* Main Insight Card - stacks vertically on small screens */}
-          <div className="lg:col-span-8 bg-white border border-slate-100 rounded-[24px] md:rounded-[32px] p-6 md:p-8 shadow-sm flex flex-col sm:flex-row items-start gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 ring-1 ring-[#0F172A] rounded-2xl shadow-2xl">
+          <div className="lg:col-span-8 bg-white border border-slate-100 rounded-2xl md:rounded-2xl p-6 md:p-8 shadow-sm flex flex-col sm:flex-row items-start gap-6">
             <div className="bg-yellow-100 p-4 rounded-2xl text-yellow-600 shrink-0">
               <Sparkles size={32} />
             </div>
@@ -68,8 +65,7 @@ export default function DiseaseVault() {
             </div>
           </div>
 
-          {/* Quick Stats - Stays prominent but adjusts width */}
-          <div className="lg:col-span-4 bg-[#0F172A] rounded-[24px] md:rounded-[32px] p-6 md:p-8 text-white">
+          <div className="lg:col-span-4 bg-[#0F172A] rounded-t-none md:rounded-l-none rounded-2xl md:rounded-2xl p-6 md:p-8 text-white">
             <div className="flex items-center justify-between mb-6">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Database Status</span>
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
@@ -91,10 +87,9 @@ export default function DiseaseVault() {
   );
 }
 
-/* --- Reusable Card Component --- */
 const VaultCard = ({ to, icon, title, desc, accent }) => (
   <NavLink to={to} className="group h-full">
-    <div className="bg-white p-6 md:p-8 rounded-[32px] md:rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 h-full flex flex-col justify-between">
+    <div className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full flex flex-col justify-between">
       <div>
         <div className={`w-12 h-12 md:w-14 md:h-14 ${accent} text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform`}>
           {React.cloneElement(icon, { size: 24 })}
