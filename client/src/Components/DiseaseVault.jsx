@@ -42,7 +42,7 @@ export default function DiseaseVault() {
           <VaultCard 
             to="/symptoms"
             icon={<Activity />}
-            title="Symptom Checker"
+            title="Symptom Collections"
             desc="Analyze your current condition and map it against common medical indicators."
             accent="bg-cyan-500"
           />

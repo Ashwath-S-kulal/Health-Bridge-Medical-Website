@@ -1,0 +1,400 @@
+disease,allowed_foods,restricted_foods,max_calories,max_sodium,max_sugar,max_carbs,max_gi
+Dengue Recovery,Papaya Leaf Extract|Coconut Water|Kiwi|Pomegranate|Porridge,Oily Food|Red Meat|Spicy Masalas|Caffeine,600,600,20,90,60
+Typhoid Recovery,Honey|Boiled Rice|White Bread|Bananas|Moong Dal Soup,High Fiber|Raw Salads|Fried Snacks|Butter|Milk,550,500,25,110,70
+Lactose Intolerance (Indian),Soy Milk|Coconut Milk|Tofu|Hard Cheese (Aged)|Poha,Paneer|Fresh Milk|Kheer|Ice Cream|Malai,650,700,20,100,65
+Rheumatoid Arthritis (RA),Walnuts|Turmeric|Fatty Fish|Chia Seeds|Garlic,Sugar|Refined Oil|Red Meat|Eggplant (Brinjal)|Dairy,600,600,15,70,55
+Night Blindness (Vit A),Carrots|Spinach|Papaya|Sweet Potato|Milk,Processed Snacks|Soda,700,700,25,110,65
+Liver Cirrhosis (Mild),Egg Whites|Paneer (Low Fat)|Rice|Tinda|Lauki,Salt|Alcohol|Raw Fish|Chillies|Mutton,650,300,20,100,65
+Post-Pregnancy (Lactation),Oats|Methi Laddoo|Dalia|Milk|Garlic|Gond,Spicy Food|Caffeine|Raw Papaya|Gas-forming Veggies,850,800,30,120,60
+Gestational Diabetes,Ragi|Sprouts|Paneer|Whole Wheat|Roasted Chana,Sugar|Mango|White Rice|Sweets|Fruit Juice,500,750,5,50,45
+Asthma (Indian Context),Tulsi|Honey|Ginger|Warm Soup|Seeds,Cold Curd|Ice Cream|Cold Drinks|Banana|Processed Salt,700,600,20,90,60
+Hyperthyroidism,Cruciferous Veggies (Cooked)|Berries|Legumes|Potatoes,Iodized Salt|Seafood|Seaweed|Caffeine,700,700,25,110,65
+Alzheimer's (Geriatric),Leafy Greens|Berries|Nuts|Turmeric|Coconut Oil,Saturated Fats|Butter|Cheese|Sugary Snacks,600,600,15,75,55
+Chronic Bronchitis,Garlic|Turmeric|Warm Water|Chicken Soup|Veggies,Dairy|Excess Salt|Fried Foods|Cold Yogurt,750,600,20,80,60
+Acne/Skin Health (Indian),Karela|Neem Tea|Lemon Water|Cucumber|Curd,Chocolate|White Sugar|Fried Samosas|Full-fat Milk,500,800,5,50,50
+Psoriasis (Anti-Inflammatory),Cold-water Fish|Pumpkin Seeds|Carrots|Spinach,Red Meat|Alcohol|Nightshades (Tomato/Potato)|Dairy,650,700,20,80,55
+Bronchial Asthma,Warm Fluids|Flaxseeds|Berries|Ginger|Garlic,Preservatives|Salt|Cold Foods|Dried Fruits,700,700,25,90,65
+Binge Eating Disorder (Recovery),High Fiber Dalia|Moong Dal|Apples|Buttermilk,Bulk Snacks|Biscuits|Sweets|White Flour,550,700,15,70,50
+Cushing's Syndrome,Spinach|Greek Yogurt|Fish|Almonds|Oats,Table Salt|Sugar|White Bread|Canned Goods,600,400,10,60,50
+Eczema (Indian Diet),Fatty Fish|Probiotic Curd|Turmeric|Aloe Vera Juice,Dairy|Soy|Gluten|Sugar|Egg Yolks,650,800,20,90,60
+Gallstones (Prevention),Lentils|Brown Rice|Citrus Fruits|High Fiber,Heavy Cream|Butter|Mutton|Deep Fried Food,550,700,15,75,60
+Hypocalcemia (Vit D/Ca),Ragi|Paneer|Milk|Almonds|Broccoli,High Phytic Acid Grains|Excessive Fiber,750,700,20,90,65
+Hyperkalemia (Renal),White Rice|Lauki|Cauliflower|Pears|Guava (No seeds),Banana|Spinach|Potato|Coconut Water|Oranges,600,500,20,90,65
+Hypovolemia (Dehydration),ORS|Coconut Water|Salted Buttermilk|Rice Kanji,Caffeine|Plain Water (Excess)|Diuretics,800,2500,25,110,75
+Stomatitis (Mouth Ulcers),Curd Rice|Mashed Banana|Cold Milk|Coconut Water,Chillies|Hot Tea|Citrus Fruits|Crunchy Snacks,600,500,20,100,70
+Wilson's Disease (Low Copper),White Rice|Chicken|Eggs|Vegetables,Chocolate|Mushrooms|Shellfish|Nuts|Organ Meat,700,800,25,110,65
+Alpha-gal Syndrome (Meat Allergy),Chicken|Fish|Pulses|Legumes|Dairy,Beef|Pork|Lamb|Gelatin,700,800,25,110,65
+Histamine Intolerance,Fresh Chicken|Rice|Fresh Veggies|Apples,Aged Cheese|Fermented Foods|Vinegar|Spinach|Tomatoes,650,600,20,80,55
+Fibromyalgia,Nuts|Berries|Brown Rice|Lean Protein|Ginger,MSG|Aspartame|Sugar|Nightshades,650,800,15,75,55
+Lymphedema,Water|Ginger|Garlic|Leafy Greens|Fish,High Salt|Pickles|Processed Meat|Alcohol,600,400,15,70,55
+Gastroparesis (Slow Digestion),Pureed Carrots|Yogurt|White Rice|Boiled Eggs,High Fiber Skins|Seeds|Raw Veggies|Fatty Meat,500,600,15,90,75
+Cystic Fibrosis (Indian Adult),Whole Milk|Paneer|Nuts|Butter|Parathas,Diet Sodas|Low-calorie Snacks|Fast Food,1200,2000,40,150,75
+Bulimia Recovery,Oats|Yogurt|Complex Carbs|Khichdi,Caffeine|Trigger Foods|Diet Pills,800,800,30,110,60
+Lupus (SLE),Fatty Fish|Olive Oil|Berries|Sprouts|Vegetables,Alfalfa Sprouts|Garlic|Refined Carbs|Red Meat,650,600,20,80,55
+Hypercalcemia,Lentils|Oats|Fish|Vegetables,Dairy Products|Fortified Foods|Calcium Supplements,600,800,20,90,65
+Sjogren's Syndrome (Dry Mouth),Soups|Yogurt|Soft Fruit|Sauces|Gravy,Dry Toast|Spicy Food|Crunchy Snacks|Chillies,700,800,20,100,60
+Adrenal Fatigue (Functional),Sea Salt|Nuts|Avocado|Lean Meat|Millets,Caffeine|Sugar|White Flour|Alcohol,700,1500,15,80,50
+Epilepsy (Keto Diet),Avocado|Eggs|Butter|Fish|Heavy Cream,Sugar|Roti|Rice|Fruits|Potatoes,850,800,0,10,20
+Ascites (Severe Water Retention),Fresh Veggies|Lean Fish|Oats|Dalia,Canned Soup|Table Salt|Frozen Meals|Pickles|Papad,600,200,20,90,65
+Hypoproteinemia,Chicken Breast|Greek Yogurt|Soya|Egg Whites|Paneer,Sweets|Excessive Water|Empty Calories,850,800,20,80,60
+Hyperhomocysteinemia,Leafy Greens|Beans|Poultry|Whole Grains,Red Meat|Alcohol|High Methionine Foods,700,800,20,100,60
+Lipedema (Anti-Inflammatory),Veggies|Fish|Water|Seeds,Dairy|Gluten|Salt|Sugar,600,500,15,60,55
+Short Stature (Pediatric Growth),Whole Milk|Eggs|Chicken|Peanut Butter|Ragi,Soda|Candy|Low-calorie snacks,900,1000,30,120,70
+Cushing’s Disease,Turkey|Egg Whites|Asparagus|Berries,Sodium|Canned Soup|Pickles|White Sugar,600,400,10,60,50
+Raynaud’s Syndrome,Ginger|Garlic|Fish|Citrus|Dark Chocolate,Caffeine|Alcohol|Cold Foods,700,800,20,100,60
+Post-Gallbladder Removal,Rice|Toast|Skinless Chicken|Steamed Veggies,Fried Food|Spicy Gravy|Large Fatty Meals,550,700,15,85,65
+Hypertriglyceridemia,Fish|Flaxseeds|Walnuts|Legumes|Methi,Alcohol|Sugar|Fructose Syrup|White Flour,600,700,0,50,45
+Scleroderma,Turmeric|Ginger|Fish|Lean Meat|Rice,Refined Sugar|Processed Meat|Hard Skins,650,700,20,80,55
+Kawasaki Disease (Pediatric),Soft Foods|Water|Fruit Juice (Diluted)|Rice,Salty Snacks|Hard Candy,700,600,30,100,65
+Porphyria,Potatoes|Pasta|Rice|Sweet Fruits,Fasting|Alcohol|Low-carb Diets,800,800,40,150,75
+Polymyalgia Rheumatica,Fatty Fish|Berries|Olive Oil|Spinach,Sugar|Fried Food|Red Meat|Processed Snacks,650,600,15,70,50
+Hypovolemia,Broth|Sports Drinks|Water|Salted Nuts,Diuretics|Caffeine,800,2500,20,100,70
+Obstructive Jaundice,Oatmeal|Rice|Toast|Skim Milk,Fried Food|Fatty Meat|Oils|Cream,600,700,20,100,65
+Acanthosis Nigricans (Insulin Res.),Leafy Greens|Fish|Berries|Beans,Sugar|White Bread|Fruit Juice|White Pasta,550,800,5,50,50
+Uremia (Renal Failure),White Bread|Rice|Apples|Green Beans,Red Meat|Spinach|Bananas|Potatoes|Salt,600,400,20,100,70
+Leaky Gut Syndrome,Bone Broth|Probiotics|Steamed Veggies,Sugar|Gluten|Dairy|Processed Food,600,700,15,70,50
+Biliary Atresia (Pediatric),MCT Oil|Lean Meats|Fruit|Purees,High Fat|Raw Seafood|High Salt,600,500,20,80,65
+Idiopathic Intracranial Hypertension,Vegetables|Lean Protein|Water,Vitamin A Overload (Liver)|Salt|Tyramine,600,500,15,70,55
+Hyperoxaluria (Type 1),Rice|Meat|Dairy|Cauliflower,Spinach|Rhubarb|Beets|Nuts|Tea,700,800,25,110,65
+Chylothorax (Low Fat),Skim Milk|Egg Whites|Chicken|Fruit,Butter|Oil|Cream|Nuts,600,700,15,100,65
+Myasthenia Gravis (Easy Chew),Mashed Potatoes|Minced Meat|Smoothies|Avocado,Tough Steaks|Dry Bread|Hard Raw Carrots,750,800,25,110,70
+Sickle Cell Anemia,Water|Leafy Greens|Beans|Whole Grains,Alcohol|High Sodium|Dehydrating Foods,800,800,30,120,65
+Amyloidosis,Lean Protein|Veggies|Fruit|Rice,Salt|Red Meat|Excess Fluid,650,500,20,80,60
+Hypophosphatemia,Milk|Cheese|Nuts|Meat|Eggs,Alcohol|Refined Sugar,750,800,25,100,65
+Hypermagnesemia,Chicken|Rice|White Bread|Lettuce,Pumpkin Seeds|Almonds|Spinach|Laxatives,700,800,25,110,65
+Post-Sepsis Recovery,High Protein|Smoothies|Cooked Eggs|Rice,Raw Seafood|Unwashed Fruit|Alcohol,1000,1000,30,130,65
+Pellagra (Niacin Deficiency),Turkey|Peanuts|Brown Rice|Mushrooms,Maize-only diet,750,800,20,110,65
+Whipple Procedure Recovery,Mashed Potatoes|Scrambled Eggs|Fish|Smoothies,Large Meals|Raw Veggies|High Fat|Seeds,600,700,15,90,70
+Rosacea (Indian Context),Cucumber|Oats|Salmon|Turkey|Coconut Water,Spicy Food|Hot Tea|Alcohol|Caffeine,650,800,20,90,60
+Hyperuricosuria,Dairy|Vegetables|Eggs|Cherries,Red Meat|Gravy|Anchovies|Liver,700,600,20,100,60
+Homocystinuria,Low-protein Grains|Fruits|Vegetables,Meat|Fish|Eggs|Dairy|Beans,650,800,20,120,70
+Maple Syrup Urine Disease (MSUD),Fruit|Low-protein Grains|Special Amino Mix,Meat|Eggs|Dairy|Nuts|Legumes,700,800,25,130,75
+Tyrosinemia,Fruit|Vegetables|Low-protein Grains,High Protein|Meat|Cheese|Eggs,700,800,25,120,75
+SIBO (Hydrogen),Beef|Fish|Carrots|White Rice|Eggs,Beans|Onions|Garlic|Fructose|Bread,650,800,10,60,55
+Oral Thrush (Candidiasis),Unsweetened Yogurt|Garlic|Lean Meat|Leafy Greens,Sugar|Yeast|Honey|Sweet Fruit|White Flour,600,800,0,45,40
+Gingivitis,Strawberries|Vitamin C|Yogurt|Green Tea,Sticky Candy|Soda|Sugar|White Bread,650,800,10,70,60
+Gastritis (Acute),Boiled Chicken|Applesauce|Rice|Toast|Bananas,Coffee|Spices|Alcohol|Tomato Sauce|Fried Food,550,600,15,80,65
+Gastritis (Chronic),Oatmeal|Fish|Cooked Veggies|Ginger|Melon,Chili|Pepper|Caffeine|Citrus|Raw Onions,600,700,15,90,60
+Barrett’s Esophagus,Oatmeal|Melon|Ginger|Boiled Chicken|Rice,Fried Food|Citrus|Caffeine|Chocolate|Alcohol,600,700,15,80,60
+GERD (Pediatric),Pureed Apples|Rice Cereal|Chicken|Bananas,Tomato|Chocolate|Spicy|Peppermint|Fried,500,500,20,85,65
+Hyperlipidemia (Geriatric),Oats|Apples|Beans|Fish|Olive Oil,Lard|Fatty Beef|Butter|Trans Fats,600,600,15,75,60
+Diverticulosis (Indian),Lentils|Pears|Whole Wheat|Broccoli|Guava,White Rice|Refined Pasta|Low-fiber Meat,700,800,20,110,60
+Diverticulitis (Flare),Broth|White Rice|Gelatin|Apple Juice|Toast,Seeds|Nuts|Fiber|Raw Fruit|Corn,500,1000,25,120,80
+Crohn’s (Flare),Fish|White Rice|Cooked Carrots|Mashed Potatoes,Raw Broccoli|Seeds|Popcorn|Spicy|Dairy,600,700,15,100,75
+Crohn’s (Remission),Lean Protein|Avocado|Peeled Fruit|Well-cooked Veggies,Tough Fiber|Skins|Seeds|Large Portions,700,800,20,110,65
+Ulcerative Colitis (Flare),Skinless Chicken|Eggs|White Rice|Applesauce,High Fiber|Dried Fruit|Nuts|Dairy|Alcohol,550,800,15,90,75
+IBS-D (Diarrhea),Rice|Oats|Bananas|Lean Meat|Carrots,Caffeine|Alcohol|Sugar-free Gum|Fried Food,600,900,15,90,60
+IBS-C (Constipation),Chia Seeds|Flax|Oats|Pears|Prunes,Cheese|White Rice|Red Meat|Processed Foods,700,800,30,120,65
+Non-Celiac Gluten Sensitivity,Buckwheat|Rice|Fish|Eggs|Fruit,Wheat Bread|Pasta|Couscous|Sooji,700,800,25,110,70
+Gout (Acute Flare),Dairy|Cherries|Water|Tofu|Complex Carbs,Red Meat|Shellfish|Alcohol|High-Fructose Syrup,650,800,15,100,55
+Rheumatoid Arthritis (Geriatric),Fatty Fish|Walnuts|Ginger|Turmeric|Blueberries,Sugar|Fried Food|MSG|Processed Meat|Red Meat,650,700,15,70,55
+Osteoporosis (Geriatric),Yogurt|Kale|Sardines|Almonds|Milk,Excessive Salt|Caffeine|Soda|Alcohol,700,600,25,90,65
+Anemia (B12 Def.),Beef|Eggs|Milk|Salmon|Clams,Alcohol (excessive),750,800,20,100,60
+Anemia (Folate Def.),Asparagus|Spinach|Beans|Citrus|Liver,Alcohol|Overcooked Vegetables,750,800,30,110,65
+Hyponatremia (Indian),Salted Broth|Pretzels|Eggs|Chicken|Papad,Plain Water (Excessive)|Plain Rice,850,3000,20,110,70
+Hypomagnesemia,Spinach|Almonds|Black Beans|Avocado|Dark Chocolate,Alcohol|Excessive Sugar,700,800,20,110,60
+Parkinson’s Disease,Whole Grains|Fiber|Berries|Beans|Fish,High Protein (at Night)|Dairy|Heavy Fats,700,700,20,90,60
+ALS (High Calorie),Smoothies|Avocado|Yogurt|Pasta|Eggs,Thin Liquids|Dry Food,1000,1000,40,140,70
+Meniere’s Disease,Veggies|Fruits|Unsalted Grains|Chicken,Table Salt|Caffeine|Alcohol|MSG,650,400,20,80,60
+Post-Cholecystectomy,Rice|Toast|Skinless Chicken|Mashed Potatoes,Greasy Food|Fried|Spicy Sauces,550,700,15,85,65
+Hemorrhoids (High Fiber),Oats|Prunes|Water|Beans|Papaya,Cheese|Processed Meat|Spicy Food|White Bread,700,800,30,120,65
+Benign Prostatic Hyperplasia,Tomatoes|Soy|Berries|Nuts|Fish,Red Meat|Dairy|Salt|Alcohol,650,700,20,90,60
+Malaria Recovery,Coconut Water|Orange Juice|Moong Dal Khichdi|Eggs|Apples,High Fiber|Fried Pakoras|Spicy Masalas|Caffeine|Butter,650,600,25,100,65
+Chikungunya (Joint Pain),Turmeric Milk|Fatty Fish|Walnuts|Ginger|Pomegranate,Sugar|Refined Oil|Red Meat|Processed Snacks|Alcohol,600,700,15,80,55
+Post-C-Section Recovery,Dalia|Lauki|Ghee (Moderate)|Carrots|Buttermilk,Spicy Foods|Soda|Coffee|Raw Salads|Gas-forming Veggies,750,800,20,110,60
+Urinary Tract Infection (UTI),Cranberry Juice|Water|Curd|Cucumber|Barley Water,Spices|Alcohol|Caffeine|Sugar|Artificial Sweeteners,600,500,10,70,55
+Hypochlorhydria (Low Acid),Ginger|Fermented Veggies|Lemon Water|Chicken|Eggs,Cold Water with Meals|Excessive Carbs|Processed Food,650,800,15,80,60
+Insomnia (Dietary Support),Warm Milk|Almonds|Bananas|Oats|Chamomile Tea,Caffeine|Alcohol|Aged Cheese|Spicy Food|Heavy Meals,500,600,10,60,50
+Varicose Veins,Citrus Fruits|Berries|Buckwheat|Flaxseeds|Fiber,Salt|Fried Foods|Refined Flour|Red Meat,650,400,20,80,60
+Night Sweats (Menopausal),Soy|Tofu|Flax|Salmon|Cucumber,Spicy Curry|Alcohol|Caffeine|Hot Soup|Sugar,600,600,15,70,55
+Goitre (Iodine Deficiency),Iodized Salt|Fish|Eggs|Dairy|Seafood,Raw Cabbage|Raw Kale|Soy|Peanuts|Turnips,700,800,20,90,65
+Xerophthalmia (Vit A Def.),Carrots|Spinach|Liver|Sweet Potato|Mango,Processed Snacks|Soda,750,700,30,120,65
+Sarcopenia (Muscle Loss),Whey Protein|Paneer|Chicken|Eggs|Soy,Empty Calories|Fasting|Sugary Drinks,1000,800,15,80,55
+Hyperoxaluria (Renal Stones),Rice|White Bread|Meat|Cauliflower|Pears,Spinach|Beets|Chocolate|Nuts|Strong Tea,700,800,20,110,65
+Amoebic Dysentery,Rice Water|Bananas|Boiled Potatoes|Curd|Toast,Milk|Spicy Food|Fibers|Raw Fruits|Sweets,500,900,15,100,75
+Cerebral Palsy (Easy Swallow),Pureed Fruit|Yogurt|Mashed Khichdi|Smoothies,Hard Nuts|Dry Bread|Sticky Foods|Tough Meat,800,700,25,110,70
+Dermatitis (Allergic),Cucumber|Aloe Vera|Green Tea|Fish|Turmeric,Eggs|Dairy|Gluten|Shellfish|Peanuts,600,800,15,80,60
+Tinnitus (Ear Health),Spinach|Zinc-rich Seeds|Bananas|Garlic,Salt|Caffeine|Alcohol|Aspirin-rich Foods,650,300,20,90,60
+Laryngitis (Sore Throat),Warm Honey Water|Ginger|Warm Soup|Mashed Veggies,Spices|Citrus|Crunchy Snacks|Cold Drinks,600,600,25,90,65
+Hypoproteinemia (Edema),Egg Whites|Lean Beef|Soya|Lentils|Buttermilk,Excessive Water|High Sugar|Empty Carbs,900,600,15,70,55
+Secondary Hyperparathyroidism,Tofu|Fortified Milk|Egg Whites|Salmon,High Phosphorus Foods|Dark Cola|Red Meat,700,700,20,90,65
+Post-Stent Heart Diet,Oats|Walnuts|Spinach|Garlic|Fish,Ghee|Butter|Table Salt|Fried Food|Pickles,600,400,10,70,55
+Keratomalacia,Cod Liver Oil|Papaya|Carrots|Spinach|Milk,Junk Food|Soda,750,800,25,110,65
+Beriberi (Wet),Unpolished Rice|Pork|Beans|Sunflower Seeds,Alcohol|Polished White Rice|Tea,750,800,20,120,60
+Angular Stomatitis (B2 Def.),Milk|Eggs|Green Leafy Veggies|Lentils,Alcohol|Sugar-heavy Snacks,700,700,20,90,60
+Osteomalacia (Soft Bones),Fatty Fish|Egg Yolks|Fortified Milk|Paneer,High Phytate Grains|Soda,750,700,25,110,65
+Heat Stroke Recovery,Buttermilk|Coconut Water|Watermelon|Barley Water,Caffeine|Alcohol|Spicy Food|High Protein,500,1200,30,120,70
+Chronic Venous Insufficiency,Berries|Citrus|Buckwheat|Garlic|Ginger,Salt|Processed Meat|Fried Foods|Refined Carbs,650,500,20,80,60
+Idiopathic Constipation,Isabgol|Flaxseeds|Papaya|Warm Water|Oats,Cheese|White Rice|Red Meat|Processed Foods,750,800,25,120,65
+Hyperhomocysteinemia,Spinach|Lentils|Eggs|Chicken|Bananas,Red Meat|Alcohol|High Methionine Foods,700,700,20,90,60
+Achlorhydria,Fermented Curd|Ginger|Lemon|Warm Broth,Big Meals|Raw Veggies|High Fat|Sweets,600,700,15,80,60
+Oral Subcalous Fibrosis,Soft Mashed Food|Milk|Cold Yogurt|Turmeric,Chillies|Betel Nut|Hot Tea|Alcohol|Spices,700,600,20,100,70
+Dumping Syndrome,Protein First|Small Portions|Fats|Fiber,Sugar|Liquid with Meals|White Bread|Honey,400,600,0,30,45
+Post-Viral Fatigue,Nuts|Seeds|Lean Meats|Eggs|Whole Grains,Sugar|Caffeine|Processed Meat|Alcohol,700,800,15,90,50
+Hypovolemic Shock (Recovery),Salty Broth|Juice|Salted Crackers|Chicken,Potassium-heavy foods (Initially),900,3000,30,130,75
+Cystinuria,Vegetables|Fruits|Low-protein Grains|Citrus,Meat|Fish|Eggs|Salt,700,1000,25,130,65
+Phenylketonuria (PKU),Fruits|Vegetables|Low-protein Flour|Special Formula,Meat|Dairy|Eggs|Nuts|Aspartame,600,800,20,130,70
+Maple Syrup Urine Disease,Low-protein Grains|Fruit|Special Amino Mix,Meat|Eggs|Dairy|Nuts|Legumes,700,800,25,130,75
+Galactosemia,Soy Formula|Meat|Vegetables|Grains,Milk|Butter|Cheese|Whey|Lactose,700,800,25,120,65
+Fructose Malabsorption,Glucose|Berries|Spinach|Meat|Eggs,Honey|Apples|Pears|Agave|High Fructose Syrup,600,800,5,40,40
+Lactose Intolerance (Severe),Almond Milk|Tofu|Meat|Veggies|Eggs,Milk|Ice Cream|Soft Cheese|Cream,700,800,25,100,65
+Gingivitis,Strawberries|Vitamin C|Yogurt|Green Tea,Sticky Candy|Soda|Sugar|White Bread,650,800,10,70,60
+Gastritis (Acute),Boiled Chicken|Applesauce|Rice|Toast|Bananas,Coffee|Spices|Alcohol|Tomato Sauce|Fried Food,550,600,15,80,65
+Gastritis (Chronic),Oatmeal|Fish|Cooked Veggies|Ginger|Melon,Chili|Pepper|Caffeine|Citrus|Raw Onions,600,700,15,90,60
+Peptic Ulcer,Cabbage Juice|Milk|Oatmeal|Potatoes|Chicken,Spicy Food|Black Pepper|Coffee|Alcohol|Fatty Meat,600,700,15,90,65
+Barrett’s Esophagus,Oatmeal|Melon|Ginger|Boiled Chicken|Rice,Fried Food|Citrus|Caffeine|Chocolate|Alcohol,600,700,15,80,60
+Hyperlipidemia (Geriatric),Oat Bran|Apples|Beans|Fish|Olive Oil,Lard|Fatty Beef|Butter|Trans Fats,600,600,15,75,60
+Diverticulosis,Lentils|Pears|Whole Wheat|Broccoli|Raspberries,White Rice|Refined Pasta|Low-fiber Meat,700,800,20,110,60
+Diverticulitis (Flare),Broth|White Rice|Gelatin|Apple Juice|Toast,Seeds|Nuts|Fiber|Raw Fruit|Corn,500,1000,25,120,80
+Crohn’s (Flare),Salmon|White Rice|Cooked Carrots|Mashed Potatoes,Raw Broccoli|Seeds|Popcorn|Spicy|Dairy,600,700,15,100,75
+Crohn’s (Remission),Lean Protein|Avocado|Peeled Fruit|Well-cooked Veggies,Tough Fiber|Skins|Seeds|Large Portions,700,800,20,110,65
+Ulcerative Colitis (Flare),Skinless Chicken|Eggs|White Rice|Applesauce,High Fiber|Dried Fruit|Nuts|Dairy|Alcohol,550,800,15,90,75
+IBS-D (Diarrhea),Rice|Oats|Bananas|Lean Meat|Carrots,Caffeine|Alcohol|Sugar-free Gum|Fried Food,600,900,15,90,60
+IBS-C (Constipation),Chia Seeds|Flax|Oats|Pears|Prunes,Cheese|White Rice|Red Meat|Processed Foods,700,800,30,120,65
+IBS (Low FODMAP),Rice|Carrots|Blueberries|Eggs|Zucchini,Garlic|Onions|Apples|Wheat|Honey,650,800,20,90,55
+Celiac Disease,Quinoa|Corn|Potatoes|Fresh Meat|Soy (GF),Wheat|Barley|Rye|Malt|Processed Sauces,750,800,25,110,70
+Non-Celiac Gluten Sensitivity,Buckwheat|Rice|Fish|Eggs|Fruit,Wheat-based Bread|Pasta|Couscous,700,800,25,110,70
+Eosinophilic Esophagitis,Rice|Chicken|Potatoes|Pears|Apples,Dairy|Wheat|Eggs|Soy|Seafood|Nuts,700,800,25,100,65
+Gout (Acute Flare),Dairy|Cherries|Water|Tofu|Complex Carbs,Red Meat|Shellfish|Alcohol|High-Fructose Syrup,650,800,15,100,55
+Gout (Prevention),Vegetables|Fruits|Legumes|Low-fat Dairy|Coffee,Organ Meats|Anchovies|Beer|Sugary Drinks,700,800,20,110,60
+Rheumatoid Arthritis,Salmon|Walnuts|Ginger|Turmeric|Blueberries,Sugar|Fried Food|MSG|Processed Meat|Red Meat,650,700,15,70,55
+Osteoarthritis,Olive Oil|Cherries|Fish|Garlic|Spinach,Sugar|Refined Carbs|Saturated Fats,650,700,20,80,55
+Osteoporosis (Geriatric),Yogurt|Kale|Sardines|Almonds|Fortified Milk,Excessive Salt|Caffeine|Soda|Alcohol,700,600,25,90,65
+Scurvy,Oranges|Bell Peppers|Strawberries|Kiwi|Broccoli,High-processed Snacks,700,800,40,100,65
+Rickets,Salmon|Egg Yolks|Fortified Milk|Cheese|Beef Liver,High Phytate Grains,750,800,25,110,70
+Beriberi,Pork|Brown Rice|Sunflower Seeds|Beans|Peas,Alcohol|Polished White Rice,750,800,20,110,65
+Pellagra,Chicken|Peanuts|Mushrooms|Brown Rice|Tuna,Corn-exclusive diet,750,800,25,110,65
+Anemia (Iron Def.),Red Meat|Spinach|Lentils|Oysters|Clams,Coffee|Tea (with meals)|Calcium Carbonate,750,800,20,100,60
+Anemia (B12 Def.),Beef|Eggs|Milk|Salmon|Clams,Alcohol (excessive),750,800,20,100,60
+Pernicious Anemia,Beef Liver|Eggs|Fortified Cereals|Milk,Strict Vegan (unmonitored),750,800,20,100,60
+Anemia (Folate Def.),Asparagus|Spinach|Beans|Citrus|Liver,Alcohol|Overcooked Vegetables,750,800,30,110,65
+Marasmus (Pediatric),Peanut Butter|Full Cream|Eggs|Avocado|Oats,Fasting|Low Nutrient Meals,1200,800,40,150,70
+Kwashiorkor (Pediatric),Milk|Eggs|Chicken|Beans|Lentils,Cassava/Yam-only diets,1000,700,20,100,65
+Hyponatremia,Broth|Pretzels|Eggs|Chicken|Canned Soup,Excess Water|Plain Rice,850,3000,20,110,70
+Hypernatremia,Fresh Fruit|Unsalted Oats|Vegetables|Distilled Water,Sea Salt|Pickles|Canned Fish|Cheese,600,300,15,80,60
+Hypocalcemia,Dairy|Tofu|Almonds|Broccoli|Sardines,High Phytic Acid,750,800,20,100,60
+Hypercalcemia,Lentils|Oats|Fish|Green Beans|Potatoes,Calcium Supplements|Fortified Juice,650,800,20,100,65
+Hypophosphatemia,Milk|Meat|Cheese|Nuts|Eggs,Alcohol|Refined Sugar,750,800,25,100,65
+Hyperphosphatemia,Egg Whites|Apples|White Bread|Lettuce,Whole Grains|Beans|Dark Soda|Dairy,600,600,20,90,70
+Hypomagnesemia,Spinach|Almonds|Black Beans|Avocado|Dark Chocolate,Alcohol|Excessive Sugar,700,800,20,110,60
+Hypermagnesemia,Chicken|Rice|White Bread|Fruit,Laxatives|Spinach|Nuts|Seeds,700,800,25,120,65
+Lupus (Systemic),Fatty Fish|Olive Oil|Berries|Flax|Vegetables,Alfalfa|Garlic|Refined Carbs|Red Meat,650,600,20,80,55
+Rheumatic Fever,Vegetable Soup|Lean Chicken|Fruit Juice|Rice,Heavy Spices|Fried Food|High Sodium,700,700,30,110,70
+Fibromyalgia,Walnuts|Berries|Quinoa|Lean Protein|Ginger,MSG|Aspartame|Sugar|Nightshades,650,800,20,90,55
+Chronic Fatigue Syndrome,Complex Carbs|Nuts|Seeds|Eggs|Water,Sugar|Caffeine|White Flour|Alcohol,700,800,15,90,50
+Multiple Sclerosis,Salmon|Walnuts|Leafy Greens|Avocado|Oats,Saturated Fat|Dairy|Sugar|Processed Meats,650,700,20,80,55
+Parkinson’s Disease,Whole Grains|Fiber|Berries|Beans|Fish,High Protein (at Night)|Dairy|Heavy Fats,700,700,20,90,60
+Alzheimer’s (MIND Diet),Berries|Leafy Greens|Nuts|Olive Oil|Fish,Butter|Cheese|Red Meat|Fast Food,650,700,20,80,55
+ALS (High Calorie),Smoothies|Avocado|Full Fat Yogurt|Pasta|Eggs,Thin Liquids (if choking)|Dry Food,1000,1000,40,140,70
+Epilepsy (Keto),Bacon|Butter|Heavy Cream|Eggs|Avocado,Sugar|Bread|Pasta|Fruit|Potatoes,800,800,0,10,20
+Migraine (Low Tyramine),Fresh Meat|Fresh Veggies|Grains|Eggs,Aged Cheese|Soy Sauce|Red Wine|MSG|Salami,700,700,20,90,60
+Meniere’s Disease,Fresh Veggies|Fruits|Unsalted Grains|Chicken,Table Salt|Caffeine|Alcohol|MSG,650,400,20,80,60
+Hypothyroidism,Brazil Nuts|Iodized Salt|Eggs|Dairy|Chicken,Soy|Raw Broccoli|Gluten|Peanuts,650,700,20,80,60
+Hyperthyroidism,Cruciferous Veggies|Berries|Lean Meat|Potatoes,Iodized Salt|Seafood|Egg Yolks|Dairy,700,700,25,100,65
+Addisonian Crisis (Emergency),Salty Broth|Salted Pretzels|Juice|Crackers,Low Sodium|High Potassium,900,4000,30,130,75
+Cushing’s (Pediatric),Chicken|Broccoli|Milk|Berries|Oats,Sugar|Sodium|Fast Food,600,500,15,70,55
+PCOS (Weight Loss),Cinnamon|Salmon|Buckwheat|Seeds|Greens,Sugar|Refined Flour|White Rice|Potatoes,550,750,10,50,45
+Metabolic Syndrome,Quinoa|Fish|Nuts|Leafy Greens|Avocado,Soda|Trans Fats|White Flour|Syrups,600,600,10,70,50
+Non-Alcoholic Fatty Liver,Coffee|Tofu|Legumes|Garlic|Greens,Alcohol|High Fructose Corn Syrup|Fried Food,550,700,5,50,50
+Hepatitis B (Recovery),Lean Protein|Rice|Cooked Veggies|Honey,Alcohol|Salt|Raw Fish|Fried Food,750,600,25,110,65
+Cirrhosis (Compensated),Chicken|Rice|Pasta|Vegetables|Eggs,Alcohol|Raw Shellfish|Excessive Salt,750,800,25,110,65
+Cirrhosis (Decompensated),White Bread|Honey|Pasta|Boiled Eggs,Salt|Animal Protein (Excess)|Alcohol|Raw Fish,700,400,30,130,75
+Kala-Azar Recovery,High Protein Dals|Eggs|Rice|Mashed Veggies|Bananas,Fiber-rich Skins|Oily Gravies|Spicy Chillies|Raw Salads,750,600,20,100,65
+Chikungunya (Chronic Phase),Turmeric|Ginger|Fatty Fish|Walnuts|Calcium-rich Curd,Refined Sugar|Processed Flour|Red Meat|Excessive Caffeine,600,700,10,75,55
+Post-Hernia Surgery,Khichdi|Boiled Vegetables|Clear Soup|Curd|Toast,Heavy Spices|Fried Snacks|Raw Onion|Lentils with Skin,550,500,15,80,60
+Post-Appendectomy (Stage 1),Clear Broth|Gelatin|Apple Juice|Coconut Water,Solid Foods|Dairy|Fried Food|Spicy Masalas,400,400,20,90,75
+Dengue (Critical Phase),Papaya Leaf Extract|Coconut Water|Pomegranate Juice|Rice Kanji,Solid Meat|Oily Food|Red/Dark Colored Foods|Caffeine,500,800,25,110,75
+Cystic Fibrosis (Pediatric),Peanut Butter|Eggs|Whole Milk|Avocado|Paneer,Low-calorie Snacks|Diet Soda|Fiber-rich Fillers,1000,1500,30,120,70
+Leptospirosis Recovery,Coconut Water|Moong Dal Soup|Boiled Rice|Warm Fluids,Alcohol|Fried Food|High Salt|Spicy Masalas,600,500,20,90,65
+Filariasis (Lymphedema Diet),Leafy Greens|Turmeric|Garlic|Fish|Water,Table Salt|Pickles|Papad|Processed Meat|Alcohol,600,300,15,75,55
+Vitamin B12 Deficiency,Eggs|Milk|Paneer|Chicken|Fish|Fortified Cereals,Strict Vegan Diet (unmonitored)|Excessive Alcohol,750,800,20,100,60
+Xerophthalmia (Advanced),Spinach|Carrots|Egg Yolks|Liver|Papaya|Drumsticks,Processed Sugar|Soda|Empty Calories,700,700,20,110,65
+Angular Stomatitis,Milk|Lentils|Eggs|Spinach|Whole Grains,Spicy Foods|Citrus|Alcohol|Salty Snacks,700,600,15,90,60
+Scurvy (Acute),Oranges|Amla|Lemon|Guava|Capsicum,Highly Processed Snacks|Deep Fried Food,650,800,30,100,65
+Rickets (Pediatric),Fish|Egg Yolks|Fortified Milk|Mushrooms|Cheese,High Phytate Grains|Excessive Fiber,750,700,20,90,65
+Kwashiorkor (Stage 2),Milk|Peanuts|Soya|Eggs|Lentils|Rice,Cassava-only Diets|Yam-only Diets,1100,600,20,110,65
+Marasmus (Stage 2),Banana|Peanut Butter|Full-fat Yogurt|Rice|Ghee,Fasting|Low Nutrient Broths,1200,700,30,140,70
+Hypokalemia (Acute),Bananas|Coconut Water|Potatoes|Spinach|Yogurt,Licorice|Excessive Salt|Diuretics,750,1000,25,120,65
+Hyperkalemia (Acute),Apples|White Rice|Cabbage|Green Beans|Pears,Banana|Spinach|Potatoes|Oranges|Coconut Water,550,400,20,90,65
+Hyponatremia (Severe),Salted Kanji|Pretzels|Soup|Boiled Chicken|Salted Nuts,Plain Water (Excess)|Unsalted Rice,900,3500,20,110,70
+Hypernatremia (Severe),Fresh Fruit|Unsalted Dalia|Vegetables|Distilled Water,Pickles|Cheese|Papad|Canned Fish,600,200,15,80,60
+Hypocalcemia (Severe),Ragi|Paneer|Tofu|Small Fish with Bones|Milk,High Phytic Acid|Soda|Caffeine,800,700,20,90,65
+Hypercalcemia (Acute),Lentils|Oats|Fish|Vegetables|Corn,Calcium Supplements|Fortified Milk|Antacids,600,800,20,100,65
+Hypophosphatemia,Milk|Meat|Cheese|Eggs|Pumpkin Seeds,Alcohol|Refined Sugar,750,800,25,110,65
+Hyperphosphatemia,Egg Whites|Apples|White Bread|Lauki|Torai,Whole Grains|Dals|Dark Cola|Dairy,600,500,20,90,70
+Hypomagnesemia,Almonds|Spinach|Pumpkin Seeds|Avocado|Dark Chocolate,Alcohol|Excessive Refined Sugar,700,700,20,110,60
+Hypermagnesemia,Chicken|White Rice|White Bread|Lettuce|Apples,Spinach|Nuts|Seeds|Laxatives,700,800,25,120,65
+Chronic Migraine (Indian),Ginger Tea|Magnesium Greens|Quinoa|Fresh Paneer,Aged Pickles|Soy Sauce|MSG|Red Wine|Chocolate,700,600,15,90,60
+Meniere’s Disease,Fresh Fruit|Vegetables|Unsalted Grains|Chicken,Table Salt|Caffeine|Alcohol|Papad|Pickles,650,400,20,80,60
+Oral Thrush (Indian Context),Unsweetened Curd|Garlic|Boiled Veggies|Coconut Oil,Sugar|Honey|Jaggery|Sweet Fruits|White Flour,600,700,0,40,40
+Gingivitis (Severe),Amla|Guava|Yogurt|Green Tea|Warm Water Rinse,Sticky Toffees|Soda|Sugar|White Bread,650,700,10,75,60
+Acute Gastritis,Rice Kanji|Applesauce|Toast|Boiled Chicken|Banana,Chillies|Coffee|Alcohol|Fried Samosas|Onion,500,500,15,85,65
+Chronic Gastritis,Oatmeal|Fish|Cooked Vegetables|Ginger|Buttermilk,Pickles|Vinegar|Caffeine|Citrus|Raw Pepper,600,600,15,90,60
+Peptic Ulcer (Healing),Cabbage Juice|Milk|Oatmeal|Boiled Potatoes,Black Pepper|Chili Powder|Coffee|Fried Meat,600,600,15,90,65
+Barrett's Esophagus,Oatmeal|Melon|Ginger|Boiled Chicken|Rice,Peppermint|Chocolate|Caffeine|Citrus|Alcohol,600,700,15,80,60
+GERD (Pediatric),Rice Cereal|Pureed Pears|Mashed Banana|Boiled Chicken,Chocolate|Tomato Sauce|Spicy Gravy|Fried Food,500,400,15,80,65
+Hyperlipidemia (Indian Urban),Oat Bran|Isabgol|Fish|Walnuts|Soya,Ghee|Butter|Vanaspati|Red Meat|Coconut Oil,600,500,10,70,55
+Diverticulosis (High Fiber),Lentils|Oats|Whole Wheat|Guava with Seeds|Carrots,White Rice|Refined Flour|Low-fiber Meat,750,800,20,120,60
+Diverticulitis (Flare),Clear Soup|White Rice|Gelatin|Apple Juice|Toast,Nuts|Seeds|Raw Veggies|Fruit Skins|Corn,500,800,25,110,75
+Crohn’s (Flare-up),Skinless Chicken|White Rice|Cooked Carrots|Mashed Potatoes,Raw Salads|Seeds|Spicy Masalas|Dairy,600,700,15,100,75
+Crohn’s (Remission),Lean Meat|Avocado|Peeled Fruit|Well-cooked Veggies,Tough Fibers|Seeds|Large Portions|Skins,700,800,20,110,65
+Ulcerative Colitis (Flare),Boiled Fish|Eggs|White Rice|Applesauce,High Fiber|Dried Fruit|Nuts|Dairy|Spices,550,700,15,95,75
+IBS-D (Diarrhea Predominant),Rice|Oats|Bananas|Curd|Carrots,Caffeine|Alcohol|Artificial Sweeteners|Fried Food,600,800,15,95,60
+IBS-C (Constipation Predominant),Isabgol|Flaxseeds|Oats|Pears|Papaya,Cheese|White Rice|Red Meat|Processed Food,750,800,30,120,65
+Celiac Disease (Indian Staples),Rice|Jowar|Bajra|Corn|Eggs|Pulses,Wheat|Maida|Sooji|Hing (with wheat),750,800,20,120,70
+Non-Celiac Gluten Sensitivity,Rice|Potato|Fish|Eggs|Fruit|Vegetables,Wheat Roti|Pasta|Couscous|Upma(Sooji),700,800,25,110,70
+Eosinophilic Esophagitis,Rice|Chicken|Potatoes|Pears|Apples,Dairy|Wheat|Eggs|Soy|Seafood|Nuts,700,800,20,105,65
+Gout (Indian Acute Flare),Dairy|Tofu|Water|Complex Carbs|Cherries,Urad Dal|Red Meat|Seafood|Beer|Sugary Soda,650,750,15,100,55
+Rheumatoid Arthritis (Indian Diet),Fatty Fish|Walnuts|Ginger|Turmeric|Berries,Refined Sugar|Fried Food|MSG|Red Meat,650,600,15,75,55
+Osteoarthritis (Indian Context),Olive Oil|Fish|Garlic|Spinach|Ginger,White Sugar|Refined Flour|Saturated Fats,650,600,20,80,55
+Osteoporosis (Indian Geriatric),Curd|Ragi|Paneer|Almonds|Spinach|Milk,Salt|Caffeine|Soda|Alcohol|Pickles,750,500,20,100,65
+Hypothyroidism (Indian Context),Iodized Salt|Brazil Nuts|Eggs|Dairy|Chicken,Soy|Raw Cabbage|Raw Cauliflower|Peanuts,650,700,20,85,60
+Hyperthyroidism (Indian Context),Cooked Cruciferous Veggies|Berries|Lean Meat|Potatoes,Iodized Salt|Seafood|Egg Yolks|Dairy,700,700,25,100,65
+Addison’s Disease,Salty Broth|Salted Pretzels|Eggs|Chicken|Bananas,Low-salt Foods|Excessive Potassium,850,3000,25,110,65
+Cushing's Syndrome (Indian),Spinach|Yogurt|Fish|Almonds|Dalia,Sugar|White Bread|Papad|Pickles|Preserved Foods,600,400,10,65,50
+PCOS (Indian Weight Loss),Cinnamon|Methi Seeds|Salmon|Buckwheat|Greens,Jaggery|Sugar|Refined Flour|White Rice,550,700,5,55,45
+Metabolic Syndrome (Indian),Quinoa|Fish|Nuts|Leafy Greens|Avocado,Soda|Trans Fats|White Flour|Syrups|Vanaspati,600,600,5,75,50
+NAFLD (Indian Context),Coffee|Tofu|Green Tea|Legumes|Garlic|Greens,Alcohol|High Fructose Corn Syrup|Fried Snacks,550,700,5,50,50
+Hepatitis B (Indian Recovery),Lean Protein|Rice|Cooked Veggies|Honey,Alcohol|Table Salt|Raw Fish|Fried Food,750,500,25,110,65
+Cirrhosis (Indian Compensated),Chicken|Rice|Pasta|Vegetables|Eggs,Alcohol|Raw Shellfish|Excessive Salt|Pickles,750,600,25,110,65
+Cirrhosis (Indian Decompensated),White Bread|Honey|Pasta|Boiled Eggs|Curd,Table Salt|Excessive Meat|Alcohol|Raw Fish,700,300,30,130,75
+Ascites (Indian Severe),Fresh Fruits|Fresh Veggies|Unsalted Grains,Papad|Pickles|Canned Food|Table Salt|Cheese,600,150,20,95,65
+Pancreatitis (Indian Acute),Clear Broth|Gelatin|Apple Juice|Coconut Water,Butter|Oil|Ghee|Meat|Nuts|Cream,450,500,20,100,80
+Pancreatitis (Indian Chronic),Egg Whites|Moong Dal|Tofu|White Fish,Fried Food|Alcohol|Full-fat Dairy|Butter,550,600,15,90,60
+Gallstones (Indian Prevention),Lentils|Oats|Pears|Bitter Gourd|Brown Rice,Ghee|Butter|Heavy Cream|Fried Food|Mutton,600,700,15,85,55
+Post-Gallbladder Surgery,Rice|Toast|Skinless Chicken|Mashed Potatoes,Fried Pakoras|Creamy Gravy|Spicy Masalas,550,700,15,85,65
+Diverticulosis (Asymptomatic),Popcorn|Beans|Nuts|Skins|Fiber-rich Veggies,Low Fiber|Refined Carbs,800,800,20,130,60
+Colon Cancer (Prevention),Berries|Broccoli|Oats|Beans|Turmeric|Fish,Processed Meat|Charred Meat|Alcohol|Red Meat,700,700,15,100,55
+Hemorrhoids (Indian),Oats|Prunes|Isabgol|Water|Papaya|Beans,Cheese|Spicy Food|White Bread|Processed Meat,750,800,30,120,65
+Anal Fissure,Chia Seeds|Pears|Yogurt|Warm Water|Oats|Lauki,Red Meat|Hard Cheese|Low Fiber|Spicy Chili,700,700,25,110,65
+Prostatitis,Pumpkin Seeds|Cooked Tomatoes|Water|Salmon|Watermelon,Spicy Food|Caffeine|Alcohol|Acidic Foods,700,700,20,100,65
+Benign Prostatic Hyperplasia,Tomatoes|Soy|Berries|Nuts|Flaxseed|Fish,Red Meat|Dairy|Salt|Alcohol,650,600,20,90,60
+Hyperuricosuria,Dairy|Vegetables|Eggs|Cherries|Complex Carbs,Red Meat|Gravy|Anchovies|Liver|Beer,700,600,20,100,60
+Hypophosphatemia,Milk|Cheese|Nuts|Meat|Eggs|Whole Grains,Alcohol|Refined Sugar|Dark Colas,750,800,25,110,65
+Hypermagnesemia,Chicken|Rice|White Bread|Lettuce|Green Beans,Spinach|Almonds|Nuts|Laxatives|Seeds,700,800,25,120,65
+Lupus (Indian SLE),Fatty Fish|Olive Oil|Berries|Flax|Vegetables,Alfalfa|Garlic|Refined Flour|Red Meat,650,550,20,80,55
+Rheumatic Fever,Vegetable Soup|Lean Chicken|Fruit Juice|Rice|Milk,Heavy Spices|Fried Food|High Salt|Papad,750,600,30,120,70
+Fibromyalgia (Indian),Walnuts|Berries|Rice|Lean Protein|Ginger|Turmeric,MSG|Aspartame|Sugar|Nightshades,650,750,15,80,55
+Multiple Sclerosis,Salmon|Walnuts|Leafy Greens|Avocado|Oats,Saturated Fat|Ghee|Dairy|Sugar|Processed Meat,650,650,20,80,55
+Parkinson’s (Indian Context),Whole Grains|Fiber|Berries|Beans|Fish,High Protein (at Night)|Milk|Heavy Fats,700,650,20,90,60
+Alzheimer’s (Indian MIND),Berries|Leafy Greens|Nuts|Turmeric|Olive Oil,Butter|Cheese|Red Meat|Sugary Sweets,650,600,20,80,55
+Migraine (Low Tyramine),Fresh Chicken|Fresh Veggies|Grains|Eggs|Curd,Aged Pickles|Soy Sauce|Red Wine|MSG|Salami,700,600,20,95,60
+Hypoglycemia (Indian Reactive),Paneer|Cheese|Whole Grain Bread|Turkey|Peanuts,Sugar|Honey|Jaggery|White Rice|Juice,600,800,5,45,40
+SIBO (Indian Methane),Chicken|Eggs|Zucchini|Rice|Bitter Gourd,Dairy|Sugar|Complex Carbs|Beans|Onions,600,700,10,65,55
+Gastroparesis (Indian Stage 1),Pureed Carrots|Yogurt|White Bread|Mashed Lauki,Raw Broccoli|Seeds|Fruit Skins|Fatty Mutton,550,600,15,90,75
+Cystic Fibrosis (Adult Indian),Whole Milk|Paneer|Avocado|Nuts|Butter|Parathas,Diet Foods|Low-calorie Snacks|Soda,1200,2000,40,150,75
+Cushing’s Syndrome (Geriatric),Spinach|Greek Yogurt|Fish|Almonds|Oats,Sugar|White Bread|Papad|Pickles|Canned Food,600,400,15,65,50
+Addison’s Disease (Crisis Post),Salty Broth|Salted Pretzels|Juice|Crackers|Chicken,Potassium-heavy (initially)|Low Salt,900,3500,30,130,75
+PKU (Indian Pediatric),Low-protein Grains|Fruits|Vegetables|Special Formula,Meat|Dairy|Eggs|Nuts|Aspartame,650,800,20,135,70
+Homocystinuria (Indian),Low-protein Grains|Fruits|Vegetables|Rice,Meat|Fish|Eggs|Dairy|Beans,650,800,20,120,70
+Tyrosinemia (Indian),Fruit|Vegetables|Low-protein Grains|Rice,High Protein|Meat|Cheese|Eggs|Paneer,700,800,25,120,75
+Lactose Intolerance (Indian Severe),Soy Milk|Coconut Milk|Tofu|Meat|Veggies,Milk|Ice Cream|Paneer|Cream|Kheer,700,800,25,100,65
+SIBO (Indian Hydrogen),Beef|Fish|Carrots|White Rice|Eggs|Karela,Beans|Onions|Garlic|Fructose|Bread,650,800,10,65,55
+Oral Thrush (Indian Chronic),Curd|Garlic|Lean Meat|Leafy Greens|Turmeric,Sugar|Jaggery|Honey|Sweet Fruit|Maida,600,750,0,45,40
+Gingivitis (Pediatric Indian),Amla Juice|Vitamin C Fruits|Yogurt|Water,Sticky Candy|Soda|Sweets|White Bread,650,700,10,75,60
+Gastritis (Acute Indian),Boiled Chicken|Applesauce|Rice|Toast|Coconut Water,Coffee|Spices|Alcohol|Tomato|Samosa,550,550,15,85,65
+Gastritis (Chronic Indian),Oatmeal|Fish|Cooked Veggies|Ginger|Melon,Chili|Pepper|Caffeine|Citrus|Raw Onions,600,600,15,90,60
+Barrett’s Esophagus (Indian),Oatmeal|Melon|Ginger|Boiled Chicken|Rice,Fried Food|Citrus|Caffeine|Chocolate|Alcohol,600,700,15,80,60
+Diverticula Flare (Indian),Clear Broth|White Rice|Gelatin|Apple Juice|Toast,Seeds|Nuts|Fiber|Raw Fruit|Corn,500,900,25,120,80
+Crohn’s Flare (Indian),Fish|White Rice|Cooked Carrots|Mashed Potatoes,Raw Salads|Seeds|Popcorn|Spicy|Dairy,600,700,15,100,75
+Ulcerative Colitis (Flare Indian),Skinless Chicken|Eggs|White Rice|Applesauce,High Fiber|Dried Fruit|Nuts|Dairy|Alcohol,550,750,15,95,75
+Leukemia (Chemo Support),Pasteurized Dairy|Cooked Chicken|Peeled Fruit|Rice|Ginger,Raw Seafood|Unpasteurized Milk|Blue Cheese|Raw Salads|Spicy Chili,850,700,20,110,60
+Silicosis (Lung Health),Walnuts|Flaxseeds|Turmeric|Berries|Warm Soups,Cold Drinks|Excessive Dairy|Deep Fried Foods|Refined Sugar,700,600,15,90,55
+Lead Poisoning (Nutritional),Milk|Curd|Spinach|Lentils|Citrus Fruits,Empty Calories|Fasting|High-Fat Junk Food,750,700,20,100,60
+Panic Disorder (Calming Diet),Oatmeal|Chamomile Tea|Almonds|Dark Chocolate|Bananas,Caffeine|Alcohol|High-Sugar Energy Drinks|MSG,600,600,10,75,50
+Chronic Fatigue (Indian Context),Sprouted Moong|Amla|Nuts|Coconut Water|Dalia,Refined Flour|White Sugar|Heavy Fried Snacks|Caffeine,750,700,15,100,50
+Hypovitaminsis D (Pediatric),Egg Yolks|Fortified Milk|Mushrooms|Paneer|Fatty Fish,High Phytate Grains|Excessive Fiber,800,700,25,110,65
+Oral Submucous Fibrosis,Mashed Khichdi|Cold Milk|Pureed Veggies|Turmeric Paste,Betel Nut|Tobacco|Chili|Hot Beverages|Crunchy Snacks,650,500,15,95,70
+Cystic Fibrosis (Adult Recovery),Peanut Butter|Full Fat Milk|Butter|Avocado|Eggs|Fish,Diet Foods|Low-calorie Snacks|High-fiber Fillers,1200,1800,35,150,75
+Gastric Dumping Syndrome,Eggs|Paneer|Chicken|Cooked Veggies|Fiber,Fruit Juice|Honey|Sugar|Liquids with Meals|White Bread,450,600,0,30,40
+Wilson’s Disease (Stage 1),White Rice|Chicken|Egg Whites|Vegetables,Chocolate|Mushrooms|Organ Meat|Shellfish|Nuts,700,800,25,120,65
+Post-Stoke Recovery (Soft),Mashed Rice|Stewed Apples|Pureed Dal|Thickened Juices,Whole Nuts|Sticky Bread|Tough Meat|Thin Water (if choking),750,600,20,110,65
+Anaphylaxis Recovery,Boiled Rice|Plain Toast|Steamed Carrots|Apple Juice,Allergens (Nuts/Dairy/Soy)|Spices|Complex Sauces,600,500,15,100,70
+Chronic Pancreatitis (Low Fat),Egg Whites|Skimmed Milk|Moong Dal Soup|White Fish,Ghee|Butter|Oil|Fried Samosas|Nuts|Pork,550,600,10,90,60
+Hypertriglyceridemia (Acute),Salmon|Flaxseed|Leafy Greens|Oats|Walnuts,Alcohol|Sugar|Refined Flour|Coconut Oil|Butter,600,600,0,45,45
+Adrenal Insufficiency,Sea Salt|Eggs|Chicken|Avocado|Whole Grains,Caffeine|Alcohol|Sugar|Low-Sodium Diet,850,3000,15,90,55
+Hypokalemic Periodic Paralysis,Spinach|Bananas|Potatoes|Coconut Water,High Carb Meals|Excessive Sugar|Alcohol,700,800,10,60,45
+Hypoglycemia (Unawareness),Peanut Butter|Whole Wheat Bread|Paneer|Chicken|Nuts,Fruit Juice|Honey|Soda|White Rice|Sweets,650,800,5,40,40
+Acanthosis Nigricans (Metabolic),Karela|Methi|Sprouts|Berries|Fatty Fish,Sugar|Jaggery|Maida|White Rice|Mango|Sweets,550,750,5,50,45
+Post-Bariatric (Week 3),Pureed Chicken|Cottage Cheese|Soft Scrambled Eggs,Solid Meat|Raw Veggies|Sugar|Carbonated Drinks,400,600,0,20,30
+Menopause (Osteoporotic),Ragi|Paneer|Almonds|Spinach|Soy Milk|Curd,Caffeine|Alcohol|Excessive Salt|Soda|Pickles,750,500,20,95,60
+Lipedema (Lymphatic),Green Tea|Leafy Greens|Walnuts|Berries|Water,Dairy|Gluten|Red Meat|Excessive Salt|Sugar,650,400,15,75,50
+Hyperoxaluria (Type 2),White Rice|Boiled Chicken|Dairy|Cauliflower,Spinach|Beets|Almonds|Chocolate|Tea,700,800,20,110,65
+Uremia (Dietary Stage),White Bread|Rice|Apples|Guava|Cabbage,Red Meat|Spinach|Potatoes|Bananas|Salt,600,300,20,100,70
+Hypoproteinemia (Hepatic),Soya Granules|Egg Whites|Skimmed Milk|Lentils,Fried Foods|Heavy Spices|Butter|Alcohol,900,500,15,80,60
+Homocystinuria (Pediatric),Low-protein Flour|Fruits|Vegetables|Rice,Meat|Fish|Eggs|Dairy|Lentils|Nuts,650,800,25,125,70
+Biliary Atresia (Fat Malabsorption),MCT Oil|Lean Chicken|Fruits|Pureed Veggies,Butter|Fried Pakoras|Creamy Gravy|Whole Milk,600,500,20,80,65
+Hypomagnesemia (Geriatric),Almonds|Spinach|Dark Chocolate|Avocado|Bananas,Alcohol|Excessive White Sugar|Processed Bread,700,600,20,110,60
+Hypermagnesemia (Renal),Chicken|White Rice|White Bread|Lettuce|Green Beans,Spinach|Almonds|Pumpkin Seeds|Nuts|Seeds,700,800,25,120,65
+Hyperuricosuria (Gouty),Curd|Cherries|Water|Tofu|Carrots|Rice,Organ Meats|Shellfish|Red Meat|Beer|Gravy,700,600,15,110,60
+Maple Syrup Urine Disease,Low-protein Pasta|Fruit|Honey|Vegetables,Meat|Eggs|Dairy|Nuts|Beans|Paneer,700,800,30,140,75
+Phenylketonuria (Geriatric),Vegetables|Fruits|Low-protein Bread|Corn,Meat|Fish|Eggs|Dairy|Nuts|Soy|Paneer,650,800,25,130,70
+SIBO (Hydrogen Dominant),Chicken|White Rice|Eggs|Carrots|Zucchini,Onions|Garlic|Lentils|Apples|Wheat|Milk,600,800,10,70,55
+Oral Thrush (Infant/Pediatric),Cold Curd|Mashed Banana|Coconut Water|Pureed Pears,Sugar|Honey|Sticky Candy|Hot Milk,500,400,15,90,70
+Acute Gastritis (Indian),Coconut Water|Rice Kanji|Banana|Toast|Buttermilk,Pickles|Chillies|Samosas|Coffee|Alcohol,550,500,15,90,70
+Chronic Gastritis (Indian),Oatmeal|Fish|Cooked Vegetables|Ginger|Curd,Raw Onion|Pepper|Citrus|Fried Food|Pickles,600,650,15,95,60
+Barrett’s Esophagus (Adult),Melon|Oatmeal|Boiled Chicken|Ginger|Rice,Mint|Chocolate|Caffeine|Spices|Citrus|Alcohol,600,700,15,85,60
+GERD (Severe Indian),Oatmeal|Ginger|Melon|Curd|Boiled Fish|Lauki,Chillies|Hot Tea|Fried Pakoras|Onion|Garlic,600,600,15,80,60
+IBS-D (Infection Triggered),Curd Rice|Bananas|Oats|Carrots|Plain Toast,Caffeine|Alcohol|Spicy Chili|Fried Snacks,600,800,15,100,60
+IBS-C (Indian Fiber Focus),Isabgol|Papaya|Warm Water|Oats|Whole Wheat,Cheese|White Rice|Red Meat|Processed Foods,750,800,30,120,65
+Non-Celiac Gluten Sensitivity,Buckwheat (Kuttu)|Rice|Corn|Jowar|Bajra,Wheat|Maida|Sooji|Semolina|Barley,700,800,20,110,70
+Diverticulitis (Acute Flare),Clear Broth|Apple Juice|Gelatin|White Rice,Popcorn|Seeds|Raw Veggies|Whole Wheat,500,900,20,110,80
+Crohn’s (Indian Flare),Fish|White Rice|Cooked Carrots|Moong Dal soup,Raw Salads|Seeds|Chili|Fried Foods|Dairy,600,750,15,105,75
+Ulcerative Colitis (Indian),Boiled Fish|Eggs|White Rice|Applesauce|Curd,High Fiber|Dried Fruit|Nuts|Spicy Masalas,550,750,15,100,75
+Rheumatoid Arthritis (Geriatric),Fatty Fish|Walnuts|Turmeric|Ginger|Spinach,Red Meat|Refined Oil|Sugar|Processed Meats,650,600,15,80,55
+Osteoporosis (Ragi Diet),Ragi (Finger Millet)|Curd|Paneer|Almonds|Milk,Table Salt|Caffeine|Soda|Pickles|Papad,750,500,20,105,65
+Hypothyroidism (Indian Case),Iodized Salt|Eggs|Dairy|Chicken|Whole Wheat,Raw Soy|Raw Cabbage|Raw Cauliflower|Peanuts,650,700,20,90,60
+Addison’s Disease (Stable),Salty Broth|Salted Pretzels|Eggs|Chicken|Bananas,Fasting|Low Salt Foods|Extreme Potassium,850,3500,25,120,65
+PCOS (Indian Insulin Res.),Cinnamon|Sprouts|Salmon|Buckwheat|Spinach,White Rice|Sweets|Potatoes|Refined Flour,550,700,5,55,45
+Metabolic Syndrome (Indian),Jowar|Fish|Nuts|Greens|Avocado|Amla,Soda|Trans Fats|White Flour|Syrups|Vanaspati,600,600,5,80,50
+NAFLD (Indian Fatty Liver),Coffee|Tofu|Legumes|Garlic|Greens|Dalia,Alcohol|High Fructose Corn Syrup|Fried Samosas,550,700,5,55,50
+Hepatitis B (Chronic Recovery),Lean Protein|Rice|Cooked Veggies|Honey|Curd,Alcohol|High Salt|Raw Seafood|Deep Fried Foods,750,500,25,110,65
+Cirrhosis (Indian Low Sodium),Chicken|Rice|Pasta|Vegetables|Eggs,Papad|Pickles|Alcohol|Raw Fish|Table Salt,750,300,20,110,65
+Ascites (Severe Edema),Unsalted Grains|Fresh Fruits|Fresh Veggies,Salt|Canned Food|Preserved Pickles|Cheese,600,150,15,95,65
+Pancreatitis (Chronic Indian),Egg Whites|Skimmed Milk|Moong Dal|Tofu,Butter|Oil|Ghee|Red Meat|Nuts|Cream,550,600,15,95,60
+Gallstones (Indian Diet),Lentils|Oats|Pears|Lauki|Brown Rice,Mutton|Ghee|Butter|Heavy Cream|Fried Food,600,700,15,90,55
+Hemorrhoids (High Fiber Indian),Isabgol|Prunes|Water|Beans|Papaya|Oats,Cheese|Spicy Chili|White Bread|Mutton,750,800,30,125,65
+Benign Prostatic Hyperplasia,Cooked Tomatoes|Soy|Berries|Nuts|Fish,Red Meat|Dairy|Excessive Salt|Alcohol,650,650,20,95,60
+Hypophosphatemia (Chronic),Milk|Meat|Cheese|Eggs|Nuts|Whole Grains,Alcohol|Refined Sugar|Dark Colas,750,800,25,110,65
+Hypermagnesemia (Symptomatic),Chicken|Rice|White Bread|Apples,Laxatives|Spinach|Almonds|Nuts|Seeds,700,800,25,125,65
+Lupus (Indian Flare),Fatty Fish|Olive Oil|Berries|Flax|Vegetables,Alfalfa|Garlic|Refined Flour|Red Meat|Spices,650,500,20,85,55
+Fibromyalgia (Pain Management),Walnuts|Berries|Quinoa|Ginger|Turmeric,MSG|Sugar|Aspartame|Nightshades,650,750,20,95,55
+Multiple Sclerosis (Anti-Inflam),Salmon|Walnuts|Leafy Greens|Avocado|Oats,Saturated Fat|Ghee|Sugar|Processed Meats,650,650,20,85,55
+Parkinson’s (Levodopa Diet),Whole Grains|Fiber|Berries|Beans|Fish,High Protein (Daytime)|Milk|Heavy Fats,700,600,20,95,60
+Alzheimer’s (Indian MIND),Berries|Turmeric|Leafy Greens|Nuts|Fish,Butter|Cheese|Red Meat|Fried Snacks,650,600,20,85,55
+Migraine (Indian Triggers),Ginger Tea|Fresh Paneer|Quinoa|Eggs|Greens,Pickles|Soy Sauce|MSG|Chocolate|Caffeine,700,600,20,100,60
+Gastroparesis (Indian Soft),Pureed Carrots|Yogurt|White Bread|Mashed Lauki,Raw Broccoli|Seeds|Fruit Skins|Fried Mutton,550,650,15,95,75
+Cystic Fibrosis (Adult Recovery),Whole Milk|Paneer|Avocado|Nuts|Paratha,Diet Foods|Soda|Low-calorie Snacks,1200,1800,40,150,75
+Homocystinuria (Stage 1),Low-protein Grains|Fruits|Vegetables|Rice,Meat|Fish|Eggs|Dairy|Beans|Lentils,650,800,25,125,70
+Tyrosinemia (Stage 1),Fruit|Vegetables|Low-protein Grains|Rice,Meat|Cheese|Eggs|Paneer|High Protein,700,800,25,125,75
+Lactose Intolerance (Severe),Almond Milk|Coconut Milk|Tofu|Meat|Veggies,Milk|Ice Cream|Paneer|Kheer|Cream,700,800,25,105,65
+SIBO (Hydrogen Indian),Fish|Chicken|Carrots|White Rice|Eggs,Beans|Onions|Garlic|Wheat|Milk|Sugar,650,800,10,70,55
+Oral Thrush (Indian Diet),Curd|Garlic|Lean Meat|Leafy Greens|Turmeric,Sugar|Jaggery|Maida|Honey|Sweet Fruit,600,750,0,50,40
+Gingivitis (Pediatric Indian),Amla Juice|Citrus|Yogurt|Green Tea|Water,Sticky Candy|Soda|Jaggery|White Bread,650,700,10,80,60
+Gastritis (Acute Indian),Coconut Water|Kanji|Banana|Toast|Chicken,Spices|Coffee|Alcohol|Tomato|Fried Snacks,550,550,20,90,65
+Gastritis (Chronic Indian),Oatmeal|Fish|Cooked Veggies|Ginger|Melon,Chili|Pepper|Caffeine|Citrus|Raw Onions,600,600,15,95,60
+Barrett’s Esophagus (Indian),Oatmeal|Melon|Ginger|Chicken|Rice,Fried Food|Citrus|Caffeine|Chocolate|Alcohol,600,700,15,85,60
+IBS-D (Indian),Rice|Oats|Bananas|Curd|Carrots|Boiled Eggs,Caffeine|Alcohol|Spicy Chili|Fried Food,600,850,15,100,60
+IBS-C (Indian),Chia Seeds|Oats|Pears|Prunes|Papaya|Wheat,Cheese|White Rice|Red Meat|Processed Food,750,800,30,125,65
+Celiac Disease (Indian),Rice|Jowar|Bajra|Corn|Eggs|Pulses,Wheat|Maida|Sooji|Semolina|Barley,750,800,25,120,70
+Rheumatoid Arthritis (Indian),Salmon|Walnuts|Ginger|Turmeric|Berries,Sugar|Fried Food|MSG|Red Meat|Oil,650,600,15,80,55
+Osteoporosis (Indian),Yogurt|Ragi|Paneer|Almonds|Milk|Sardines,Salt|Caffeine|Soda|Pickles|Papad,750,550,25,100,65
+Anemia (Iron Def Indian),Red Meat|Spinach|Lentils|Pomegranate|Dates,Tea (with meals)|Coffee|Calcium,750,800,25,110,60
+Anemia (B12 Def Indian),Eggs|Milk|Salmon|Paneer|Chicken|Liver,Alcohol (excessive)|Vegan Diet,750,800,20,100,60
+Anemia (Folate Def Indian),Asparagus|Spinach|Beans|Citrus|Liver,Alcohol|Overcooked Vegetables,750,800,30,115,65
+Hyponatremia (Indian Diet),Salted Broth|Pretzels|Eggs|Chicken|Papad,Plain Water (Excess)|Plain Rice,850,3200,20,115,70
+Hypomagnesemia (Indian Diet),Spinach|Almonds|Black Beans|Avocado|Dark Chocolate,Alcohol|Excessive Sugar,700,800,20,115,60
+ALS (Indian High Calorie),Smoothies|Avocado|Paneer|Pasta|Eggs|Ghee,Thin Liquids|Dry Foods (choking risk),1000,1000,45,150,70
+Meniere’s Disease (Indian),Vegetables|Fruits|Unsalted Grains|Chicken,Table Salt|Caffeine|Alcohol|MSG|Papad,650,450,20,85,60
+Post-Cholecystectomy (Indian),Rice|Toast|Skinless Chicken|Mashed Lauki,Fried Pakoras|Greasy Gravy|Spicy Sauce,550,700,15,90,65
+Hemorrhoids (High Fiber Indian),Oats|Prunes|Water|Beans|Papaya|Whole Wheat,Cheese|Processed Meat|Spicy Food|Maida,750,800,35,125,65
+Benign Prostatic Hyperplasia,Tomatoes|Soy|Berries|Nuts|Fish|Seeds,Red Meat|Dairy|Salt|Alcohol|Chillies,650,700,20,95,60
+Parkinson's (Indian Protein),Whole Grains|Fiber|Berries|Beans|Fish,High Protein (at Night)|Milk|Heavy Fats,750,700,20,100,60
+SIBO (Methane Dominant),Chicken|Eggs|Rice|Zucchini|Karela|Tofu,Dairy|Beans|Onions|Garlic|Sugar|Complex Carbs,650,800,10,75,55
+Hypocalcemia (Ragi Diet),Ragi|Paneer|Milk|Almonds|Spinach|Tofu,High Phytic Acid|Soda|Caffeine|Salt,800,700,25,100,65
+Gastritis (Chronic Indian Diet),Oatmeal|Fish|Cooked Veggies|Ginger|Melon|Curd,Chili|Pepper|Caffeine|Citrus|Onion,600,650,15,100,60
+Diabetes (Indian T2D),Ragi|Jowar|Moong Dal|Methi|Karela|Fish,Sugar|Jaggery|White Rice|Maida|Potato,550,800,5,55,50
+Hypertension (Indian Low Salt),Lauki|Torai|Garlic|Curd|Banana|Oats,Table Salt|Pickles|Papad|Processed Snacks,650,400,20,95,60
+PCOS (Indian Diet),Cinnamon|Buckwheat|Salmon|Seeds|Spinach|Methi,Sugar|White Rice|Potatoes|Refined Flour,550,750,8,55,45
+Post-Jaundice (Indian Stage),Papaya|Boiled Rice|Mashed Potatoes|Curd|Honey,Oil|Spices|Butter|Fried Food|Chillies,750,500,30,130,70
+Kidney Stones (Indian Low Oxalate),Dairy|Lemons|Water|Rice|Fish|Cauliflower,Spinach|Cholai|Beets|Nuts|Chocolate,700,600,25,110,65

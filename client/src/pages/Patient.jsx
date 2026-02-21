@@ -6,6 +6,7 @@ import {
     CheckCircle2, Activity, ShieldCheck
 } from "lucide-react";
 import Sidebar from "../Components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 const PatientSupportHub = () => {
     const [view, setView] = useState("list");
@@ -21,6 +22,7 @@ const PatientSupportHub = () => {
     const [formData, setFormData] = useState({
         name: "", age: "", gender: "Male", disease: "", location: ""
     });
+    const navigate = useNavigate(); // Initialize navigate
 
     const getAuthHeaders = () => ({
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
@@ -83,7 +85,7 @@ const PatientSupportHub = () => {
                 const extract = (res) => {
                     if (res.data.data && Array.isArray(res.data.data)) return res.data.data[0];
                     if (Array.isArray(res.data)) return res.data[0];
-                    return res.data; 
+                    return res.data;
                 };
 
                 setInternalData({
@@ -145,6 +147,17 @@ const PatientSupportHub = () => {
             <div className="flex min-h-screen bg-[#F8FAFC]">
                 <Sidebar />
                 <div className="flex-1 w-full lg:ml-64 transition-all duration-300">
+                    <div className="max-w-screen mx-auto px-4 md:px-6 pt-8">
+                        <button
+                            onClick={() => navigate(-1)} 
+                            className="group flex items-center gap-2 text-slate-500 hover:text-emerald-600 font-bold text-sm transition-colors"
+                        >
+                            <div className="p-2 rounded-full bg-white border border-slate-200 group-hover:border-emerald-200 group-hover:bg-emerald-50 transition-all">
+                                <ArrowLeft size={18} />
+                            </div>
+                            Back to Hub
+                        </button>
+                    </div>
                     <main className="p-4 md:p-8 lg:p-12 mt-16 lg:mt-0">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
                             <div className="sm:col-span-2 lg:col-span-1">
@@ -266,6 +279,7 @@ const PatientSupportHub = () => {
         <div className="flex min-h-screen bg-white">
             <Sidebar />
             <div className="flex-1 lg:ml-64 transition-all duration-300">
+
                 <nav className="h-16 md:h-20 border-b bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 md:px-12 flex items-center justify-between">
                     <button onClick={() => setView("list")} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-rose-500 transition-colors">
                         <ArrowLeft size={16} /> <span className="hidden sm:inline">Back to Hub</span><span className="sm:hidden">Back</span>

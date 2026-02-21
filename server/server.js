@@ -13,6 +13,7 @@
 // import doctorRoutes from "./routes/doctor.routes.js";
 // import medicineDataRoutes from "./routes/medicineData.route.js"
 // import patientRoutes from "./routes/patient.route.js"
+// import dietRoutes from "./routes/diet.routes.js"
 
 // const app = express();
 // const PORT = process.env.PORT || 5000;
@@ -20,7 +21,7 @@
 
 // app.use(
 //   cors({
-//     origin: process.env.FRONTEND_URL, // Must match your Vercel domain
+//     origin: process.env.FRONTEND_URL, 
 //     credentials: true,
 //   })
 // );
@@ -40,6 +41,7 @@
 // app.use("/api/doctors", doctorRoutes);
 // app.use("/api/medicine", medicineDataRoutes)
 // app.use("/api/patient", patientRoutes);
+// app.use("/api/diet",dietRoutes)
 
 
 // app.get("/", (req, res) => {

@@ -24,10 +24,12 @@ import MedicineFinderOurData from "./pages/MedicineFinderOurData.jsx";
 import PatientForm from "./pages/Patient.jsx";
 import NearbyFacility from "./pages/NearbyFacility.jsx";
 import DiseaseVault from "./Components/DiseaseVault.jsx";
+import Diet from "./pages/Diet.jsx";
+import PatientHub from "./Components/PatientHub.jsx";
 
 function App() {
 
-  
+
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
@@ -47,11 +49,14 @@ function App() {
           <Route path="/medicinefinderourdata" element={<MedicineFinderOurData />} />
           <Route path="/doctor/:id" element={<DoctorProfile />} />
           <Route path="nearbyfacility" element={<NearbyFacility />} />
-          <Route path="/diseasevault" element={<DiseaseVault/>}/>
+          <Route path="/diseasevault" element={<DiseaseVault />} />
+          <Route path="/diet" element={<Diet />} />
+          <Route path="/patienthub" element={<PatientHub/>}/>
+
 
 
           <Route element={<PrivateRoute />}>
-          <Route path="/patient" element={<PatientForm/>}/>
+            <Route path="/patient" element={<PatientForm />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
 

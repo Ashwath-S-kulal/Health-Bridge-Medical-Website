@@ -62,17 +62,17 @@ const Sidebar = () => {
         {/* Navigation */}
         <nav className="flex-1 space-y-1.5 overflow-y-auto no-scrollbar">
           <SidebarLink to="/" icon={<LayoutDashboard size={20} />} label="Dashboard" onClick={() => setIsOpen(false)} />
-          <SidebarLink to="/patient" icon={<Zap size={20} />} label="Patient Hub" onClick={() => setIsOpen(false)} />
+          <SidebarLink to="/patienthub" icon={<Zap size={20} />} label="Patient Hub" onClick={() => setIsOpen(false)} />
           <SidebarLink to="/nearbyfacility" icon={<MapPin size={20} />} label="Nearby Facilities" onClick={() => setIsOpen(false)} />
           <SidebarLink to="/doctors" icon={<Stethoscope size={20} />} label="Consult Doctors" onClick={() => setIsOpen(false)} />
           <SidebarLink to="/medicinefinderourdata" icon={<Pill size={20} />} label="Medicine Vault" onClick={() => setIsOpen(false)} />
           <SidebarLink to="/diseasevault" icon={<Activity size={20} />} label="Disease Vault" onClick={() => setIsOpen(false)} />
         </nav>
 
-        <div className="mt-8 bg-slate-900 p-5 rounded-[2rem] text-white relative overflow-hidden">
+        <div className="mt-8 bg-blue-50 p-5 rounded-2xl text-white relative overflow-hidden border border-gray-300 shadow-2xl">
           <div className="relative z-10">
             <p className="text-[9px] uppercase tracking-[0.2em] text-blue-400 mb-1 font-black">24/7 Support</p>
-            <h4 className="font-bold text-sm mb-4 leading-tight">Emergency?</h4>
+            <h4 className="font-bold text-sm mb-4 leading-tight text-sky-400">Emergency?</h4>
             <button className="w-full bg-rose-500 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-600 transition-all active:scale-95 shadow-lg shadow-rose-500/20">
               Call SOS
             </button>
