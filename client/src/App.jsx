@@ -6,7 +6,6 @@ import Login from './pages/Login';
 import Hospital from './pages/Hospital.jsx';
 import PrivateRoute from './Components/PrivateRoute.jsx';
 import Medical from './pages/medical.jsx';
-import Disease from './pages/disease.jsx';
 import Symptoms from './pages/Symptoms.jsx';
 import DiseaseDesc from './pages/DiseaseDescription.jsx';
 import Precaution from './pages/Precaution.jsx';
@@ -39,7 +38,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/hospital" element={<Hospital />} />
           <Route path="/medical" element={<Medical />} />
-          <Route path="/disease" element={<Disease />} />
           <Route path="/symptoms" element={<Symptoms />} />
           <Route path="/diseasedesc" element={<DiseaseDesc />} />
           <Route path="/precaution" element={<Precaution />} />

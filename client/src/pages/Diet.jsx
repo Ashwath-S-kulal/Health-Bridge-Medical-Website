@@ -23,7 +23,7 @@ function Diet() {
       }
       setLoadingSuggestions(true);
       try {
-        const res = await axios.get(`/api/diet/search-diseases?q=${query}`);
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URI}/api/diet/search-diseases?q=${query}`);
         const filtered = res.data.filter(item => !selectedDiseases.some(d => d.disease === item.disease));
         setSuggestions(filtered);
       } catch (error) {
@@ -50,7 +50,7 @@ function Diet() {
     setHasSearched(true);
     try {
       const namesOnly = selectedDiseases.map(d => d.disease);
-      const res = await axios.post("/api/diet/filter-meals", { diseases: namesOnly });
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URI}/api/diet/filter-meals`, { diseases: namesOnly });
       setMeals(res.data.meals || []);
       setActiveRules(res.data.activeRules || []);
     } catch (error) {
