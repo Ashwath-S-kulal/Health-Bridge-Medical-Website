@@ -175,7 +175,7 @@ const PatientSupportHub = () => {
             <div className="flex min-h-screen bg-[#F1F5F9]">
                 <Sidebar />
                 <div className="flex-1 lg:ml-64 transition-all duration-300">
-                    <main className="max-w-7xl mx-auto p-6 md:p-10 pt-20 md:pt-0">
+                    <main className="max-w-7xl mx-auto p-6 md:p-10 pt-20 md:pt-6">
 
                         <div className="mb-10 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl p-8 shadow-xl shadow-indigo-100 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-4 opacity-10">
