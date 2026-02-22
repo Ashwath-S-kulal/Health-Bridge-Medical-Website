@@ -1,6 +1,6 @@
 {
-  "name": "Health Care Website",
-  "short_name": "Healthcare",
+  "name": "Health Bridge",
+  "short_name": "Health",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -1,17 +1,52 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { VitePWA } from 'vite-plugin-pwa'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+
+      includeAssets: [
+        'logo192.png',
+        'logo512.png'
+      ],
+
+      manifest: {
+        name: 'Health Care',
+        short_name: 'Health',
+        description: 'Health Care Medical Platform',
+        start_url: '/',
+        scope: '/',
+        display: 'standalone',
+        orientation: 'portrait',
+        background_color: '#ffffff',
+        theme_color: '#0f172a',
+
+        icons: [
+          {
+            src: '/logo192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/logo512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
+  ],
+
   server: {
-  proxy: {
-    '/api': {
-      target: 'http://localhost:5000',
-      changeOrigin: true,
-      secure: false,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
-},
-
 })
