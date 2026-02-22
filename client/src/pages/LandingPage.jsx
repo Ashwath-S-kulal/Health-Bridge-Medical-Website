@@ -494,6 +494,42 @@ const handleInstallClick = async () => {
               </p>
             </div>
           </footer>
+           <footer className="w-full py-16 bg-white border-t border-slate-100 mt-12">
+            <div className="max-w-5xl mx-auto px-6 flex flex-col items-center">
+              <div className="flex items-center gap-2 mb-8">
+                <HeartPulse className="text-indigo-600" size={24} />
+                <span className="text-lg font-black tracking-widest text-slate-900 uppercase">
+                  Health<span className="text-indigo-600">Bridge</span>
+                </span>
+              </div>
+              <div className="flex gap-8 mb-10">
+                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Twitter size={20} /></a>
+                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Linkedin size={20} /></a>
+                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Instagram size={20} /></a>
+              </div>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] text-center">
+                © {new Date().getFullYear()} HealthBridge Systems • Secure Medical Network
+              </p>
+            </div>
+          </footer>
+           <footer className="w-full py-16 bg-white border-t border-slate-100 mt-12">
+            <div className="max-w-5xl mx-auto px-6 flex flex-col items-center">
+              <div className="flex items-center gap-2 mb-8">
+                <HeartPulse className="text-indigo-600" size={24} />
+                <span className="text-lg font-black tracking-widest text-slate-900 uppercase">
+                  Health<span className="text-indigo-600">Bridge</span>
+                </span>
+              </div>
+              <div className="flex gap-8 mb-10">
+                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Twitter size={20} /></a>
+                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Linkedin size={20} /></a>
+                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Instagram size={20} /></a>
+              </div>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] text-center">
+                © {new Date().getFullYear()} HealthBridge Systems • Secure Medical Network
+              </p>
+            </div>
+          </footer>
         </div>
 
         {showInstall && (
