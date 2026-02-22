@@ -7,17 +7,23 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      devOptions: {
-        enabled: true
-      },
+
+      includeAssets: [
+        'logo192.png',
+        'logo512.png'
+      ],
+
       manifest: {
         name: 'Health Care',
         short_name: 'Health',
+        description: 'Health Care Medical Platform',
         start_url: '/',
         scope: '/',
         display: 'standalone',
+        orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#0f172a',
+
         icons: [
           {
             src: '/logo192.png',
