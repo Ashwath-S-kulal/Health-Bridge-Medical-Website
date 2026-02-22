@@ -3,36 +3,66 @@ import axios from "axios";
 import {
     Heart, Search, Plus, MapPin, ChevronRight, X,
     MessageSquare, Info, ArrowLeft, LifeBuoy,
-    CheckCircle2, Activity, ShieldCheck
+    CheckCircle2, Activity, ShieldCheck, Loader2,
+    User, Calendar, Navigation, Printer,
+    Microscope,
+    Sparkles
 } from "lucide-react";
 import Sidebar from "../Components/Sidebar";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const PatientSupportHub = () => {
     const [view, setView] = useState("list");
     const [patients, setPatients] = useState([]);
+    const [isInitialLoading, setIsInitialLoading] = useState(true); // New for main list skeleton
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [loadingIntel, setLoadingIntel] = useState(false);
+
+    const [diseaseList, setDiseaseList] = useState([]);
+    const [isListLoading, setIsListLoading] = useState(false);
+
     const [nihSections, setNihSections] = useState(null);
     const [wikiData, setWikiData] = useState(null);
     const [nearbyData, setNearbyData] = useState({ hospitals: [], pharmacies: [] });
     const [internalData, setInternalData] = useState({ desc: null, precautions: [], symptoms: [] });
+
     const [formData, setFormData] = useState({
         name: "", age: "", gender: "Male", disease: "", location: ""
     });
-    const navigate = useNavigate(); // Initialize navigate
+    const navigate = useNavigate();
 
     const getAuthHeaders = () => ({
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     });
 
+    // Skeleton Component
+    const Skeleton = ({ className }) => (
+        <div className={`animate-pulse bg-slate-200 rounded ${className}`}></div>
+    );
+
+    useEffect(() => {
+        setIsListLoading(true);
+        fetch(`${import.meta.env.VITE_BASE_URI}/api/precaution/list`)
+            .then((res) => res.json())
+            .then((list) => {
+                setDiseaseList(list);
+                setIsListLoading(false);
+            })
+            .catch((err) => {
+                console.error("List Fetch Error:", err);
+                setIsListLoading(false);
+            });
+    }, []);
+
     const fetchPatients = async () => {
+        setIsInitialLoading(true);
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_URI}/api/patient/get`, getAuthHeaders());
             setPatients(res.data);
         } catch (err) { console.error("Fetch Error:", err); }
+        finally { setIsInitialLoading(false); }
     };
 
     useEffect(() => {
@@ -43,7 +73,6 @@ const PatientSupportHub = () => {
         setLoadingIntel(true);
         const diseaseName = patient.disease;
         const location = patient.location;
-        const queryTerm = diseaseName.toLowerCase().trim();
         const wikiTerm = diseaseName.split('(')[0].trim().replace(/\s+/g, '_');
 
         try {
@@ -71,7 +100,9 @@ const PatientSupportHub = () => {
                             };
                         }).filter(s => s.content.length > 20));
                     }
-                }).catch(() => setNihSections(null));
+                }
+                ).catch(() => setNihSections(null));
+
 
             const nearbyPromise = axios.get(`${import.meta.env.VITE_BASE_URI}/api/patient/nearby?location=${encodeURIComponent(location)}`, getAuthHeaders())
                 .then(res => setNearbyData(res.data)).catch(() => setNearbyData({ hospitals: [], pharmacies: [] }));
@@ -81,25 +112,21 @@ const PatientSupportHub = () => {
                 axios.get(`${import.meta.env.VITE_BASE_URI}/api/precaution?disease=${encodeURIComponent(diseaseName)}`, getAuthHeaders()),
                 axios.get(`${import.meta.env.VITE_BASE_URI}/api/symptoms?disease=${encodeURIComponent(diseaseName)}`, getAuthHeaders())
             ]).then(([descRes, precRes, sympRes]) => {
-
                 const extract = (res) => {
                     if (res.data.data && Array.isArray(res.data.data)) return res.data.data[0];
                     if (Array.isArray(res.data)) return res.data[0];
                     return res.data;
                 };
-
                 setInternalData({
                     desc: extract(descRes)?.description || null,
                     precautions: extract(precRes) || null,
                     symptoms: extract(sympRes) || null
                 });
-            }).catch((err) => {
-                console.error("Fetch Error:", err);
-                setInternalData({ desc: null, precautions: null, symptoms: null });
-            });
+            }).catch(() => setInternalData({ desc: null, precautions: null, symptoms: null }));
 
             await Promise.all([wikiPromise, nihPromise, nearbyPromise, internalPromise]);
-            console.log(internalPromise)
+            console.log(wikiPromise, nihPromise, nearbyPromise, internalPromise)
+
         } finally {
             setLoadingIntel(false);
         }
@@ -110,7 +137,7 @@ const PatientSupportHub = () => {
         setSelectedPatient(patient);
         fetchSupportIntelligence(patient);
         setView("details");
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const toggleCured = async (e, patientId, currentStatus) => {
@@ -142,132 +169,140 @@ const PatientSupportHub = () => {
         p.disease.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // --- VIEW 1: LIST VIEW ---
     if (view === "list") {
         return (
-            <div className="flex min-h-screen bg-[#F8FAFC]">
+            <div className="flex min-h-screen bg-[#F1F5F9]">
                 <Sidebar />
-                <div className="flex-1 w-full lg:ml-64 transition-all duration-300">
-                    <div className="max-w-screen mx-auto px-4 md:px-6 pt-8">
-                        <button
-                            onClick={() => navigate(-1)} 
-                            className="group flex items-center gap-2 text-slate-500 hover:text-emerald-600 font-bold text-sm transition-colors"
-                        >
-                            <div className="p-2 rounded-full bg-white border border-slate-200 group-hover:border-emerald-200 group-hover:bg-emerald-50 transition-all">
-                                <ArrowLeft size={18} />
+                <div className="flex-1 lg:ml-64 transition-all duration-300">
+                    <main className="max-w-7xl mx-auto p-6 md:p-10 pt-20 md:pt-0">
+
+                        <div className="mb-10 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl p-8 shadow-xl shadow-indigo-100 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-10">
+                                <Sparkles size={120} />
                             </div>
-                            Back to Hub
-                        </button>
-                    </div>
-                    <main className="p-4 md:p-8 lg:p-12 mt-16 lg:mt-0">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
-                            <div className="sm:col-span-2 lg:col-span-1">
-                                <div className="flex items-center gap-2 text-blue-500 mb-2">
-                                    <Heart size={20} fill="currentColor" className="animate-pulse" />
-                                    <span className="font-black tracking-[0.2em] text-[9px] uppercase">CareSupport Hub</span>
-                                </div>
-                                <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Patient Hub</h1>
-                            </div>
-                            <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
-                                <div className="w-10 h-10 bg-green-50 text-green-600 rounded-xl flex items-center justify-center shrink-0"><CheckCircle2 size={24} /></div>
+                            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-white">
                                 <div>
-                                    <p className="text-[9px] font-black uppercase text-slate-400 tracking-widest">Recovered</p>
-                                    <p className="text-xl font-black text-slate-900">{stats.recovered}</p>
+                                    <h2 className="text-2xl md:text-3xl font-black mb-2 tracking-tight">Register your disease here</h2>
+                                    <p className="text-indigo-100 font-medium opacity-90">Our AI engine will analyze your condition and provide a personalized recovery guide.</p>
                                 </div>
-                            </div>
-                            <div className="bg-slate-900 p-5 rounded-xl flex items-center gap-4 text-white shadow-lg shadow-slate-200">
-                                <div className="w-10 h-10 bg-slate-800 text-rose-400 rounded-xl flex items-center justify-center shrink-0"><Activity size={24} /></div>
-                                <div>
-                                    <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">Active</p>
-                                    <p className="text-xl font-black">{stats.active}</p>
-                                </div>
+                                <button onClick={() => setIsFormOpen(true)} className="bg-white text-indigo-600 px-8 py-4 rounded-2xl font-bold text-sm shadow-lg hover:bg-indigo-50 transition-all active:scale-95 whitespace-nowrap">
+                                    Start AI Analysis
+                                </button>
                             </div>
                         </div>
 
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                            <div>
+
+                                <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Patient Registry</h1>
+                                <p className="text-slate-500 mt-2">Monitor and manage active care cases</p>
+                            </div>
+
+                            <div className="flex gap-3">
+                                {isInitialLoading ? (
+                                    <>
+                                        <Skeleton className="w-24 h-20" />
+                                        <Skeleton className="w-24 h-20" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="bg-white px-6 py-2 rounded-xl shadow-sm border border-slate-200">
+                                            <p className="text-[10px] font-bold text-slate-400 ">Active Cases: <span className="text-2xl font-black"> {stats.active}</span></p>
+                                        </div>
+                                        <div className="bg-emerald-600 px-6 py-2 rounded-xl shadow-lg shadow-emerald-100 text-white">
+                                            <p className="text-[10px] font-bold text-emerald-100 ">Recovered: <span className="text-2xl font-black"> {stats.recovered}</span></p>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Search & Actions */}
                         <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                            <div className="relative flex-1 group">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={20} />
                                 <input
-                                    className="w-full pl-12 pr-6 py-4 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-2 focus:ring-rose-100 outline-none transition-all shadow-sm"
-                                    placeholder="Search records..."
+                                    className="w-full pl-12 pr-6 py-4 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-indigo-50 outline-none transition-all shadow-sm"
+                                    placeholder="Search by name or condition..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-                            <button onClick={() => setIsFormOpen(!isFormOpen)} className="bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-sm font-black transition-all active:scale-95 shadow-md shadow-rose-100">
-                                {isFormOpen ? <X size={18} /> : <Plus size={18} />}
-                                {isFormOpen ? "Close" : "Add Patient"}
+                            <button onClick={() => setIsFormOpen(!isFormOpen)} className="bg-slate-900 hover:bg-indigo-600 text-white flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold transition-all active:scale-95 shadow-xl">
+                                {isFormOpen ? <X size={20} /> : <Plus size={20} />}
+                                {isFormOpen ? "Cancel" : "New Entry"}
                             </button>
                         </div>
 
+                        {/* Expandable Form (Same as previous) */}
                         {isFormOpen && (
-                            <div className="bg-white border-2 border-blue-100 rounded-xl p-6 md:p-8 mb-8 animate-in slide-in-from-top-4 duration-500 shadow-xl">
-                                <form onSubmit={submitNewCareRequest} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Full Name</label>
-                                        <input required className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm font-bold" placeholder="e.g. John Doe" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
+                            <div className="bg-white border border-indigo-100 rounded-3xl p-8 mb-10 shadow-xl animate-in fade-in zoom-in duration-300">
+                                <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><User className="text-indigo-500" size={20} /> Patient Information</h2>
+                                <form onSubmit={submitNewCareRequest} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold text-slate-500 ml-1">Full Name</label>
+                                        <input required className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm focus:bg-white transition-all" placeholder="John Smith" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Age</label>
-                                        <input required type="number" className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm font-bold" placeholder="Age" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} />
+                                    <div className="space-y-2"><label className="text-xs font-bold text-slate-500 ml-1">Age</label><input required type="number" className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm" placeholder="25" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} /></div>
+                                    <div className="space-y-2"><label className="text-xs font-bold text-slate-500 ml-1">Gender</label><select className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm" value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })}><option>Male</option><option>Female</option><option>Other</option></select></div>
+                                    <div className="space-y-2 md:col-span-2">
+                                        <label className="text-xs font-bold text-slate-500 ml-1">Medical Condition</label>
+                                        <div className="relative">
+                                            <select required className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm appearance-none cursor-pointer" value={formData.disease} onChange={e => setFormData({ ...formData, disease: e.target.value })} disabled={isListLoading}>
+                                                <option value="" disabled>{isListLoading ? "Fetching Database..." : "Select a diagnosed condition"}</option>
+                                                {diseaseList.map((disease, index) => <option key={index} value={disease}>{disease}</option>)}
+                                            </select>
+                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                                {isListLoading ? <Loader2 size={18} className="animate-spin" /> : <ChevronRight size={18} className="rotate-90" />}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Gender</label>
-                                        <select className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm font-bold" value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })}>
-                                            <option>Male</option><option>Female</option><option>Other</option>
-                                        </select>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Condition</label>
-                                        <input required className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm font-bold" placeholder="e.g. GERD" value={formData.disease} onChange={e => setFormData({ ...formData, disease: e.target.value })} />
-                                    </div>
-                                    <div className="sm:col-span-2 md:col-span-3 space-y-1">
-                                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Home Location</label>
-                                        <input required className="w-full bg-slate-50 border-none rounded-2xl p-4 text-sm font-bold" placeholder="City, State" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} />
-                                    </div>
-                                    <div className="flex items-end">
-                                        <button type="submit" className="w-fit bg-slate-900 text-white font-black text-[11px] uppercase px-5 py-3 rounded-md hover:bg-blue-500 transition-all shadow-lg active:scale-95">Register Patient</button>
-                                    </div>
+                                    <div className="space-y-2"><label className="text-xs font-bold text-slate-500 ml-1">Residence</label><input required className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm" placeholder="City, State" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} /></div>
+                                    <div className="md:col-span-3 pt-4 flex justify-end"><button type="submit" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100">Register Patient Record</button></div>
                                 </form>
                             </div>
                         )}
 
-                        <div className="space-y-4">
-                            {filteredPatients.map(p => (
-                                <div
-                                    key={p._id}
-                                    onClick={() => handleOpenCard(p)}
-                                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-5 md:p-4 rounded-md border transition-all 
-                                        ${p.isCured
-                                            ? 'bg-slate-50 border-slate-100 opacity-75'
-                                            : 'bg-white border-white shadow-sm hover:shadow-md hover:border-rose-100 cursor-pointer'}`}
-                                >
-                                    <div className="flex items-center gap-4 mb-4 sm:mb-0">
-                                        <div className={`w-12 h-12 rounded-md flex items-center justify-center shrink-0
-                                            ${p.isCured ? 'bg-slate-200 text-slate-400' : 'bg-blue-50 text-blue-500'}`}>
-                                            {p.isCured ? <CheckCircle2 size={24} /> : <LifeBuoy size={24} />}
+                        {/* List Grid with Skeletons */}
+                        <div className="grid grid-cols-1 gap-4">
+                            {isInitialLoading ? (
+                                [1, 2, 3, 4, 5].map((i) => (
+                                    <div key={i} className="flex flex-col md:flex-row items-center justify-between p-6 bg-white rounded-2xl border border-slate-100">
+                                        <div className="flex items-center gap-5 w-full">
+                                            <Skeleton className="w-14 h-14 rounded-2xl" />
+                                            <div className="space-y-2 flex-1">
+                                                <Skeleton className="w-48 h-5" />
+                                                <Skeleton className="w-32 h-3" />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h3 className={`text-md font-black ${p.isCured ? 'text-slate-400 line-through' : 'text-slate-900'}`}>{p.name}</h3>
-                                            <p className={`text-[9px] font-black uppercase tracking-widest ${p.isCured ? 'text-slate-300' : 'text-blue-400'}`}>
-                                                {p.disease} • {p.location}
-                                            </p>
+                                        <Skeleton className="w-32 h-10 mt-4 md:mt-0" />
+                                    </div>
+                                ))
+                            ) : (
+                                filteredPatients.map(p => (
+                                    <div key={p._id} onClick={() => handleOpenCard(p)} className={`group flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl border transition-all duration-300 ${p.isCured ? 'bg-white/60 border-slate-200 grayscale opacity-70' : 'bg-white border-transparent shadow-sm hover:shadow-xl hover:border-indigo-100 cursor-pointer'}`}>
+                                        <div className="flex items-center gap-5">
+                                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors ${p.isCured ? 'bg-slate-100 text-slate-400' : 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white'}`}>
+                                                {p.isCured ? <CheckCircle2 size={28} /> : <User size={28} />}
+                                            </div>
+                                            <div>
+                                                <h3 className={`text-lg font-bold ${p.isCured ? 'text-slate-500 line-through' : 'text-slate-900'}`}>{p.name}</h3>
+                                                <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
+                                                    <span className="text-xs font-medium text-indigo-500 flex items-center gap-1 uppercase tracking-wider"><Activity size={12} /> {p.disease}</span>
+                                                    <span className="text-xs font-medium text-slate-400 flex items-center gap-1"><MapPin size={12} /> {p.location}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 md:mt-0 flex items-center gap-3">
+                                            <button onClick={(e) => toggleCured(e, p._id, p.isCured)} className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all ${p.isCured ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600 hover:bg-emerald-600 hover:text-white'}`}>
+                                                {p.isCured ? 'Successfully Recovered' : 'Mark as Cured'}
+                                            </button>
+                                            {!p.isCured && <ChevronRight size={20} className="text-slate-300 group-hover:text-indigo-500 transition-transform group-hover:translate-x-1" />}
                                         </div>
                                     </div>
-
-                                    <div className="flex items-center justify-between sm:justify-end gap-4">
-                                        <button
-                                            onClick={(e) => toggleCured(e, p._id, p.isCured)}
-                                            className={`flex-1 sm:flex-none px-5 py-2 rounded-md text-[10px] font-black uppercase transition-all
-                                                ${p.isCured
-                                                    ? 'bg-green-500 text-white'
-                                                    : 'bg-slate-100 text-slate-500 hover:bg-green-500 hover:text-white'}`}
-                                        >
-                                            {p.isCured ? 'Recovered' : 'Mark Cured'}
-                                        </button>
-                                        {!p.isCured && <ChevronRight size={20} className="text-slate-300 hidden sm:block" />}
-                                    </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     </main>
                 </div>
@@ -276,150 +311,230 @@ const PatientSupportHub = () => {
     }
 
     return (
-        <div className="flex min-h-screen bg-white">
+        <div className="flex min-h-screen bg-[#F8FAFC]">
             <Sidebar />
-            <div className="flex-1 lg:ml-64 transition-all duration-300">
-
-                <nav className="h-16 md:h-20 border-b bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 md:px-12 flex items-center justify-between">
-                    <button onClick={() => setView("list")} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-rose-500 transition-colors">
-                        <ArrowLeft size={16} /> <span className="hidden sm:inline">Back to Hub</span><span className="sm:hidden">Back</span>
+            <div className="flex-1 lg:ml-64">
+                <nav className="h-20 bg-white/80 backdrop-blur-md sticky top-0 z-50 px-8 flex items-center justify-between border-b border-slate-200">
+                    <button onClick={() => setView("list")} className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-sm transition-all group">
+                        <div className="p-2 rounded-lg bg-slate-50 group-hover:bg-indigo-50"><ArrowLeft size={18} /></div>
+                        Back to Registry
                     </button>
-                    <button className="bg-slate-900 text-white px-4 md:px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                        <MessageSquare size={14} /> <span className="hidden sm:inline">Get Support</span>
-                    </button>
+                    <div className="flex gap-3">
+                        <NavLink to="/doctors">
+                            <button className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg shadow-indigo-100"><MessageSquare size={16} /> Consult Specialist</button>
+                        </NavLink>
+                    </div>
                 </nav>
 
-                <div className="p-4 md:p-8 lg:p-12">
-                    <header className="mb-8 md:mb-12 border-b border-slate-100 pb-8">
-                        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Help Guide</h1>
-                        <p className="text-slate-500 text-base md:text-lg">Condition: <span className="font-semibold text-slate-800">{selectedPatient.disease}</span> for {selectedPatient.name}</p>
-                    </header>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
-                        <div className="lg:col-span-2 space-y-8 md:space-y-12">
-                            <section>
-                                <h2 className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.15em] text-rose-500 mb-6">
-                                    <Info size={18} /> About this condition
-                                </h2>
-                                <div className="bg-slate-50 rounded-3xl p-6 md:p-8">
+                <div className="p-6 md:p-10 max-w-6xl mx-auto">
+                    {/* Patient Summary Header */}
+                    <div className="bg-white rounded-2xl p-8 md:p-10 shadow-sm border border-slate-100 mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                        <div className="flex items-center gap-6">
+                            <div className="w-20 h-20 rounded-3xl bg-indigo-600 flex items-center justify-center text-white shadow-2xl shadow-indigo-200">
+                                <User size={40} />
+                            </div>
+                            <div>
+                                <h1 className="text-3xl font-black text-slate-900">{selectedPatient.name}</h1>
+                                <p className="text-indigo-600 font-bold uppercase tracking-widest text-xs mt-1">{selectedPatient.disease}</p>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
+                            <div className="bg-slate-50 p-4 rounded-2xl min-w-[120px]">
+                                <p className="text-[10px] font-bold text-slate-400 uppercase">Patient Age</p>
+                                <p className="text-lg font-bold text-slate-800">{selectedPatient.age} Years</p>
+                            </div>
+                            <div className="bg-slate-50 p-4 rounded-2xl min-w-[120px]">
+                                <p className="text-[10px] font-bold text-slate-400 uppercase">Residence</p>
+                                <p className="text-lg font-bold text-slate-800">{selectedPatient.location.split(',')[0]}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols- gap-10">
+                        <div className="lg:col-span-2 space-y-10">
+                            <div className="space-y-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
                                     {loadingIntel ? (
-                                        <div className="space-y-3">
-                                            <div className="h-4 bg-slate-200 animate-pulse rounded w-3/4"></div>
-                                            <div className="h-4 bg-slate-200 animate-pulse rounded w-full"></div>
-                                            <div className="h-4 bg-slate-200 animate-pulse rounded w-5/6"></div>
+                                        <Skeleton className="w-full aspect-square rounded-[2.5rem]" />
+                                    ) : wikiData?.originalimage && (
+                                        <div className="rounded-[2.5rem] overflow-hidden border-4 border-white shadow-2xl h-full">
+                                            <img
+                                                src={wikiData.originalimage.source}
+                                                alt="Visual"
+                                                className="w-full h-full object-cover"
+                                            />
                                         </div>
+                                    )}
+
+                                    <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white h-full flex flex-col shadow-2xl border border-slate-800">
+                                        <div className="flex items-center justify-between mb-8">
+                                            <h3 className="font-bold text-lg flex items-center gap-2">
+                                                <MapPin size={20} className="text-indigo-400" />
+                                                Local Resources
+                                            </h3>
+                                            {!loadingIntel && (
+                                                <NavLink to="/doctors">
+                                                    <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-4 py-3 rounded-full font-bold tracking-tighter">
+                                                        For More Data
+                                                    </span>
+                                                </NavLink>
+                                            )}
+                                        </div>
+
+                                        {loadingIntel ? (
+                                            <div className="space-y-4">
+                                                <Skeleton className="w-full h-32 bg-slate-800 rounded-3xl" />
+                                                <Skeleton className="w-full h-32 bg-slate-800 rounded-3xl" />
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-6 flex-1">
+                                                <div className="group">
+                                                    <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 group-hover:text-rose-400 transition-colors">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div>
+                                                        Urgent Care & Hospitals
+                                                    </h4>
+
+                                                    {nearbyData.hospitals.length > 0 ? (
+                                                        <div className="space-y-2">
+                                                            {nearbyData.hospitals.slice(0, 4).map((h, i) => (
+                                                                <a
+                                                                    key={i}
+                                                                    href={`https://www.google.com/maps?q=${h.lat},${h.lon}`}
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                    className="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all group/item"
+                                                                >
+                                                                    <span className="text-xs font-semibold text-slate-200 truncate pr-4">
+                                                                        {h.tags.name || "Medical Center"}
+                                                                    </span>
+                                                                    <Navigation size={14} className="text-slate-500 group-hover/item:text-indigo-400 transition-colors shrink-0" />
+                                                                </a>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="p-6 rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
+                                                            <Info size={20} className="text-slate-600 mb-2" />
+                                                            <p className="text-[11px] text-slate-500 font-medium">No hospitals found in this immediate area.</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                <div className="group">
+                                                    <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 group-hover:text-emerald-400 transition-colors">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                                        Nearby Pharmacies
+                                                    </h4>
+
+                                                    {nearbyData.pharmacies.length > 0 ? (
+                                                        <div className="space-y-2">
+                                                            {nearbyData.pharmacies.slice(0, 4).map((p, i) => (
+                                                                <a
+                                                                    key={i}
+                                                                    href={`https://www.google.com/maps?q=${p.lat},${p.lon}`}
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                    className="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all group/item"
+                                                                >
+                                                                    <span className="text-xs font-semibold text-slate-200 truncate pr-4">
+                                                                        {p.tags.name || "Local Pharmacy"}
+                                                                    </span>
+                                                                    <Navigation size={14} className="text-slate-500 group-hover/item:text-emerald-400 transition-colors shrink-0" />
+                                                                </a>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="p-6 rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
+                                                            <Info size={20} className="text-slate-600 mb-2" />
+                                                            <p className="text-[11px] text-slate-500 font-medium">No pharmacies listed in this vicinity.</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                <div className="mt-auto pt-6 border-t border-white/5">
+                                                    <div className="flex items-start gap-3 p-4 bg-rose-500/10 rounded-2xl border border-rose-500/20">
+                                                        <LifeBuoy size={16} className="text-rose-500 shrink-0 mt-0.5" />
+                                                        <p className="text-[10px] leading-relaxed text-rose-200/70 font-medium">
+                                                            <strong>Emergency?</strong> Please dial your local emergency number (e.g., 911) immediately if the patient is in critical condition.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="h-px flex-1 bg-slate-200"></div>
+                                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Clinical Overview</h2>
+                                    <div className="h-px flex-1 bg-slate-200"></div>
+                                </div>
+                                <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
+                                    {loadingIntel ? (
+                                        <Skeleton className="w-full h-32 rounded-3xl" />
                                     ) : (
-                                        <div className="text-slate-700 text-base md:text-lg leading-relaxed prose prose-slate"
-                                            dangerouslySetInnerHTML={{ __html: wikiData?.extract || "No description found." }} />
+                                        <div className="text-slate-600 text-lg leading-relaxed prose prose-indigo" dangerouslySetInnerHTML={{ __html: wikiData?.extract || "No data." }} />
                                     )}
                                 </div>
                             </section>
 
                             <section>
-                                <h2 className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.15em] text-rose-500 mb-6">
-                                    <Heart size={18} /> Care & Support Steps
-                                </h2>
-                                <div className="space-y-4">
+                                <h2 className="flex items-center gap-2 text-sm font-bold text-slate-800 mb-6"><ShieldCheck className="text-indigo-500" /> Care protocols</h2>
+                                <div className="grid grid-cols-1 gap-4">
                                     {loadingIntel ? (
-                                        [1, 2].map((i) => <div key={i} className="h-24 bg-slate-50 animate-pulse rounded-2xl"></div>)
+                                        [1, 2].map(i => <Skeleton key={i} className="w-full h-32 rounded-3xl" />)
                                     ) : (
                                         nihSections?.map((section, idx) => (
-                                            <div key={idx} className="border border-slate-100 rounded-2xl p-5 md:p-6 bg-white shadow-sm">
-                                                <h3 className="text-slate-900 font-bold mb-2">{section.title}</h3>
+                                            <div key={idx} className="bg-white border border-slate-100 rounded-3xl p-8 shadow-sm">
+                                                <h3 className="text-indigo-600 font-bold text-lg mb-3 flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-indigo-400"></div>{section.title}</h3>
                                                 <p className="text-slate-600 text-sm leading-relaxed">{section.content}</p>
                                             </div>
+
                                         ))
                                     )}
                                 </div>
                             </section>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-                                <div className="bg-amber-50 rounded-[2rem] p-6 md:p-8 border border-amber-100">
-                                    <h3 className="text-amber-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                                        <Activity size={16} /> Observed Symptoms
-                                    </h3>
-                                    <ul className="space-y-2">
-                                        {internalData.symptoms ? Object.values(internalData.symptoms).filter(v => typeof v === 'string' && v.length > 1).map((s, i) => (
-                                            <li key={i} className="flex items-center gap-2 text-xs font-bold text-slate-700 bg-white/50 p-2 rounded-lg">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></div> {s}
-                                            </li>
-                                        )) : <p className="text-[10px] text-slate-400">No specific symptoms logged.</p>}
-                                    </ul>
+                            {/* Internal Stats Skeletons */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="bg-amber-50/50 rounded-[2.5rem] p-8 border border-amber-100">
+                                    <h3 className="text-amber-700 text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2"><Activity size={18} /> Key Symptoms</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {loadingIntel ? <Skeleton className="w-full h-20" /> : internalData.symptoms ? Object.values(internalData.symptoms).filter(v => typeof v === 'string' && v.length > 1).map((s, i) => (
+                                            <span key={i} className="px-4 py-2 bg-white text-amber-800 text-xs font-bold rounded-xl shadow-sm border border-amber-100">{s}</span>
+                                        )) : <p className="text-xs text-slate-400">N/A</p>}
+                                    </div>
                                 </div>
-
-                                <div className="bg-emerald-50 rounded-[2rem] p-6 md:p-8 border border-emerald-100">
-                                    <h3 className="text-emerald-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                                        <ShieldCheck size={16} /> Safety Precautions
-                                    </h3>
-                                    <ul className="space-y-2">
-                                        {internalData.precautions ? Object.entries(internalData.precautions)
-                                            .filter(([key, value]) => !['_id', '__v', 'Disease'].includes(key) && typeof value === 'string' && value.length > 1)
-                                            .map(([key, p], i) => (
-                                                <li key={i} className="flex items-center gap-2 text-xs font-bold text-slate-700 bg-white/50 p-2 rounded-lg">
-                                                    <CheckCircle2 size={14} className="text-emerald-500 shrink-0" /> {p}
-                                                </li>
-                                            )) : <p className="text-[10px] text-slate-400">No specific precautions logged.</p>}
-                                    </ul>
+                                <div className="bg-emerald-50/50 rounded-[2.5rem] p-8 border border-emerald-100">
+                                    <h3 className="text-emerald-700 text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2"><ShieldCheck size={18} /> Precautions</h3>
+                                    {loadingIntel ? <Skeleton className="w-full h-20" /> : (
+                                        <ul className="space-y-3">
+                                            {internalData.precautions ? Object.entries(internalData.precautions).filter(([k, v]) => !['_id', '__v', 'Disease'].includes(k) && typeof v === 'string' && v.length > 1).map(([k, p], i) => (
+                                                <li key={i} className="flex items-start gap-3 text-xs font-bold text-slate-700"><CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" /> {p}</li>
+                                            )) : <p className="text-xs text-slate-400">N/A</p>}
+                                        </ul>
+                                    )}
                                 </div>
                             </div>
                         </div>
 
-                        <div className="space-y-6 md:space-y-8">
-                            {!loadingIntel && wikiData?.originalimage && (
-                                <div className="rounded-3xl overflow-hidden border border-slate-100 shadow-lg">
-                                    <img src={wikiData.originalimage.source} alt="Condition" className="w-full h-auto object-cover max-h-64 lg:max-h-none" />
-                                </div>
-                            )}
-
-                            <div className="bg-slate-900 rounded-[2rem] p-6 md:p-8 text-white shadow-xl">
-                                <h3 className="font-bold mb-4">Patient Profile</h3>
-                                <div className="space-y-4">
-                                    <div className="flex justify-between items-center sm:block">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Location</p>
-                                        <p className="text-sm">{selectedPatient.location}</p>
-                                    </div>
-                                    <div className="flex justify-between items-center sm:block">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Age</p>
-                                        <p className="text-sm">{selectedPatient.age} years</p>
-                                    </div>
-                                    <button className="w-full bg-rose-500 py-4 rounded-2xl text-[10px] font-black uppercase hover:bg-rose-600 transition-all mt-4">
-                                        Print Medical Guide
-                                    </button>
-                                </div>
-                            </div>
-
-                            <section className="space-y-6">
-                                <h2 className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.25em] text-rose-500">
-                                    <MapPin size={18} /> Nearby Resources
-                                </h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                                    <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100">
-                                        <p className="text-[10px] font-black text-blue-600 uppercase mb-3">Hospitals</p>
-                                        <div className="space-y-2">
-                                            {nearbyData.hospitals.slice(0, 3).map((h, i) => (
-                                                <div key={i} className="text-[11px] font-bold text-slate-600 flex justify-between gap-2">
-                                                    <span className="truncate">{h.tags.name}</span>
-                                                    <a href={`https://www.google.com/maps/search/?api=1&query=${h.lat},${h.lon}`} target="_blank" rel="noreferrer" className="text-blue-500 shrink-0">Map</a>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100">
-                                        <p className="text-[10px] font-black text-green-600 uppercase mb-3">Pharmacies</p>
-                                        <div className="space-y-2">
-                                            {nearbyData.pharmacies.slice(0, 3).map((p, i) => (
-                                                <div key={i} className="text-[11px] font-bold text-slate-600 flex justify-between gap-2">
-                                                    <span className="truncate">{p.tags.name}</span>
-                                                    <a href={`https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}`} target="_blank" rel="noreferrer" className="text-green-500 shrink-0">Map</a>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
                     </div>
                 </div>
+                {/* Footer Section */}
+                <footer className="mt-10 border-t border-slate-200 bg-white p-8">
+                    <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg"><Microscope size={20} /></div>
+                            <p className="text-xs font-bold text-slate-500">AI-Powered Patient Insight Engine v2.4</p>
+                        </div>
+                        <p className="text-[10px] font-medium text-slate-400 text-center md:text-right max-w-md">
+                            The information provided is gathered from open clinical databases and Wikipedia.
+                            Always consult with a licensed medical professional before beginning any treatment protocol.
+                        </p>
+                    </div>
+                </footer>
             </div>
         </div>
     );

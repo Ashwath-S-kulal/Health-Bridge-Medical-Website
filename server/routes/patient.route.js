@@ -62,7 +62,7 @@ router.get('/nih-proxy', async (req, res) => {
         const response = await axios.get(nihUrl, {
             responseType: 'text' // Vital: tells axios not to try and parse it as JSON
         });
-
+console.log(response)
         res.set('Content-Type', 'text/xml');
         res.send(response.data);
     } catch (error) {

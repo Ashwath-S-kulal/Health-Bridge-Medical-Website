@@ -8,7 +8,7 @@ const DiseasePrecautions = () => {
   const [diseaseList, setDiseaseList] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [loading, setLoading] = useState(true);
-  const [isListLoading, setIsListLoading] = useState(true);
+    const [isListLoading, setIsListLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const navigate = useNavigate();
