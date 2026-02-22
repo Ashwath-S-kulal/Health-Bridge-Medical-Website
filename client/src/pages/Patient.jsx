@@ -169,7 +169,6 @@ const PatientSupportHub = () => {
         p.disease.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // --- VIEW 1: LIST VIEW ---
     if (view === "list") {
         return (
             <div className="flex min-h-screen bg-[#F1F5F9]">
