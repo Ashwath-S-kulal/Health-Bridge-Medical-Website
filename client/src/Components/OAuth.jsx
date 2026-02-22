@@ -3,7 +3,6 @@ import { app } from '../firebase';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
-import GoogleImg from '../Images/GoogleImg.jpg';
 import { ArrowRight } from 'lucide-react';
 
 export default function OAuth() {
