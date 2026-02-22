@@ -28,6 +28,35 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const { currentUser } = useSelector(state => state.user);
   const navigate = useNavigate();
+const [deferredPrompt, setDeferredPrompt] = useState(null);
+const [showInstall, setShowInstall] = useState(false);
+
+useEffect(() => {
+  const handler = (e) => {
+    e.preventDefault();
+    setDeferredPrompt(e);
+    setShowInstall(true);
+  };
+
+  window.addEventListener("beforeinstallprompt", handler);
+
+  return () => window.removeEventListener("beforeinstallprompt", handler);
+}, []);
+
+const handleInstallClick = async () => {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+
+  if (outcome === "accepted") {
+    console.log("App installed");
+  }
+
+  setDeferredPrompt(null);
+  setShowInstall(false);
+};
+
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -466,6 +495,15 @@ const Dashboard = () => {
             </div>
           </footer>
         </div>
+
+        {showInstall && (
+  <button
+    onClick={handleInstallClick}
+    className="fixed bottom-6 right-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm transition-all active:scale-95 z-50"
+  >
+    Install App
+  </button>
+)}
       </main>
     </div>
   );
