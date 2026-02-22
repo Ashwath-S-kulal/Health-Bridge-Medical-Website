@@ -37,7 +37,6 @@ const PatientSupportHub = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     });
 
-    // Skeleton Component
     const Skeleton = ({ className }) => (
         <div className={`animate-pulse bg-slate-200 rounded ${className}`}></div>
     );
