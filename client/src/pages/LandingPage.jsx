@@ -55,7 +55,7 @@ const Dashboard = () => {
             <div onClick={() => navigate("/profile")} className="relative group cursor-pointer">
               <div className="absolute inset-0 bg-cyan-500 rounded-[2rem] blur-xl opacity-20 group-hover:opacity-40 transition-opacity" />
               <div className="relative w-16 h-16 rounded-[2rem] bg-white overflow-hidden border-2 border-slate-100 shadow-xl">
-                <img src={currentUser.profilePicture} alt="profile" className="w-full h-full object-cover" />
+                <img src={currentUser.profilePicture|| "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"} alt="profile" className="w-full h-full object-cover" />
               </div>
               <div className="absolute -right-1 -bottom-1 bg-emerald-500 text-white p-1 rounded-lg border-2 border-white shadow-sm">
                 <CheckCircle2 size={12} />
@@ -69,7 +69,7 @@ const Dashboard = () => {
                 </span>
               </div>
               <h1 className="text-3xl font-black text-slate-900 tracking-tighter">
-                Hey,  {currentUser.username}
+                Hey,  {currentUser.username || "User"}
               </h1>
             </div>
           </div>
