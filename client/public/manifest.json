@@ -2,9 +2,10 @@
   "name": "Health Care",
   "short_name": "Health",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#0f172a",
   "icons": [
     {
       "src": "/logo192.png",
