@@ -7,7 +7,20 @@ import {
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const EMERGENCY_NUMBER = '108'; 
+
   const toggleSidebar = () => setIsOpen(!isOpen);
+
+  const handleSOSCall = (e) => {
+    if (!/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      e.preventDefault();
+      
+      navigator.clipboard.writeText(EMERGENCY_NUMBER);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    }
+  };
 
   return (
     <>
@@ -20,7 +33,7 @@ const Sidebar = () => {
         </div>
 
         <button onClick={toggleSidebar}>
-          <div className="  text-gray-600 p-1 rounded-xl border-1 border-white">
+          <div className="text-gray-600 p-1 rounded-xl border-1 border-white">
             {isOpen ? <X size={25} /> : <Menu size={25} />}
           </div>
         </button>
@@ -32,9 +45,6 @@ const Sidebar = () => {
           onClick={toggleSidebar}
         />
       )}
-
-
-
 
       <aside className={`
         fixed top-0 left-0 h-screen bg-white border-r border-slate-100 flex flex-col p-6 z-[60]
@@ -54,10 +64,8 @@ const Sidebar = () => {
               </h1>
             </div>
           </NavLink>
-         
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 space-y-1.5 overflow-y-auto no-scrollbar">
           <SidebarLink to="/" icon={<LayoutDashboard size={20} />} label="Dashboard" onClick={() => setIsOpen(false)} />
           <SidebarLink to="/patienthub" icon={<Zap size={20} />} label="Patient Hub" onClick={() => setIsOpen(false)} />
@@ -67,16 +75,36 @@ const Sidebar = () => {
           <SidebarLink to="/diseasevault" icon={<Activity size={20} />} label="Disease Vault" onClick={() => setIsOpen(false)} />
         </nav>
 
-        <div className="mt-8 bg-blue-50 p-5 rounded-2xl text-white relative overflow-hidden border border-gray-300 shadow-2xl">
+        <div className="mt-auto bg-slate-950 p-5 rounded-2xl text-white relative overflow-hidden border border-slate-800 shadow-2xl">
+          <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-rose-500/10 rounded-full blur-xl pointer-events-none animate-pulse" />
+          <div className="absolute -top-10 -left-10 w-20 h-20 bg-blue-500/10 rounded-full blur-xl pointer-events-none" />
+
           <div className="relative z-10">
-            <p className="text-[9px] uppercase tracking-[0.2em] text-blue-400 mb-1 font-black">24/7 Support</p>
-            <h4 className="font-bold text-sm mb-4 leading-tight text-sky-400">Emergency?</h4>
-            <button className="w-full bg-rose-500 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-600 transition-all active:scale-95 shadow-lg shadow-rose-500/20">
+            <div className="flex justify-between items-center mb-1">
+              <p className="text-[9px] uppercase tracking-[0.2em] text-cyan-400 font-black">
+                24/7 Support
+              </p>
+              {copied && (
+                <span className="text-[8px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold animate-fade-in">
+                  Copied!
+                </span>
+              )}
+            </div>
+            
+            <h4 className="font-bold text-sm mb-4 leading-tight text-slate-100">
+              Emergency?
+            </h4>
+
+            <a 
+              href={`tel:${EMERGENCY_NUMBER}`}
+              onClick={handleSOSCall}
+              className="block w-full text-center bg-rose-500 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-white hover:bg-rose-600 transition-all transform active:scale-95 shadow-lg shadow-rose-500/20 cursor-pointer select-none"
+            >
               Call SOS
-            </button>
+            </a>
           </div>
-          <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-blue-500/10 rounded-full blur-xl" />
         </div>
+        
       </aside>
     </>
   );
@@ -87,14 +115,14 @@ const SidebarLink = ({ to, icon, label, onClick }) => (
     to={to}
     onClick={onClick}
     className={({ isActive }) => `
-      flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-bold text-xs  tracking-wide
+      flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-bold text-xs tracking-wide
       ${isActive
         ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 translate-x-1 mx-2'
         : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
       }
     `}
   >
-    <span className={({ isActive }) => isActive ? 'text-white' : 'text-slate-400'}>{icon}</span>
+    <span className="flex items-center justify-center text-inherit">{icon}</span>
     <span>{label}</span>
   </NavLink>
 );
