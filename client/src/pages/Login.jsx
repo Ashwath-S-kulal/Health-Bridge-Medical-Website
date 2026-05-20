@@ -2,46 +2,14 @@ import React from 'react';
 import { Activity, ShieldCheck, Globe, Zap } from 'lucide-react';
 import OAuth from '../Components/OAuth';
 import Header from '../Components/Header';
+import Sidebar from '../Components/Sidebar';
 
 const Login = () => {
   return (
     <div>
-      <Header />
-      <div className="min-h-screen bg-white flex flex-col md:flex-row font-sans pt-16">
-        <div className="hidden md:flex md:w-1/2 bg-slate-900 relative items-center justify-center overflow-hidden ">
-          <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-500/20 via-transparent to-blue-600/20"></div>
-
-          <div className="relative z-10 p-12 text-white">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 bg-cyan-500 rounded-2xl shadow-lg shadow-cyan-500/40">
-                <Activity size={40} strokeWidth={2.5} />
-              </div>
-              <h1 className="text-4xl font-black tracking-tighter uppercase italic">
-                Medica<span className="text-cyan-400">Core</span>
-              </h1>
-            </div>
-
-            <h2 className="text-5xl font-bold leading-tight mb-6">
-              Advanced Clinical <br />
-              <span className="text-cyan-400">Intelligence.</span>
-            </h2>
-
-            <div className="space-y-6 mt-12">
-              {[
-                { icon: <ShieldCheck className="text-cyan-400" />, text: "HIPAA & GDPR Compliant Architecture" },
-                { icon: <Globe className="text-cyan-400" />, text: "Global Medical Data Synchronization" },
-                { icon: <Zap className="text-cyan-400" />, text: "Real-time Biometric Pattern Recognition" }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 text-slate-300 font-medium">
-                  {item.icon}
-                  <span>{item.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="absolute -bottom-20 -right-20 w-80 h-80 border-[16px] border-cyan-500/10 rounded-full"></div>
-        </div>
+      <Sidebar />
+      <div className="flex-1 lg:ml-64 transition-all duration-300 min-h-screen bg-white flex flex-col md:flex-row font-sans">
+    
 
         <div className="flex-1 flex items-center justify-center p-4 bg-slate-50">
           <div className="w-full max-w-md">
@@ -81,12 +49,7 @@ const Login = () => {
             </div>
 
 
-            <div className="mt-8 flex justify-between items-center px-4">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">System Online</span>
-              </div>
-            </div>
+          
           </div>
         </div>
       </div>

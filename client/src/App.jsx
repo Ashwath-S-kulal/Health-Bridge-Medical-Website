@@ -36,12 +36,9 @@ function App() {
         <Routes>
           <Route path='/' element={<MedicalLandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/hospital" element={<Hospital />} />
-          <Route path="/medical" element={<Medical />} />
           <Route path="/symptoms" element={<Symptoms />} />
           <Route path="/diseasedesc" element={<DiseaseDesc />} />
           <Route path="/precaution" element={<Precaution />} />
-          <Route path="/doctors" element={<DoctorDirectory />} />
           <Route path="/doctormailtoadmin" element={<VolunteerRegistration />} />
           <Route path="/medicinefinder" element={<MedicineFinder />} />
           <Route path="/medicinefinderourdata" element={<MedicineFinderOurData />} />
@@ -49,13 +46,16 @@ function App() {
           <Route path="nearbyfacility" element={<NearbyFacility />} />
           <Route path="/diseasevault" element={<DiseaseVault />} />
           <Route path="/diet" element={<Diet />} />
-          <Route path="/patienthub" element={<PatientHub/>}/>
+          <Route path="/patienthub" element={<PatientHub />} />
 
 
 
           <Route element={<PrivateRoute />}>
             <Route path="/patient" element={<PatientForm />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/doctors" element={<DoctorDirectory />} />
+            <Route path="/hospital" element={<Hospital />} />
+          <Route path="/medical" element={<Medical />} />
           </Route>
 
           <Route element={<AdminRoute />}>
