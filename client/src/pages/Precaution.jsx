@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import Sidebar from "../Components/Sidebar";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ShieldCheck, Activity } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Activity, ChevronDown } from "lucide-react";
+import Header from "../Components/Header";
 
 const DiseasePrecautions = () => {
   const [data, setData] = useState([]);
   const [diseaseList, setDiseaseList] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [loading, setLoading] = useState(true);
-    const [isListLoading, setIsListLoading] = useState(true);
+  const [isListLoading, setIsListLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const navigate = useNavigate();
@@ -62,128 +62,124 @@ const DiseasePrecautions = () => {
   }, [selectedFilter]);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] font-sans text-slate-900">
-      <Sidebar />
-      
-      {/* Main Container: Dynamic margin for Desktop Sidebar */}
-      <div className="flex-1 lg:ml-64 transition-all duration-300">
-        <main className=" mx-auto p-5 sm:p-8 md:p-12">
-          
-          {/* Navigation */}
-          <button 
-            onClick={() => navigate(-1)} 
-            className="flex items-center gap-2 text-slate-400 font-black text-[10px] uppercase tracking-widest hover:text-indigo-600 transition-all mb-8 group"
-          >
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
-            Back to Directory
-          </button>
+    <div className="min-h-screen bg-[#F8FAFC] antialiased text-slate-800">
+      <Header />
 
-          {/* Header Section */}
-          <div className="flex flex-col xl:flex-row xl:items-end justify-between mb-12 gap-8">
-             <div>
-            <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">
-              Precautionary <span className="text-emerald-600">Measures</span>
-            </h1>
-            <div className="flex items-center gap-2 mt-5">
-              <span className={`h-2 w-2 rounded-full ${isListLoading ? 'bg-amber-500 animate-ping' : 'bg-emerald-500 animate-pulse'}`}></span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
-                {isListLoading ? "System Scanning..." : "Safety protocols"}
-              </span>
+      {/* Main View Container */}
+      <div className=" transition-all duration-300">
+        <main className="max-w-screen mx-auto px-4 md:px-8 py-8">
+
+
+
+          {/* Section Title & Dashboard Controls */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-200 pb-6 mb-8">
+            <div>
+              <h1 className="text-xl font-bold tracking-tight text-slate-900">
+                Precautionary Protocols
+              </h1>
+              <div className="flex items-center gap-2 mt-1.5">
+                <span className={`h-1.5 w-1.5 rounded-full ${isListLoading ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`} />
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">
+                  {isListLoading ? "Syncing Active Registries..." : "Verified Safety Controls"}
+                </span>
+              </div>
             </div>
-          </div>
 
-            {/* Filter Dropdown */}
-            <div className="relative w-full xl:max-w-xs">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
-                Filter conditions
-              </label>
+            {/* Condition Filter Block */}
+            <div className="w-full md:w-72 shrink-0">
               <div className="relative">
                 <select
                   value={selectedFilter}
                   onChange={(e) => setSelectedFilter(e.target.value)}
                   disabled={isListLoading}
-                  className={`w-full appearance-none bg-white border border-slate-200 py-4 px-5 rounded-2xl shadow-sm outline-none transition-all font-bold text-sm
-                    ${isListLoading
-                      ? "cursor-not-allowed opacity-60 text-slate-400 bg-slate-50 italic"
-                      : "cursor-pointer text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500"
-                    }`}
+                  className={`w-full appearance-none bg-white border border-slate-200 py-2.5 pl-4 pr-10 rounded-xl text-sm font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all
+                  ${isListLoading ? "bg-slate-50 text-slate-400 cursor-not-allowed italic" : "text-slate-700 cursor-pointer"}`}
                 >
                   <option value="All">
-                    {isListLoading ? "SEARCHING..." : "All Pathologies"}
+                    {isListLoading ? "Updating Indexes..." : "All Pathologies"}
                   </option>
                   {!isListLoading && diseaseList.map((disease, idx) => (
                     <option key={idx} value={disease}>{disease}</option>
                   ))}
                 </select>
 
-                {/* Dropdown Icon / Loader */}
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                {/* Status Graphic Overlay */}
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                   {isListLoading ? (
-                    <div className="h-4 w-4 border-2 border-slate-200 border-t-amber-500 rounded-full animate-spin"></div>
+                    <div className="h-3 w-3 border-2 border-slate-200 border-t-amber-500 rounded-full animate-spin" />
                   ) : (
-                    <Activity size={16} className="text-slate-300" />
+                    <ChevronDown size={14} />
                   )}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Grid Layout */}
+          {/* Primary Layout Logic Gate */}
           {loading && page === 1 ? (
-            <div className="flex flex-col items-center justify-center py-32 bg-white rounded-[3rem] border border-slate-100">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-slate-100 border-t-emerald-500 mb-4"></div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Accessing records...</p>
+            <div className="flex flex-col items-center justify-center py-24 bg-white rounded-xl border border-slate-200 shadow-sm">
+              <div className="w-6 h-6 border-2 border-slate-200 border-t-emerald-500 rounded-full animate-spin mb-3" />
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Accessing Clinical Guidelines...</p>
             </div>
           ) : (
-            <div className="space-y-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div className="space-y-6">
+
+              {/* Medical Protocols Matrix Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {data.map((item, idx) => (
-                  <div 
-                    key={item._id || idx} 
-                    className="group bg-white border border-slate-100 p-6 sm:p-10 rounded-[2.5rem] transition-all hover:shadow-2xl hover:shadow-indigo-500/5 hover:border-indigo-100 animate-in fade-in slide-in-from-bottom-4 duration-500"
+                  <div
+                    key={item._id || idx}
+                    className="bg-white border border-slate-200 p-5 sm:p-6 rounded-xl shadow-sm hover:shadow-md transition-all hover:border-indigo-200 flex flex-col justify-between animate-in fade-in slide-in-from-bottom-2 duration-300"
                   >
-                    <div className="flex flex-wrap items-center gap-3 mb-8">
-                      <span className="bg-indigo-600 text-white text-[9px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest shadow-lg shadow-indigo-100">
-                        Protocol
-                      </span>
-                      <h3 className="text-slate-800 font-black italic uppercase tracking-tight text-lg sm:text-xl">
-                        {item.Disease}
-                      </h3>
+                    <div>
+                      {/* Protocol Meta Group */}
+                      <div className="flex items-center gap-3 mb-5 border-b border-slate-50 pb-3">
+                        <span className="bg-indigo-50 text-indigo-700 border border-indigo-100 text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">
+                          Protocol
+                        </span>
+                        <h3 className="text-sm font-bold text-slate-800 tracking-tight">
+                          {item.Disease}
+                        </h3>
+                      </div>
+
+                      {/* Direct Precaution Steps */}
+                      <ul className="space-y-3.5">
+                        {[item.Precaution_1, item.Precaution_2, item.Precaution_3, item.Precaution_4].map((step, i) => (
+                          step && (
+                            <li key={i} className="flex items-start gap-3 group/item">
+                              <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0 group-hover/item:scale-110 transition-transform" />
+                              <p className="text-xs text-slate-600 font-medium leading-relaxed first-letter:uppercase">
+                                {step.replace(/_/g, ' ')}
+                              </p>
+                            </li>
+                          )
+                        ))}
+                      </ul>
                     </div>
-                    
-                    <ul className="space-y-5">
-                      {[item.Precaution_1, item.Precaution_2, item.Precaution_3, item.Precaution_4].map((step, i) => (
-                        step && (
-                          <li key={i} className="flex items-start gap-4 group/item">
-                            <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-400 group-hover/item:scale-150 transition-transform shrink-0" />
-                            <p className="text-slate-500 text-sm sm:text-base font-medium leading-relaxed first-letter:uppercase">
-                              {step.replace(/_/g, ' ')}
-                            </p>
-                          </li>
-                        )
-                      ))}
-                    </ul>
                   </div>
                 ))}
               </div>
 
-              {/* Load More Button */}
+              {/* Pagination Controls Layer */}
               {hasMore && (
-                <div className="flex justify-center pt-8">
+                <div className="flex justify-center pt-4">
                   <button
                     onClick={() => setPage(p => p + 1)}
                     disabled={loading}
-                    className="w-full sm:w-auto px-12 py-5 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-indigo-600 disabled:bg-slate-200 transition-all shadow-xl shadow-indigo-100 flex items-center justify-center gap-3"
+                    className="w-full sm:w-auto px-6 py-2.5 bg-slate-900 hover:bg-indigo-600 disabled:bg-slate-100 text-white disabled:text-slate-400 rounded-xl font-bold text-xs tracking-wide transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2"
                   >
                     {loading ? (
                       <>
-                        <div className="h-3 w-3 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                        Processing...
+                        <div className="h-3 w-3 border-2 border-slate-400 border-t-white rounded-full animate-spin" />
+                        <span>Processing...</span>
                       </>
-                    ) : "Load More Guidelines"}
+                    ) : (
+                      <span>Load More Guidelines</span>
+                    )}
                   </button>
                 </div>
               )}
+
             </div>
           )}
         </main>

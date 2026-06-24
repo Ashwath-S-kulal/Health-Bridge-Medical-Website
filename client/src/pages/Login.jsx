@@ -2,14 +2,13 @@ import React from 'react';
 import { Activity, ShieldCheck, Globe, Zap } from 'lucide-react';
 import OAuth from '../Components/OAuth';
 import Header from '../Components/Header';
-import Sidebar from '../Components/Sidebar';
 
 const Login = () => {
   return (
     <div>
-      <Sidebar />
-      <div className="flex-1 lg:ml-64 transition-all duration-300 min-h-screen bg-white flex flex-col md:flex-row font-sans">
-    
+      <Header />
+      <div className="flex-1 transition-all duration-300 min-h-screen bg-white flex flex-col md:flex-row font-sans">
+
 
         <div className="flex-1 flex items-center justify-center p-4 bg-slate-50">
           <div className="w-full max-w-md">
@@ -49,7 +48,7 @@ const Login = () => {
             </div>
 
 
-          
+
           </div>
         </div>
       </div>

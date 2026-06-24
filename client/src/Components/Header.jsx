@@ -1,102 +1,261 @@
-import React from 'react';
-import { HeartPulse, Search, User } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {
+    HeartPulse, Search, Bell, Sparkles, User, Sun, Moon,
+    ChevronRight, Activity, PlusCircle, Calendar, ShieldAlert
+} from 'lucide-react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+const SEARCHABLE_PAGES = [
+    { label: 'Dashboard', path: '/' },
+    { label: 'Patient Portal', path: '/patienthub' },
+    { label: 'Medical Facilities', path: '/nearbyfacility' },
+    { label: 'MediVault', path: '/medicinefinderourdata' },
+    { label: 'Disease Vault', path: '/diseasevault' },
+    { label: 'Encyclopedia', path: '/diseasedesc' },
+    { label: 'Volunteer Network', path: '/doctormailtoadmin' },
+    { label: 'Profile', path: '/profile' },
+    { label: 'Symptoms Analysis', path: '/symptoms' },
+    { label: 'Diet Plan', path: '/diet' },
+];
+
 export default function Header() {
-    const { currentUser } = useSelector(state => state.user);
+    const { currentUser } = useSelector(state => state.user || { currentUser: null });
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const [showAssistant, setShowAssistant] = useState(false);
+
+    // Search states
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showSearch, setShowSearch] = useState(false);
+    const [messages, setMessages] = useState([{ role: 'assistant', content: 'How can I assist with your clinical data today?' }]);
+    const [input, setInput] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    const sendMessage = async () => {
+        if (!currentUser || !input.trim() || loading) return;
+        setLoading(true);
+        const userMessage = { role: 'user', content: input };
+        setMessages((prev) => [...prev, userMessage]);
+        setInput("");
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URI}/api/chatbot/assistant`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: input }),
+            });
+
+            const data = await response.json();
+            setMessages((prev) => [
+                ...prev,
+                { role: 'assistant', content: data.reply || "No response received." }
+            ]);
+        } catch (err) {
+            setMessages((prev) => [
+                ...prev,
+                { role: 'assistant', content: "Error fetching response. Please try again." }
+            ]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const filteredRoutes = searchQuery
+        ? SEARCHABLE_PAGES.filter(p => p.label.toLowerCase().includes(searchQuery.toLowerCase()))
+        : [];
+    // Format breadcrumbs from path
+    const getBreadcrumbs = () => {
+        const paths = location.pathname.split('/').filter(Boolean);
+        if (paths.length === 0) return [{ label: 'Dashboard', path: '/' }];
+
+        const crumbs = [{ label: 'Dashboard', path: '/' }];
+        let currentPath = '';
+
+        paths.forEach((p) => {
+            currentPath += `/${p}`;
+            // Clean up name
+            let label = p.charAt(0).toUpperCase() + p.slice(1);
+            if (p === 'patienthub') label = 'Patient Portal';
+            if (p === 'nearbyfacility') label = 'Medical Facilities';
+            if (p === 'medicinefinderourdata') label = 'MediVault';
+            if (p === 'diseasevault') label = 'Disease Vault';
+            if (p === 'diseasedesc') label = 'Encyclopedia';
+            if (p === 'doctormailtoadmin') label = 'Volunteer Network';
+            crumbs.push({ label, path: currentPath });
+        });
+        return crumbs;
+    };
+
+    const breadcrumbs = getBreadcrumbs();
+
+    // Mock clinical notifications
+    const notifications = [
+        { id: 1, text: "Dr. Carter verified your clinical file", time: "10m ago", read: false },
+        { id: 2, text: "New precaution guide available: Influenza", time: "2h ago", read: true },
+        { id: 3, text: "Emergency unit capacity updated: 24 active beds", time: "5h ago", read: true }
+    ];
 
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50  pointer-events-none">
-            <nav className="w-full pointer-events-auto bg-sky-100/70 backdrop-blur-md border border-white/40 px-4 py-2.5 flex items-center justify-between shadow-blue-900/10 transition-all duration-300">
+        <header className="sticky top-0 z-40 w-full glassmorphism border-b border-slate-100 px-4 py-3 md:px-8 flex items-center justify-between select-none bg-white/80 backdrop-blur-md">
 
-                {/* --- LOGO SECTION --- */}
-                <NavLink to="/">
-                    <div className="flex items-center gap-3 group cursor-pointer flex-shrink-0 pl-2">
-                        <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
-                            <HeartPulse className="text-white w-6 h-6" />
-                        </div>
-                        <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden md:block">
-                            Health<span className="text-blue-600"> Bridge</span>
-                        </h1>
+            {/* --- BREADCRUMB / BRAND SECTION --- */}
+            <div className="flex items-center gap-2 md:gap-3">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                    {breadcrumbs.map((crumb, idx) => (
+                        <React.Fragment key={idx}>
+                            {idx > 0 && <ChevronRight size={12} className="text-slate-300" />}
+                            <NavLink
+                                to={crumb.path}
+                                className={`text-[11px] md:text-xs font-bold tracking-wide uppercase transition-colors
+                                  ${idx === breadcrumbs.length - 1
+                                        ? 'text-primary'
+                                        : 'text-slate-400 hover:text-slate-600'
+                                    }`}
+                            >
+                                {crumb.label}
+                            </NavLink>
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
+
+            {/* --- GLOBAL SEARCH BAR --- */}
+            <div className="hidden md:block relative">
+                <div className="flex items-center bg-slate-50 border border-slate-200/60 rounded-xl px-3 py-1.5 w-60 lg:w-80 gap-2 focus-within:border-primary/50 focus-within:bg-white focus-within:ring-4 focus-within:ring-primary-light/50">
+                    <Search size={15} className="text-slate-400" />
+                    <input
+                        type="text"
+                        placeholder="Search features..."
+                        className="bg-transparent text-xs text-slate-800 outline-none w-full"
+                        value={searchQuery}
+                        onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                            setShowSearch(true);
+                        }}
+                        onBlur={() => setTimeout(() => setShowSearch(false), 200)}
+                    />
+                </div>
+
+                {/* Dropdown Results */}
+                {showSearch && searchQuery && (
+                    <div className="absolute top-full mt-2 w-full bg-white border border-slate-100 rounded-2xl shadow-xl p-2 z-50">
+                        {filteredRoutes.length > 0 ? (
+                            filteredRoutes.map((route) => (
+                                <button
+                                    key={route.path}
+                                    onClick={() => {
+                                        navigate(route.path);
+                                        setSearchQuery('');
+                                    }}
+                                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-primary rounded-lg transition-colors"
+                                >
+                                    {route.label}
+                                </button>
+                            ))
+                        ) : (
+                            <div className="px-4 py-2 text-xs text-slate-400 italic">No features found</div>
+                        )}
                     </div>
+                )}
+            </div>
+
+            {/* --- TOP HEADER ACTIONS --- */}
+            <div className="flex items-center gap-2 md:gap-3">
+
+                {/* Healthcare Assistant Button */}
+                <div className="relative">
+                    <button
+                        onClick={() => setShowAssistant(!showAssistant)}
+                        className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark text-white px-3 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-wider shadow-md shadow-primary/10 transition-all hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer"
+                    >
+                        <Sparkles size={13} className="animate-pulse" />
+                        <span className="hidden sm:inline">Clinical AI</span>
+                    </button>
+
+                    {showAssistant && (
+                        <div className="absolute right-0 mt-3 w-72 md:w-96 bg-white border border-slate-200 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex flex-col h-[480px] animate-in fade-in zoom-in-95 duration-300 overflow-hidden">
+
+                            {/* Header with Gradient */}
+                            <div className="px-5 py-4 bg-blue-600 flex justify-between items-center text-white">
+                                <h4 className="font-black text-xs uppercase tracking-widest flex items-center gap-2">
+                                    <Sparkles size={14} className="text-cyan-300" /> Clinical Intelligence
+                                </h4>
+                                <button
+                                    onClick={() => setShowAssistant(false)}
+                                    className="text-white/70 hover:text-white transition-colors"
+                                >
+                                    <span className="text-xs font-bold">Close</span>
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50/50 scrollbar-thin scrollbar-thumb-slate-200">
+                                {messages.map((m, i) => (
+                                    <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                        <div className={`px-4 py-2.5 rounded-2xl text-xs max-w-[85%] leading-relaxed shadow-sm ${m.role === 'user'
+                                            ? 'bg-indigo-600 text-white rounded-tr-none'
+                                            : 'bg-white text-slate-700 border border-slate-200 rounded-tl-none'
+                                            }`}>
+                                            {m.content}
+                                        </div>
+                                    </div>
+                                ))}
+                                {isTyping && (
+                                    <div className="text-[10px] text-slate-400 font-bold flex gap-1 items-center px-2">
+                                        <span className="w-1 h-1 bg-slate-400 rounded-full animate-bounce" />
+                                        <span className="w-1 h-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                                        <span className="w-1 h-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="p-4 bg-white border-t border-slate-100">
+                                <div className="relative flex items-center">
+                                    <input
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                                        className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
+                                        placeholder="Ask clinical queries..."
+                                    />
+                                    <button
+                                        onClick={sendMessage}
+                                        className="absolute right-2 p-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                                    >
+                                        <ChevronRight size={14} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+
+
+
+               
+
+                {/* --- ADDED: PROFILE REDIRECT ICON --- */}
+                <NavLink
+                    to={currentUser ? "/profile" : "/login"}
+                    className="ml-1 flex items-center justify-center h-8 md:h-10 w-8 md:w-10 rounded-xl border border-slate-200 hover:border-primary/50 hover:shadow-sm overflow-hidden transition-all bg-slate-50"
+                    title="Profile"
+                >
+                    {currentUser?.profilePicture ? (
+                        <img
+                            src={currentUser.profilePicture}
+                            alt="Profile"
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <User size={18} className="text-slate-500" />
+                    )}
                 </NavLink>
 
-                <div className="hidden md:flex gap-2 items-center bg-slate-100/50 border border-slate-200/40 p-1 rounded-2xl">
-
-                    <NavLink to="/hospital">
-                        {({ isActive }) => (
-                            <button
-                                className={`px-6 py-2 text-[11px] font-black uppercase tracking-wider rounded-xl transition-all duration-300
-          ${isActive
-                                        ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-slate-500 hover:text-slate-800 hover:bg-white/50'
-                                    }`}
-                            >
-                                Hospital Nearby
-                            </button>
-                        )}
-                    </NavLink>
-
-                    <NavLink to="/medical">
-                        {({ isActive }) => (
-                            <button
-                                className={`px-6 py-2 text-[11px] font-black uppercase tracking-wider rounded-xl transition-all duration-300
-          ${isActive
-                                        ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-slate-500 hover:text-slate-800 hover:bg-white/50'
-                                    }`}
-                            >
-                                Medical Nearby
-                            </button>
-                        )}
-                    </NavLink>
-                    <NavLink to="/doctors">
-                        {({ isActive }) => (
-                            <button
-                                className={`px-6 py-2 text-[11px] font-black uppercase tracking-wider rounded-xl transition-all duration-300
-          ${isActive
-                                        ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-slate-500 hover:text-slate-800 hover:bg-white/50'
-                                    }`}
-                            >
-                                Find Doctors
-                            </button>
-                        )}
-                    </NavLink>
-
-                </div>
-                <div className="flex items-center gap-2 ml-4">
-                    <NavLink
-                        to={currentUser ? '/profile' : '/login'}
-                        className="relative group"
-                    >
-                        {currentUser ? (
-                            <div className="relative">
-                                <div className="absolute -inset-1 bg-cyan-400 rounded-full blur opacity-20 group-hover:opacity-60 transition duration-300"></div>
-                                <div className="relative h-9 w-9 rounded-full border-2 border-white ring-1 ring-slate-200 overflow-hidden shadow-sm transition-transform active:scale-90">
-                                    <img
-                                        src={currentUser.profilePicture}
-                                        alt="Profile"
-                                        className="h-full w-full object-cover"
-                                    />
-                                </div>
-                                <div className="absolute bottom-0 right-0 h-2.5 w-2.5 bg-green-500 border-2 border-white rounded-full"></div>
-                            </div>
-                        ) : (
-                            <div className="relative group">
-                                <div className="absolute -inset-0.5 bg-cyan-400 rounded-full blur opacity-30 group-hover:opacity-60 transition"></div>
-                                <div className="relative flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl">
-                                    <User className="w-3.5 h-3.5 text-cyan-400" />
-                                    <span className="hidden sm:inline">Login</span>
-                                </div>
-                            </div>
-                        )}
-                    </NavLink>
-                </div>
-
-            </nav>
+            </div>
         </header>
     );
 }

@@ -21,10 +21,7 @@ import MedicineFinder from "./pages/MedicineFinder.jsx";
 import DoctorProfile from "./Components/Doctorprofile.jsx";
 import MedicineFinderOurData from "./pages/MedicineFinderOurData.jsx";
 import PatientForm from "./pages/Patient.jsx";
-import NearbyFacility from "./pages/NearbyFacility.jsx";
-import DiseaseVault from "./Components/DiseaseVault.jsx";
 import Diet from "./pages/Diet.jsx";
-import PatientHub from "./Components/PatientHub.jsx";
 
 function App() {
 
@@ -42,11 +39,8 @@ function App() {
           <Route path="/doctormailtoadmin" element={<VolunteerRegistration />} />
           <Route path="/medicinefinder" element={<MedicineFinder />} />
           <Route path="/medicinefinderourdata" element={<MedicineFinderOurData />} />
-          <Route path="/doctor/:id" element={<DoctorProfile />} />
-          <Route path="nearbyfacility" element={<NearbyFacility />} />
-          <Route path="/diseasevault" element={<DiseaseVault />} />
+          <Route path="/doctors/:id" element={<DoctorProfile />} />
           <Route path="/diet" element={<Diet />} />
-          <Route path="/patienthub" element={<PatientHub />} />
 
 
 
@@ -55,7 +49,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/doctors" element={<DoctorDirectory />} />
             <Route path="/hospital" element={<Hospital />} />
-          <Route path="/medical" element={<Medical />} />
+            <Route path="/medical" element={<Medical />} />
           </Route>
 
           <Route element={<AdminRoute />}>

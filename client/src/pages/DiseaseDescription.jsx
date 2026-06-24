@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Sidebar from "../Components/Sidebar";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen, Search } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronDown, Search } from "lucide-react";
+import Header from "../Components/Header";
 
 const DiseaseInfo = () => {
   const [data, setData] = useState([]);
@@ -42,100 +42,97 @@ const DiseaseInfo = () => {
   }, [selectedFilter]);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
-      <Sidebar />
-      
-      {/* Main Container: Dynamic margin based on Sidebar */}
-      <div className="flex-1 lg:ml-64 transition-all duration-300">
-        <main className="max-w-7xl mx-auto p-4 sm:p-6 md:p-12">
-          
-          {/* Back Button */}
-          <button 
-            onClick={() => navigate(-1)} 
-            className="flex items-center gap-2 text-slate-400 text-xs font-black uppercase tracking-widest hover:text-indigo-600 transition-all mb-8 group"
-          >
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
-            Back
-          </button>
+    <div className="min-h-screen bg-[#F8FAFC] antialiased text-slate-800">
+      <Header />
 
-          {/* Header Section: Stacks on mobile, row on tablet+ */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8 mb-12">
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-slate-900 rounded-xl shadow-lg shadow-indigo-100">
-                  <BookOpen className="text-cyan-400 w-5 h-5" />
-                </div>
-                <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 uppercase">
+      {/* Dense Workspace Frame */}
+      <div className="flex-1 transition-all duration-300">
+        <main className="max-w-screen mx-auto p-3 sm:p-5">
+
+          {/* Minimalist Navigation Action */}
+
+
+          {/* Compact Dashboard Control Row */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 mb-5">
+            <div className="flex items-center gap-2.5">
+
+              <div>
+                <h1 className="text-lg font-bold tracking-tight text-slate-900">
                   Medical <span className="text-indigo-600">Encyclopedia</span>
                 </h1>
+                <p className="text-slate-500 text-[11px] font-medium hidden md:block">
+                  Verified functional profiles and diagnostic summaries.
+                </p>
               </div>
-              <p className="text-slate-500 text-sm font-medium max-w-lg">
-                Access official descriptions and diagnostic summaries from our central clinical database.
-              </p>
             </div>
 
-            {/* Dropdown/Filter Section */}
-            <div className="w-full xl:max-w-xs">
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">
-                Select Pathology
-              </label>
+            {/* Compact Filter Tool */}
+            <div className="w-full sm:w-60 shrink-0">
               <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                  <Search size={16} />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+                  <Search size={12} />
                 </div>
                 <select
                   value={selectedFilter}
                   onChange={(e) => setSelectedFilter(e.target.value)}
                   disabled={isListLoading}
-                  className={`w-full appearance-none bg-white border border-slate-200 text-slate-700 py-4 pl-12 pr-10 rounded-2xl shadow-sm focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 outline-none transition-all font-bold text-sm ${isListLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  className={`w-full appearance-none bg-white border border-slate-200 py-1.5 pl-8 pr-8 rounded-lg text-xs font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all
+                  ${isListLoading ? 'bg-slate-50 text-slate-400 cursor-not-allowed italic' : 'text-slate-700 cursor-pointer'}`}
                 >
-                  <option value="All">{isListLoading ? "Scanning Database..." : "All Conditions"}</option>
+                  <option value="All">
+                    {isListLoading ? "Syncing..." : "All Conditions"}
+                  </option>
                   {!isListLoading && diseaseList.map((disease, idx) => (
                     <option key={idx} value={disease}>{disease}</option>
                   ))}
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-indigo-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
+
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                  <ChevronDown size={12} />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Content Area */}
+          {/* Dynamic Entry Logic Router */}
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-32 bg-white border border-slate-100 rounded-[2.5rem]">
-              <div className="w-10 h-10 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-              <p className="mt-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">
-                Decrypting Medical Records...
+            <div className="flex flex-col items-center justify-center py-16 bg-white border border-slate-200 rounded-lg shadow-sm">
+              <div className="w-5 h-5 border-2 border-slate-200 border-t-indigo-600 rounded-full animate-spin mb-2.5" />
+              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
+                Decrypting Repositories...
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 animate-in fade-in slide-in-from-bottom-1 duration-200">
               {data.length > 0 ? (
                 data.map((item, idx) => (
                   <div
                     key={item._id || idx}
-                    className="group bg-white p-6 sm:p-8 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200 transition-all duration-300"
+                    className="group bg-white p-4 rounded-lg border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all flex flex-col justify-between"
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <h2 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight group-hover:text-indigo-600 transition-colors">
+                    <div>
+                      <h2 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight group-hover:text-indigo-600 transition-colors first-letter:uppercase mb-1.5">
                         {item.Disease}
                       </h2>
+                      <p className="text-slate-500 text-[11px] leading-normal font-medium line-clamp-3 group-hover:line-clamp-none transition-all">
+                        {item.Description}
+                      </p>
                     </div>
-                    <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-medium">
-                      {item.Description}
-                    </p>
-                    <div className="mt-6 pt-6 border-t border-slate-50 flex items-center gap-2">
-                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Verified Entry</span>
+
+                    {/* Dense Ledger Stamp */}
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-1.5">
+                      <span className="h-1 w-1 rounded-full bg-emerald-500" />
+                      <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider">
+                        Verified Ledger Entry
+                      </span>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="col-span-full py-20 text-center">
-                  <p className="text-slate-400 font-bold">No records found for "{selectedFilter}"</p>
+                <div className="col-span-full py-12 text-center bg-slate-50 border border-dashed border-slate-200 rounded-lg">
+                  <p className="text-slate-400 font-medium text-xs">
+                    No records match: <span className="font-semibold text-slate-600">"{selectedFilter}"</span>
+                  </p>
                 </div>
               )}
             </div>

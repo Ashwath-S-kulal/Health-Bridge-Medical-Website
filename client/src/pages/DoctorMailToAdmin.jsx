@@ -13,7 +13,7 @@ const DoctorOnboardingPage = () => {
     return (
         <div className="h-screen flex flex-col overflow-hidden bg-white">
             <Header />
-            <div className="flex-1 flex flex-col lg:flex-row overflow-hidden pt-16">
+            <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
                 <div className="lg:w-1/2 bg-slate-900 p-8 lg:p-16 flex flex-col justify-center relative overflow-hidden">
                     <div className="absolute inset-0 opacity-10 pointer-events-none">
                         <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">

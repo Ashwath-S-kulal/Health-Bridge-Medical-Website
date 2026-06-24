@@ -8,8 +8,8 @@ import {
     Microscope,
     Sparkles
 } from "lucide-react";
-import Sidebar from "../Components/Sidebar";
 import { NavLink, useNavigate } from "react-router-dom";
+import Header from "../Components/Header";
 
 const PatientSupportHub = () => {
     const [view, setView] = useState("list");
@@ -170,371 +170,347 @@ const PatientSupportHub = () => {
 
     if (view === "list") {
         return (
-            <div className="flex min-h-screen bg-[#F1F5F9]">
-                <Sidebar />
-                <div className="flex-1 lg:ml-64 transition-all duration-300">
-                    <main className="max-w-7xl mx-auto p-6 md:p-10 pt-20 md:pt-6">
+            <div>
+                <Header />
+                <div className="flex min-h-screen bg-[#F1F5F9]">
+                    <div className="flex-1  transition-all duration-300">
+                        <main className="max-w-7xl mx-auto p-4 md:p-6 pt-16 md:pt-4">
 
-                        <div className="mb-10 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl p-8 shadow-xl shadow-indigo-100 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-4 opacity-10">
-                                <Sparkles size={120} />
-                            </div>
-                            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-white">
+
+
+                            {/* Registry Title and Stats Section */}
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                                 <div>
-                                    <h2 className="text-2xl md:text-3xl font-black mb-2 tracking-tight">Register your disease here</h2>
-                                    <p className="text-indigo-100 font-medium opacity-90">Our AI engine will analyze your condition and provide a personalized recovery guide.</p>
+                                    <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Patient Registry</h1>
+                                    <p className="text-xs text-slate-500 mt-1">Monitor and manage active care cases</p>
                                 </div>
-                                <button onClick={() => setIsFormOpen(true)} className="bg-white text-indigo-600 px-8 py-4 rounded-2xl font-bold text-sm shadow-lg hover:bg-indigo-50 transition-all active:scale-95 whitespace-nowrap">
-                                    Start AI Analysis
+
+                                <div className="flex gap-2">
+                                    {isInitialLoading ? (
+                                        <>
+                                            <Skeleton className="w-20 h-12 rounded-lg" />
+                                            <Skeleton className="w-20 h-12 rounded-lg" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="bg-white px-4 py-1.5 rounded-lg shadow-sm border border-slate-200 flex flex-col justify-center">
+                                                <p className="text-[9px] font-bold text-slate-400 uppercase">Active Cases: <span className="text-lg font-black text-slate-800 block sm:inline"> {stats.active}</span></p>
+                                            </div>
+                                            <div className="bg-emerald-600 px-4 py-1.5 rounded-lg shadow-md shadow-emerald-100 text-white flex flex-col justify-center">
+                                                <p className="text-[9px] font-bold text-emerald-100 uppercase">Recovered: <span className="text-lg font-black block sm:inline"> {stats.recovered}</span></p>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Search & Actions - Tightened spacing */}
+                            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                                <div className="relative flex-1 group">
+                                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={16} />
+                                    <input
+                                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs focus:ring-4 focus:ring-indigo-50 outline-none transition-all shadow-sm"
+                                        placeholder="Search by name or condition..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                                <button onClick={() => setIsFormOpen(!isFormOpen)} className="bg-slate-900 hover:bg-indigo-600 text-white flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold transition-all active:scale-95 shadow-md shrink-0">
+                                    {isFormOpen ? <X size={16} /> : <Plus size={16} />}
+                                    {isFormOpen ? "Cancel" : "New Entry"}
                                 </button>
                             </div>
-                        </div>
 
-                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-                            <div>
-
-                                <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Patient Registry</h1>
-                                <p className="text-slate-500 mt-2">Monitor and manage active care cases</p>
-                            </div>
-
-                            <div className="flex gap-3">
-                                {isInitialLoading ? (
-                                    <>
-                                        <Skeleton className="w-24 h-20" />
-                                        <Skeleton className="w-24 h-20" />
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="bg-white px-6 py-2 rounded-xl shadow-sm border border-slate-200">
-                                            <p className="text-[10px] font-bold text-slate-400 ">Active Cases: <span className="text-2xl font-black"> {stats.active}</span></p>
+                            {/* Expandable Form - Compressed Grid Layout */}
+                            {isFormOpen && (
+                                <div className="bg-white border border-indigo-100 rounded-2xl p-5 mb-6 shadow-lg animate-in fade-in zoom-in duration-300">
+                                    <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-1.5"><User className="text-indigo-500" size={16} /> Patient Information</h2>
+                                    <form onSubmit={submitNewCareRequest} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-bold text-slate-500 ml-1">Full Name</label>
+                                            <input required className="w-full bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-xs focus:bg-white transition-all" placeholder="John Smith" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
                                         </div>
-                                        <div className="bg-emerald-600 px-6 py-2 rounded-xl shadow-lg shadow-emerald-100 text-white">
-                                            <p className="text-[10px] font-bold text-emerald-100 ">Recovered: <span className="text-2xl font-black"> {stats.recovered}</span></p>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-bold text-slate-500 ml-1">Age</label>
+                                            <input required type="number" className="w-full bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-xs" placeholder="25" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} />
                                         </div>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Search & Actions */}
-                        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                            <div className="relative flex-1 group">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={20} />
-                                <input
-                                    className="w-full pl-12 pr-6 py-4 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-indigo-50 outline-none transition-all shadow-sm"
-                                    placeholder="Search by name or condition..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
-                            <button onClick={() => setIsFormOpen(!isFormOpen)} className="bg-slate-900 hover:bg-indigo-600 text-white flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold transition-all active:scale-95 shadow-xl">
-                                {isFormOpen ? <X size={20} /> : <Plus size={20} />}
-                                {isFormOpen ? "Cancel" : "New Entry"}
-                            </button>
-                        </div>
-
-                        {/* Expandable Form (Same as previous) */}
-                        {isFormOpen && (
-                            <div className="bg-white border border-indigo-100 rounded-3xl p-8 mb-10 shadow-xl animate-in fade-in zoom-in duration-300">
-                                <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><User className="text-indigo-500" size={20} /> Patient Information</h2>
-                                <form onSubmit={submitNewCareRequest} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 ml-1">Full Name</label>
-                                        <input required className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm focus:bg-white transition-all" placeholder="John Smith" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
-                                    </div>
-                                    <div className="space-y-2"><label className="text-xs font-bold text-slate-500 ml-1">Age</label><input required type="number" className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm" placeholder="25" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} /></div>
-                                    <div className="space-y-2"><label className="text-xs font-bold text-slate-500 ml-1">Gender</label><select className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm" value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })}><option>Male</option><option>Female</option><option>Other</option></select></div>
-                                    <div className="space-y-2 md:col-span-2">
-                                        <label className="text-xs font-bold text-slate-500 ml-1">Medical Condition</label>
-                                        <div className="relative">
-                                            <select required className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm appearance-none cursor-pointer" value={formData.disease} onChange={e => setFormData({ ...formData, disease: e.target.value })} disabled={isListLoading}>
-                                                <option value="" disabled>{isListLoading ? "Fetching Database..." : "Select a diagnosed condition"}</option>
-                                                {diseaseList.map((disease, index) => <option key={index} value={disease}>{disease}</option>)}
-                                            </select>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                                {isListLoading ? <Loader2 size={18} className="animate-spin" /> : <ChevronRight size={18} className="rotate-90" />}
-                                            </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-bold text-slate-500 ml-1">Gender</label>
+                                            <select className="w-full bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-xs" value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })}><option>Male</option><option>Female</option><option>Other</option></select>
                                         </div>
-                                    </div>
-                                    <div className="space-y-2"><label className="text-xs font-bold text-slate-500 ml-1">Residence</label><input required className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-sm" placeholder="City, State" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} /></div>
-                                    <div className="md:col-span-3 pt-4 flex justify-end"><button type="submit" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100">Register Patient Record</button></div>
-                                </form>
-                            </div>
-                        )}
-
-                        {/* List Grid with Skeletons */}
-                        <div className="grid grid-cols-1 gap-4">
-                            {isInitialLoading ? (
-                                [1, 2, 3, 4, 5].map((i) => (
-                                    <div key={i} className="flex flex-col md:flex-row items-center justify-between p-6 bg-white rounded-2xl border border-slate-100">
-                                        <div className="flex items-center gap-5 w-full">
-                                            <Skeleton className="w-14 h-14 rounded-2xl" />
-                                            <div className="space-y-2 flex-1">
-                                                <Skeleton className="w-48 h-5" />
-                                                <Skeleton className="w-32 h-3" />
-                                            </div>
-                                        </div>
-                                        <Skeleton className="w-32 h-10 mt-4 md:mt-0" />
-                                    </div>
-                                ))
-                            ) : (
-                                filteredPatients.map(p => (
-                                    <div key={p._id} onClick={() => handleOpenCard(p)} className={`group flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl border transition-all duration-300 ${p.isCured ? 'bg-white/60 border-slate-200 grayscale opacity-70' : 'bg-white border-transparent shadow-sm hover:shadow-xl hover:border-indigo-100 cursor-pointer'}`}>
-                                        <div className="flex items-center gap-5">
-                                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors ${p.isCured ? 'bg-slate-100 text-slate-400' : 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white'}`}>
-                                                {p.isCured ? <CheckCircle2 size={28} /> : <User size={28} />}
-                                            </div>
-                                            <div>
-                                                <h3 className={`text-lg font-bold ${p.isCured ? 'text-slate-500 line-through' : 'text-slate-900'}`}>{p.name}</h3>
-                                                <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
-                                                    <span className="text-xs font-medium text-indigo-500 flex items-center gap-1 uppercase tracking-wider"><Activity size={12} /> {p.disease}</span>
-                                                    <span className="text-xs font-medium text-slate-400 flex items-center gap-1"><MapPin size={12} /> {p.location}</span>
+                                        <div className="space-y-1 sm:col-span-2">
+                                            <label className="text-[10px] font-bold text-slate-500 ml-1">Medical Condition</label>
+                                            <div className="relative">
+                                                <select required className="w-full bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-xs appearance-none cursor-pointer" value={formData.disease} onChange={e => setFormData({ ...formData, disease: e.target.value })} disabled={isListLoading}>
+                                                    <option value="" disabled>{isListLoading ? "Fetching Database..." : "Select a diagnosed condition"}</option>
+                                                    {diseaseList.map((disease, index) => <option key={index} value={disease}>{disease}</option>)}
+                                                </select>
+                                                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                                    {isListLoading ? <Loader2 size={14} className="animate-spin" /> : <ChevronRight size={14} className="rotate-90" />}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="mt-4 md:mt-0 flex items-center gap-3">
-                                            <button onClick={(e) => toggleCured(e, p._id, p.isCured)} className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all ${p.isCured ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600 hover:bg-emerald-600 hover:text-white'}`}>
-                                                {p.isCured ? 'Successfully Recovered' : 'Mark as Cured'}
-                                            </button>
-                                            {!p.isCured && <ChevronRight size={20} className="text-slate-300 group-hover:text-indigo-500 transition-transform group-hover:translate-x-1" />}
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-bold text-slate-500 ml-1">Residence</label>
+                                            <input required className="w-full bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-xs" placeholder="City, State" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} />
                                         </div>
-                                    </div>
-                                ))
+                                        <div className="sm:col-span-2 md:col-span-3 pt-2 flex justify-end">
+                                            <button type="submit" className="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100">Register Patient Record</button>
+                                        </div>
+                                    </form>
+                                </div>
                             )}
-                        </div>
-                    </main>
+
+                            {/* List Grid with Skeletons */}
+                            <div className="grid grid-cols-1 gap-3">
+                                {isInitialLoading ? (
+                                    [1, 2, 3, 4, 5].map((i) => (
+                                        <div key={i} className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-100">
+                                            <div className="flex items-center gap-3 w-full">
+                                                <Skeleton className="w-10 h-10 rounded-xl" />
+                                                <div className="space-y-1.5 flex-1">
+                                                    <Skeleton className="w-36 h-4" />
+                                                    <Skeleton className="w-24 h-3" />
+                                                </div>
+                                            </div>
+                                            <Skeleton className="w-24 h-8 rounded-lg" />
+                                        </div>
+                                    ))
+                                ) : (
+                                    filteredPatients.map(p => (
+                                        <div key={p._id} onClick={() => handleOpenCard(p)} className={`group flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border transition-all duration-200 ${p.isCured ? 'bg-white/60 border-slate-200 grayscale opacity-70' : 'bg-white border-transparent shadow-sm hover:shadow-md hover:border-indigo-100 cursor-pointer'}`}>
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors shrink-0 ${p.isCured ? 'bg-slate-100 text-slate-400' : 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white'}`}>
+                                                    {p.isCured ? <CheckCircle2 size={20} /> : <User size={20} />}
+                                                </div>
+                                                <div>
+                                                    <h3 className={`text-sm font-bold ${p.isCured ? 'text-slate-500 line-through' : 'text-slate-900'}`}>{p.name}</h3>
+                                                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-0.5">
+                                                        <span className="text-[10px] font-medium text-indigo-500 flex items-center gap-1 uppercase tracking-wider"><Activity size={10} /> {p.disease}</span>
+                                                        <span className="text-[10px] font-medium text-slate-400 flex items-center gap-1"><MapPin size={10} /> {p.location}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="mt-3 sm:mt-0 flex items-center justify-between sm:justify-end gap-2">
+                                                <button onClick={(e) => toggleCured(e, p._id, p.isCured)} className={`px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all ${p.isCured ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600 hover:bg-emerald-600 hover:text-white'}`}>
+                                                    {p.isCured ? 'Successfully Recovered' : 'Mark as Cured'}
+                                                </button>
+                                                {!p.isCured && <ChevronRight size={16} className="text-slate-300 group-hover:text-indigo-500 transition-transform group-hover:translate-x-0.5 hidden sm:block" />}
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </main>
+                    </div>
                 </div>
+
             </div>
+
         );
     }
 
     return (
-        <div className="flex min-h-screen bg-[#F8FAFC]">
-            <Sidebar />
-            <div className="flex-1 lg:ml-64">
-                <nav className="h-20 bg-white/80 backdrop-blur-md sticky top-0 z-50 px-8 flex items-center justify-between border-b border-slate-200">
-                    <button onClick={() => setView("list")} className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-sm transition-all group">
-                        <div className="p-2 rounded-lg bg-slate-50 group-hover:bg-indigo-50"><ArrowLeft size={18} /></div>
-                        Back to Registry
-                    </button>
-                    <div className="flex gap-3">
-                        <NavLink to="/doctors">
-                            <button className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg shadow-indigo-100"><MessageSquare size={16} /> Consult Specialist</button>
-                        </NavLink>
-                    </div>
-                </nav>
+        <div>
+            <Header />
+            <div className="flex min-h-screen bg-[#F8FAFC]">
+                <div className="flex-1 ">
+                    {/* Top Navigation - Slimmed */}
+                    <nav className="h-14 bg-white/80 backdrop-blur-md sticky top-0 z-50 px-5 flex items-center justify-between border-b border-slate-200">
+                        <button onClick={() => setView("list")} className="flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 font-bold text-xs transition-all group">
+                            <div className="p-1.5 rounded-lg bg-slate-50 group-hover:bg-indigo-50"><ArrowLeft size={14} /></div>
+                            Back to Registry
+                        </button>
+                        <div className="flex gap-2">
+                            <NavLink to="/doctors">
+                                <button className="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 shadow-md shadow-indigo-100"><MessageSquare size={14} /> Consult Specialist</button>
+                            </NavLink>
+                        </div>
+                    </nav>
 
-
-                <div className="p-6 md:p-10 max-w-6xl mx-auto">
-                    {/* Patient Summary Header */}
-                    <div className="bg-white rounded-2xl p-8 md:p-10 shadow-sm border border-slate-100 mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                        <div className="flex items-center gap-6">
-                            <div className="w-20 h-20 rounded-3xl bg-indigo-600 flex items-center justify-center text-white shadow-2xl shadow-indigo-200">
-                                <User size={40} />
+                    <div className="p-4 md:p-6 max-w-screen mx-auto">
+                        {/* Patient Summary Header - Compressed layout */}
+                        <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-200 shrink-0">
+                                    <User size={28} />
+                                </div>
+                                <div>
+                                    <h1 className="text-xl font-black text-slate-900">{selectedPatient.name}</h1>
+                                    <p className="text-indigo-600 font-bold uppercase tracking-widest text-[10px] mt-0.5">{selectedPatient.disease}</p>
+                                </div>
                             </div>
-                            <div>
-                                <h1 className="text-3xl font-black text-slate-900">{selectedPatient.name}</h1>
-                                <p className="text-indigo-600 font-bold uppercase tracking-widest text-xs mt-1">{selectedPatient.disease}</p>
+                            <div className="grid grid-cols-2 gap-3 w-full sm:w-auto">
+                                <div className="bg-slate-50 p-2.5 rounded-xl min-w-[100px]">
+                                    <p className="text-[9px] font-bold text-slate-400 uppercase">Patient Age</p>
+                                    <p className="text-sm font-bold text-slate-800">{selectedPatient.age} Years</p>
+                                </div>
+                                <div className="bg-slate-50 p-2.5 rounded-xl min-w-[100px]">
+                                    <p className="text-[9px] font-bold text-slate-400 uppercase">Residence</p>
+                                    <p className="text-sm font-bold text-slate-800">{selectedPatient.location.split(',')[0]}</p>
+                                </div>
                             </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
-                            <div className="bg-slate-50 p-4 rounded-2xl min-w-[120px]">
-                                <p className="text-[10px] font-bold text-slate-400 uppercase">Patient Age</p>
-                                <p className="text-lg font-bold text-slate-800">{selectedPatient.age} Years</p>
-                            </div>
-                            <div className="bg-slate-50 p-4 rounded-2xl min-w-[120px]">
-                                <p className="text-[10px] font-bold text-slate-400 uppercase">Residence</p>
-                                <p className="text-lg font-bold text-slate-800">{selectedPatient.location.split(',')[0]}</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols- gap-10">
-                        <div className="lg:col-span-2 space-y-10">
-                            <div className="space-y-8">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
-                                    {loadingIntel ? (
-                                        <Skeleton className="w-full aspect-square rounded-[2.5rem]" />
-                                    ) : wikiData?.originalimage && (
-                                        <div className="rounded-[2.5rem] overflow-hidden border-4 border-white shadow-2xl h-full">
-                                            <img
-                                                src={wikiData.originalimage.source}
-                                                alt="Visual"
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                    )}
+                        {/* Main Intel Content Column */}
+                        <div className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {loadingIntel ? (
+                                    <Skeleton className="w-full aspect-video md:aspect-auto md:h-64 rounded-2xl" />
+                                ) : wikiData?.originalimage && (
+                                    <div className="rounded-2xl overflow-hidden border-2 border-white shadow-lg h-48 md:h-64">
+                                        <img
+                                            src={wikiData.originalimage.source}
+                                            alt="Visual"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                )}
 
-                                    <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white h-full flex flex-col shadow-2xl border border-slate-800">
-                                        <div className="flex items-center justify-between mb-8">
-                                            <h3 className="font-bold text-lg flex items-center gap-2">
-                                                <MapPin size={20} className="text-indigo-400" />
-                                                Local Resources
-                                            </h3>
-                                            {!loadingIntel && (
-                                                <NavLink to="/doctors">
-                                                    <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-4 py-3 rounded-full font-bold tracking-tighter">
-                                                        For More Data
-                                                    </span>
-                                                </NavLink>
-                                            )}
-                                        </div>
-
-                                        {loadingIntel ? (
-                                            <div className="space-y-4">
-                                                <Skeleton className="w-full h-32 bg-slate-800 rounded-3xl" />
-                                                <Skeleton className="w-full h-32 bg-slate-800 rounded-3xl" />
-                                            </div>
-                                        ) : (
-                                            <div className="space-y-6 flex-1">
-                                                <div className="group">
-                                                    <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 group-hover:text-rose-400 transition-colors">
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div>
-                                                        Urgent Care & Hospitals
-                                                    </h4>
-
-                                                    {nearbyData.hospitals.length > 0 ? (
-                                                        <div className="space-y-2">
-                                                            {nearbyData.hospitals.slice(0, 4).map((h, i) => (
-                                                                <a
-                                                                    key={i}
-                                                                    href={`https://www.google.com/maps?q=${h.lat},${h.lon}`}
-                                                                    target="_blank"
-                                                                    rel="noreferrer"
-                                                                    className="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all group/item"
-                                                                >
-                                                                    <span className="text-xs font-semibold text-slate-200 truncate pr-4">
-                                                                        {h.tags.name || "Medical Center"}
-                                                                    </span>
-                                                                    <Navigation size={14} className="text-slate-500 group-hover/item:text-indigo-400 transition-colors shrink-0" />
-                                                                </a>
-                                                            ))}
-                                                        </div>
-                                                    ) : (
-                                                        <div className="p-6 rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
-                                                            <Info size={20} className="text-slate-600 mb-2" />
-                                                            <p className="text-[11px] text-slate-500 font-medium">No hospitals found in this immediate area.</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-
-                                                <div className="group">
-                                                    <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 group-hover:text-emerald-400 transition-colors">
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                                                        Nearby Pharmacies
-                                                    </h4>
-
-                                                    {nearbyData.pharmacies.length > 0 ? (
-                                                        <div className="space-y-2">
-                                                            {nearbyData.pharmacies.slice(0, 4).map((p, i) => (
-                                                                <a
-                                                                    key={i}
-                                                                    href={`https://www.google.com/maps?q=${p.lat},${p.lon}`}
-                                                                    target="_blank"
-                                                                    rel="noreferrer"
-                                                                    className="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all group/item"
-                                                                >
-                                                                    <span className="text-xs font-semibold text-slate-200 truncate pr-4">
-                                                                        {p.tags.name || "Local Pharmacy"}
-                                                                    </span>
-                                                                    <Navigation size={14} className="text-slate-500 group-hover/item:text-emerald-400 transition-colors shrink-0" />
-                                                                </a>
-                                                            ))}
-                                                        </div>
-                                                    ) : (
-                                                        <div className="p-6 rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
-                                                            <Info size={20} className="text-slate-600 mb-2" />
-                                                            <p className="text-[11px] text-slate-500 font-medium">No pharmacies listed in this vicinity.</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-
-                                                <div className="mt-auto pt-6 border-t border-white/5">
-                                                    <div className="flex items-start gap-3 p-4 bg-rose-500/10 rounded-2xl border border-rose-500/20">
-                                                        <LifeBuoy size={16} className="text-rose-500 shrink-0 mt-0.5" />
-                                                        <p className="text-[10px] leading-relaxed text-rose-200/70 font-medium">
-                                                            <strong>Emergency?</strong> Please dial your local emergency number (e.g., 911) immediately if the patient is in critical condition.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                {/* Local Resources Box - Densified interface */}
+                                <div className="bg-slate-900 rounded-2xl p-5 text-white flex flex-col justify-between shadow-lg border border-slate-800 h-64 overflow-y-auto">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <h3 className="font-bold text-sm flex items-center gap-1.5">
+                                            <MapPin size={16} className="text-indigo-400" /> Local Resources
+                                        </h3>
+                                        {!loadingIntel && (
+                                            <NavLink to="/doctors">
+                                                <span className="text-[9px] bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full font-bold">
+                                                    More Data
+                                                </span>
+                                            </NavLink>
                                         )}
                                     </div>
+
+                                    {loadingIntel ? (
+                                        <div className="space-y-2 flex-1">
+                                            <Skeleton className="w-full h-16 bg-slate-800 rounded-xl" />
+                                            <Skeleton className="w-full h-16 bg-slate-800 rounded-xl" />
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-4 flex-1 overflow-y-auto pr-1">
+                                            <div className="group">
+                                                <h4 className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1.5">
+                                                    <div className="w-1 h-1 rounded-full bg-rose-500"></div> Urgent Care & Hospitals
+                                                </h4>
+                                                {nearbyData.hospitals.length > 0 ? (
+                                                    <div className="grid grid-cols-1 gap-1">
+                                                        {nearbyData.hospitals.slice(0, 2).map((h, i) => (
+                                                            <a key={i} href={`https://www.google.com/maps?q=${h.lat},${h.lon}`} target="_blank" rel="noreferrer" className="flex justify-between items-center p-2 rounded-xl bg-white/5 border border-white/5 text-[11px] hover:bg-white/10 transition-all">
+                                                                <span className="truncate pr-2 text-slate-200">{h.tags.name || "Medical Center"}</span>
+                                                                <Navigation size={12} className="text-slate-500 shrink-0" />
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-[10px] text-slate-500 italic pl-2.5">No hospitals found.</p>
+                                                )}
+                                            </div>
+
+                                            <div className="group">
+                                                <h4 className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider text-slate-400 mb-1.5">
+                                                    <div className="w-1 h-1 rounded-full bg-emerald-500"></div> Nearby Pharmacies
+                                                </h4>
+                                                {nearbyData.pharmacies.length > 0 ? (
+                                                    <div className="grid grid-cols-1 gap-1">
+                                                        {nearbyData.pharmacies.slice(0, 2).map((p, i) => (
+                                                            <a key={i} href={`https://www.google.com/maps?q=${p.lat},${p.lon}`} target="_blank" rel="noreferrer" className="flex justify-between items-center p-2 rounded-xl bg-white/5 border border-white/5 text-[11px] hover:bg-white/10 transition-all">
+                                                                <span className="truncate pr-2 text-slate-200">{p.tags.name || "Local Pharmacy"}</span>
+                                                                <Navigation size={12} className="text-slate-500 shrink-0" />
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-[10px] text-slate-500 italic pl-2.5">No pharmacies listed.</p>
+                                                )}
+                                            </div>
+
+                                            <div className="pt-2 border-t border-white/5">
+                                                <div className="flex items-start gap-2 p-2 bg-rose-500/10 rounded-xl border border-rose-500/20">
+                                                    <LifeBuoy size={12} className="text-rose-500 shrink-0 mt-0.5" />
+                                                    <p className="text-[9px] leading-tight text-rose-200/70 font-medium">
+                                                        <strong>Emergency?</strong> Dial local emergency number immediately.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
+                            {/* Clinical Overview Panel */}
                             <section>
-                                <div className="flex items-center gap-3 mb-6">
+                                <div className="flex items-center gap-2 mb-4">
                                     <div className="h-px flex-1 bg-slate-200"></div>
-                                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Clinical Overview</h2>
+                                    <h2 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Clinical Overview</h2>
                                     <div className="h-px flex-1 bg-slate-200"></div>
                                 </div>
-                                <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
+                                <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
                                     {loadingIntel ? (
-                                        <Skeleton className="w-full h-32 rounded-3xl" />
+                                        <Skeleton className="w-full h-20 rounded-xl" />
                                     ) : (
-                                        <div className="text-slate-600 text-lg leading-relaxed prose prose-indigo" dangerouslySetInnerHTML={{ __html: wikiData?.extract || "No data." }} />
+                                        <div className="text-slate-600 text-sm leading-relaxed prose prose-indigo max-w-none" dangerouslySetInnerHTML={{ __html: wikiData?.extract || "No data." }} />
                                     )}
                                 </div>
                             </section>
 
+                            {/* Care Protocols Array Layout */}
                             <section>
-                                <h2 className="flex items-center gap-2 text-sm font-bold text-slate-800 mb-6"><ShieldCheck className="text-indigo-500" /> Care protocols</h2>
-                                <div className="grid grid-cols-1 gap-4">
+                                <h2 className="flex items-center gap-1.5 text-xs font-bold text-slate-800 mb-4"><ShieldCheck className="text-indigo-500" size={16} /> Care protocols</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {loadingIntel ? (
-                                        [1, 2].map(i => <Skeleton key={i} className="w-full h-32 rounded-3xl" />)
+                                        [1, 2].map(i => <Skeleton key={i} className="w-full h-24 rounded-xl" />)
                                     ) : (
                                         nihSections?.map((section, idx) => (
-                                            <div key={idx} className="bg-white border border-slate-100 rounded-3xl p-8 shadow-sm">
-                                                <h3 className="text-indigo-600 font-bold text-lg mb-3 flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-indigo-400"></div>{section.title}</h3>
-                                                <p className="text-slate-600 text-sm leading-relaxed">{section.content}</p>
+                                            <div key={idx} className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+                                                <h3 className="text-indigo-600 font-bold text-sm mb-1.5 flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>{section.title}</h3>
+                                                <p className="text-slate-600 text-xs leading-relaxed line-clamp-4 hover:line-clamp-none transition-all">{section.content}</p>
                                             </div>
-
                                         ))
                                     )}
                                 </div>
                             </section>
 
-                            {/* Internal Stats Skeletons */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="bg-amber-50/50 rounded-[2.5rem] p-8 border border-amber-100">
-                                    <h3 className="text-amber-700 text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2"><Activity size={18} /> Key Symptoms</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {loadingIntel ? <Skeleton className="w-full h-20" /> : internalData.symptoms ? Object.values(internalData.symptoms).filter(v => typeof v === 'string' && v.length > 1).map((s, i) => (
-                                            <span key={i} className="px-4 py-2 bg-white text-amber-800 text-xs font-bold rounded-xl shadow-sm border border-amber-100">{s}</span>
-                                        )) : <p className="text-xs text-slate-400">N/A</p>}
+                            {/* Symptoms & Precautions Combined Blocks */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="bg-amber-50/50 rounded-2xl p-5 border border-amber-100">
+                                    <h3 className="text-amber-700 text-[10px] font-black uppercase tracking-wider mb-3 flex items-center gap-1.5"><Activity size={14} /> Key Symptoms</h3>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {loadingIntel ? <Skeleton className="w-full h-12" /> : internalData.symptoms ? Object.values(internalData.symptoms).filter(v => typeof v === 'string' && v.length > 1).map((s, i) => (
+                                            <span key={i} className="px-2.5 py-1 bg-white text-amber-800 text-[10px] font-bold rounded-lg shadow-sm border border-amber-100">{s}</span>
+                                        )) : <p className="text-[11px] text-slate-400">N/A</p>}
                                     </div>
                                 </div>
-                                <div className="bg-emerald-50/50 rounded-[2.5rem] p-8 border border-emerald-100">
-                                    <h3 className="text-emerald-700 text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2"><ShieldCheck size={18} /> Precautions</h3>
-                                    {loadingIntel ? <Skeleton className="w-full h-20" /> : (
-                                        <ul className="space-y-3">
+                                <div className="bg-emerald-50/50 rounded-2xl p-5 border border-emerald-100">
+                                    <h3 className="text-emerald-700 text-[10px] font-black uppercase tracking-wider mb-3 flex items-center gap-1.5"><ShieldCheck size={14} /> Precautions</h3>
+                                    {loadingIntel ? <Skeleton className="w-full h-12" /> : (
+                                        <ul className="space-y-1.5">
                                             {internalData.precautions ? Object.entries(internalData.precautions).filter(([k, v]) => !['_id', '__v', 'Disease'].includes(k) && typeof v === 'string' && v.length > 1).map(([k, p], i) => (
-                                                <li key={i} className="flex items-start gap-3 text-xs font-bold text-slate-700"><CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" /> {p}</li>
-                                            )) : <p className="text-xs text-slate-400">N/A</p>}
+                                                <li key={i} className="flex items-start gap-2 text-[11px] font-bold text-slate-700"><CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" /> {p}</li>
+                                            )) : <p className="text-[11px] text-slate-400">N/A</p>}
                                         </ul>
                                     )}
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                    </div>
-                </div>
-                {/* Footer Section */}
-                <footer className="mt-10 border-t border-slate-200 bg-white p-8">
-                    <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg"><Microscope size={20} /></div>
-                            <p className="text-xs font-bold text-slate-500">AI-Powered Patient Insight Engine v2.4</p>
+                    {/* Footer Component */}
+                    <footer className="mt-8 border-t border-slate-200 bg-white p-5">
+                        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-md"><Microscope size={16} /></div>
+                                <p className="text-[11px] font-bold text-slate-500">AI Patient Insight Engine v2.4</p>
+                            </div>
+                            <p className="text-[9px] font-medium text-slate-400 text-center sm:text-right max-w-sm leading-normal">
+                                Open clinical source data context. Always consult a licensed medical professional before beginning treatments.
+                            </p>
                         </div>
-                        <p className="text-[10px] font-medium text-slate-400 text-center md:text-right max-w-md">
-                            The information provided is gathered from open clinical databases and Wikipedia.
-                            Always consult with a licensed medical professional before beginning any treatment protocol.
-                        </p>
-                    </div>
-                </footer>
+                    </footer>
+                </div>
             </div>
         </div>
+
     );
 };
 

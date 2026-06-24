@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+
 import {
   LayoutDashboard, MapPin, Stethoscope, Pill,
   Activity, Search, Bell, Star,
@@ -15,9 +16,17 @@ import {
   Zap,
   ShieldCheck,
   CheckCircle2,
-  User
+  User,
+  Clock,
+  Users,
+  Settings,
+  Building2,
+  LibraryBig,
+  BookOpenText,
+  Salad,
+  ClipboardList
 } from 'lucide-react';
-import Sidebar from '../Components/Sidebar';
+import Header from '../Components/Header';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -26,37 +35,31 @@ const Dashboard = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector(state => state.user || { currentUser: null });
   const navigate = useNavigate();
-const [deferredPrompt, setDeferredPrompt] = useState(null);
-const [showInstall, setShowInstall] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstall, setShowInstall] = useState(false);
 
-useEffect(() => {
-  const handler = (e) => {
-    e.preventDefault();
-    setDeferredPrompt(e);
-    setShowInstall(true);
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstall(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      console.log("App installed");
+    }
+    setDeferredPrompt(null);
+    setShowInstall(false);
   };
-
-  window.addEventListener("beforeinstallprompt", handler);
-
-  return () => window.removeEventListener("beforeinstallprompt", handler);
-}, []);
-
-const handleInstallClick = async () => {
-  if (!deferredPrompt) return;
-
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-
-  if (outcome === "accepted") {
-    console.log("App installed");
-  }
-
-  setDeferredPrompt(null);
-  setShowInstall(false);
-};
-
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -75,471 +78,355 @@ const handleInstallClick = async () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-[#F0F4F8]">
-      <Sidebar />
+    <div className="flex flex-col lg:flex-row min-h-screen bg-medical-bg">
 
-      <main className="flex-1 pt-10 w-full lg:ml-64 p-4 md:p-8 transition-all duration-300">
-        <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 mb-12 pt-8 md:pt-0">
-          <div className="flex items-center gap-6">
-            <div onClick={() => navigate("/profile")} className="relative group cursor-pointer">
-              <div className="absolute inset-0 bg-cyan-500 rounded-[2rem] blur-xl opacity-20 group-hover:opacity-40 transition-opacity" />
-              <div className="relative w-16 h-16 rounded-[2rem] bg-white overflow-hidden border-2 border-slate-100 shadow-xl">
-                <img
-                  src={
-                    currentUser?.profilePicture ||
-                    "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg"
-                  }
-                  alt="profile"
-                  className="w-full h-full object-cover"
-                />              </div>
-              <div className="absolute -right-1 -bottom-1 bg-emerald-500 text-white p-1 rounded-lg border-2 border-white shadow-sm">
-                <CheckCircle2 size={12} />
-              </div>
-            </div>
+      <div className="flex-1 w-full ">
+        <Header />
 
-            <div >
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-black text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-md uppercase tracking-widest">
-                  Node Active
-                </span>
-              </div>
-              <h1 className="text-3xl font-black text-slate-900 tracking-tighter">
-                Hey,  {currentUser?.username || "User"}
-              </h1>
-            </div>
-          </div>
+        <main className="p-4 md:p-8 max-w-screen mx-auto pt-3 md:pt-20 lg:pt-8">
+          {/* Welcome Banner Card */}
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            <div className="lg:col-span-8 bg-white border border-slate-100 rounded-2xl shadow-premium p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-light/40 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-primary-light/60 transition-colors duration-700 pointer-events-none" />
 
-          <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
-            <div className="flex items-center bg-white border border-slate-100 rounded-2xl p-2 pr-6 gap-4 shadow-sm hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shrink-0">
-                <Activity size={18} />
-              </div>
               <div>
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Live Pulse</p>
-                <p className="text-xs font-bold text-slate-900 leading-none">Synchronized</p>
-              </div>
-            </div>
-
-            <div className="hidden md:flex items-center bg-slate-900 text-white rounded-2xl p-2 pr-6 gap-4 shadow-xl shadow-slate-200">
-              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-cyan-400 shrink-0">
-                <ShieldCheck size={18} />
-              </div>
-              <div>
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none mb-1">Security</p>
-                <p className="text-xs font-bold leading-none">End-to-End</p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => navigate("/profile")}
-              className="h-14 px-6 bg-slate-50 border border-slate-100 rounded-2xl text-slate-400 hover:text-cyan-600 hover:bg-white hover:border-cyan-100 transition-all flex items-center gap-3 group"
-            >
-              <User size={18} className="shrink-0" />
-              <span className="text-xs font-black tracking-widest uppercase group-hover:text-slate-900">Profile</span>
-            </button>
-          </div>
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
-          <div className="col-span-1 lg:col-span-8 relative rounded-2xl overflow-hidden min-h-[340px] shadow-2xl shadow-blue-900/20 group">
-            <img
-              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=2070"
-              alt="Medical Interface"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/80 to-blue-600/20" />
-            <div className="relative z-10 p-8 md:p-12 h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] font-black text-white/60 uppercase tracking-[0.4em]">
-                    Biometric Session Active
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="flex h-2.5 w-2.5 rounded-full bg-accent animate-pulse" />
+                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.1em]">
+                    AI Powered Smart HealthCare platform
                   </span>
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-[0.9]">
-                  Welcome back, <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                    Commander.
-                  </span>
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight mb-3">
+                  Welcome back, <span className="text-primary">{currentUser?.username || "Guest"}</span>
                 </h2>
-                <p className="text-slate-400 text-sm mt-4 max-w-xs font-medium leading-relaxed">
-                  Your regional medical network is synchronized. All protocols are currently nominal.
+                <p className="text-slate-500 text-xs md:text-sm font-semibold max-w-md leading-relaxed">
+                  Your regional medical nodes and patient support hubs are fully synchronized. System security checks are nominal.
                 </p>
               </div>
 
-            </div>
-            <div className="absolute top-10 right-10 hidden md:block">
-              <div className="flex flex-col items-end gap-1 opacity-40">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="h-[2px] bg-white rounded-full" style={{ width: `${20 + (i * 10)}px` }} />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="col-span-1 lg:col-span-4 bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-bold text-gray-700 mb-4">Nearby Support</h3>
-              <span className="text-[10px] font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-lg">Live Data</span>
-            </div>
-
-            <div className="space-y-3 flex flex-col gap-2">
-              <NavLink to="/hospital" className="group">
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent group-hover:border-cyan-100 group-hover:bg-white transition-all">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-xl shadow-sm group-hover:text-cyan-500 transition-colors">
-                      <MapPin size={18} className="text-cyan-500" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-700">Hospitals</p>
-                      <p className="text-[10px] text-slate-400 font-medium">Find active nodes nearby</p>
-                    </div>
-                  </div>
-                  <ChevronRight size={14} className="text-slate-300 group-hover:text-cyan-500 transform group-hover:translate-x-1 transition-all" />
+              <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t border-slate-50">
+                <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+                  <Activity size={16} className="text-primary" /> Live Pulse: Synchronized
                 </div>
-              </NavLink>
-
-              <NavLink to="/medical" className="group">
-                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent group-hover:border-blue-100 group-hover:bg-white transition-all">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-xl shadow-sm group-hover:text-blue-500 transition-colors">
-                      <Pill size={18} className="text-blue-500" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-700">Pharmacies</p>
-                      <p className="text-[10px] text-slate-400 font-medium">Open now: Your location</p>
-                    </div>
-                  </div>
-                  <ChevronRight size={14} className="text-slate-300 group-hover:text-blue-500 transform group-hover:translate-x-1 transition-all" />
-                </div>
-              </NavLink>
-
-              <div className="mt-4 pt-4 border-t border-slate-50">
-                <div className="flex items-center justify-between px-2">
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Network Speed</span>
-                    <span className="text-xs font-bold text-slate-700">5G / 0.04ms Latency</span>
-                  </div>
-                  <div className="h-8 w-12 bg-slate-50 rounded-lg flex items-center justify-center gap-1">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-1 bg-cyan-400 rounded-full" style={{ height: `${20 + (i * 15)}%` }} />
-                    ))}
-                  </div>
+                <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+                  <ShieldCheck size={16} className="text-accent" /> Security: E2E Encrypted
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="font-bold text-slate-900 text-lg">Verified Professionals</h3>
-            <NavLink to="/doctors" className="text-cyan-600 text-sm font-semibold hover:underline">View all</NavLink>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            {doctors.map((doc) => (
-              <DocCard
-                key={doc._id}
-                name={doc.name}
-                spec={doc.specialization}
-                rate={doc.rating || "5.0"}
-                initial={doc.name.split(' ').map(n => n[0]).join('')}
-                img={doc.image}
-                color="bg-cyan-50"
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Inner Landing/Hero Section */}
-        <div className="bg-[#F0F4F8] text-[#1A2B3B] selection:bg-blue-100">
-          <div className="pb-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Main Hero Card */}
-              <div className="lg:col-span-8 bg-white p-6 md:p-12 lg:p-16 rounded-md md:rounded-xl shadow-xl border border-slate-200 flex flex-col justify-center relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-blue-100 transition-colors duration-700" />
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-6 w-fit relative z-10">
-                  <span className="w-2 h-2 bg-blue-600 rounded-full animate-ping" />
-                  Next Generation Care
-                </span>
-                <h1 className="relative z-10 text-3xl md:text-5xl lg:text-7xl font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
-                  Health Care <br />
-                  <span className="text-blue-600">for everyone.</span>
-                </h1>
-                <p className="relative z-10 text-sm md:text-lg text-slate-500 max-w-lg mb-10 leading-relaxed">
-                  Combining world-class clinical expertise with advanced AI to provide personalized health journeys and real-time medical support.
-                </p>
-                <div className="relative z-10 flex flex-col sm:flex-row gap-4">
-                  <button className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95">
-                    Get Started
-                  </button>
-                  <button className="bg-slate-50 text-slate-700 px-8 py-4 rounded-2xl font-bold hover:bg-slate-100 transition-all active:scale-95">
-                    Learn More
-                  </button>
-                </div>
+            {/* Quick Actions Panel */}
+            <div className="lg:col-span-4 bg-white border border-slate-100 rounded-2xl shadow-premium p-6 flex flex-col justify-between">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-50">
+                <h3 className="font-bold text-slate-800 text-sm">Portal Directories</h3>
+                <span className="text-[9px] font-bold text-primary bg-primary-light px-2 py-0.5 rounded-full uppercase">Live Nodes</span>
               </div>
 
-              {/* Volunteer Card */}
-              <div className="lg:col-span-4 bg-blue-600 p-6 md:p-8 rounded-md md:rounded-xl text-white flex flex-col justify-between shadow-xl shadow-blue-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
-                <div className="mb-10">
-                  <div className="relative p-6 bg-white/10 backdrop-blur-md rounded-[24px] border border-white/20 overflow-hidden group">
-                    <h4 className="text-xl font-bold mb-3">Medical Professionals</h4>
-                    <p className="text-sm text-blue-50 leading-relaxed mb-6">
-                      Are you a licensed Doctor? Help us save lives by joining our <span className='font-bold underline decoration-blue-300'>Volunteer Network.</span>
-                    </p>
-                    <NavLink to="/doctormailtoadmin">
-                      <div className="inline-flex items-center justify-center w-full bg-white text-blue-600 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-50 transition-all active:scale-95 shadow-md">
-                        Register as Volunteer
+              <div className="space-y-2.5">
+                <NavLink to="/hospital" className="group block">
+                  <div className="flex items-center justify-between p-3 bg-slate-50 hover:bg-primary-light/30 border border-transparent hover:border-primary-light rounded-xl transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-white rounded-lg shadow-sm text-primary">
+                        <MapPin size={16} />
                       </div>
-                    </NavLink>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200 mb-4">Patient Resources</h4>
-                    <div className="grid grid-cols-1 gap-4">
-                      {[{ title: "Emergency Care", desc: "Find 24/7 ER departments" }, { title: "Bed Capacity", desc: "Real-time hospital availability" }].map((item, i) => (
-                        <div key={i} className="flex gap-4 items-start p-2 rounded-xl hover:bg-white/5 transition-colors">
-                          <div className="h-2 w-2 rounded-full bg-blue-300 mt-2 shrink-0" />
-                          <div>
-                            <div className="text-sm font-bold">{item.title}</div>
-                            <div className="text-[11px] text-blue-100/80 leading-tight">{item.desc}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="pt-2">
-                    <NavLink to="/doctors">
-                      <div className="flex items-center justify-between w-full bg-white/10 backdrop-blur-sm border border-white/20 p-4 rounded-2xl hover:bg-white/20 transition-all group active:scale-[0.98]">
-                        <div className="flex flex-col items-start">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-blue-200">Consultation</span>
-                          <span className="text-sm font-bold text-white">Find Doctors</span>
-                        </div>
-                        <div className="bg-white text-blue-600 p-2 rounded-lg group-hover:scale-110 transition-transform">
-                          <ChevronRight size={18} />
-                        </div>
-                      </div>
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <section className="py-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-4">
-                <NavLink to="/hospital" className="block h-full">
-                  <div className="h-full min-h-[350px] group bg-white rounded-xl p-8 border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col justify-between relative overflow-hidden cursor-pointer hover:-translate-y-2">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10">
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 bg-blue-50 px-3 py-1 rounded-md">Live Tracking</span>
-                      <h3 className="text-3xl font-black mt-6 leading-tight text-slate-900 group-hover:text-blue-600 transition-colors">Nearby <br />Hospitals</h3>
-                    </div>
-                    <p className="relative z-10 text-sm font-medium text-slate-400 group-hover:text-slate-600">Fetch real-time location data for ERs and clinics.</p>
-                    <div className="relative z-10 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 text-blue-600 font-bold text-sm flex items-center gap-2">
-                      Explore More <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                </NavLink>
-              </div>
-
-              <div className="lg:col-span-4">
-                <NavLink to="/medical" className="block h-full">
-                  <div className="h-full min-h-[350px] group bg-emerald-500 rounded-xl p-8 shadow-xl hover:shadow-2xl hover:shadow-emerald-200 transition-all duration-700 flex flex-col justify-between overflow-hidden relative">
-                    <div className="absolute -right-8 -top-8 text-[10rem] opacity-10 group-hover:rotate-12 transition-transform duration-1000 pointer-events-none">🧪</div>
-                    <div className="relative z-10">
-                      <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 text-white"><Pill className="w-8 h-8" /></div>
-                      <h3 className="text-3xl font-black text-white leading-tight mb-4">Medical <br />Locator</h3>
-                    </div>
-                    <button className="relative z-10 w-full bg-white text-emerald-600 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg">
-                      FIND STORES <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </NavLink>
-              </div>
-
-              <div className="lg:col-span-4">
-                <NavLink to="/medicinefinder" className="block h-full">
-                  <div className="h-full min-h-[350px] group bg-[#6366F1] rounded-xl p-8 shadow-xl hover:shadow-2xl hover:shadow-indigo-200 transition-all duration-700 flex flex-col justify-between overflow-hidden relative">
-                    <div className="absolute -right-10 -bottom-10 text-[8rem] opacity-10 group-hover:-rotate-12 transition-transform duration-1000 pointer-events-none">💊</div>
-                    <div className="relative z-10">
-                      <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 text-white"><Search className="w-8 h-8" /></div>
-                      <h3 className="text-3xl font-black text-white leading-tight mb-4">Medicine <br />Finder</h3>
-                    </div>
-                    <button className="relative z-10 w-full bg-white text-indigo-600 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95">
-                      SEARCH DRUGS <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </NavLink>
-              </div>
-
-              <div className="lg:col-span-12 xl:col-span-4">
-                <NavLink to="/diseasedesc" className="block h-full">
-                  <div className="h-full min-h-[320px] group bg-slate-900 rounded-xl p-8 md:p-10 shadow-2xl transition-all duration-700 flex flex-col justify-between relative overflow-hidden border border-slate-800 hover:border-indigo-500/50">
-
-                    <BookOpen className="absolute -right-8 -bottom-8 w-48 h-48 text-white/[0.03] group-hover:text-indigo-500/10 group-hover:scale-110 transition-all duration-700" />
-
-                    <div className="relative z-10">
-                      <div className="inline-flex items-center gap-2 text-indigo-400 mb-6">
-                        <div className="h-[2px] w-8 bg-indigo-500" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Verified Database</span>
-                      </div>
-                      <h3 className="text-3xl md:text-4xl font-black text-white leading-tight tracking-tighter ">
-                        Disease <br /> <span className="text-indigo-500">Encyclopedia</span>
-                      </h3>
-                    </div>
-
-                    <div className="relative z-10">
-                      <p className="text-slate-400 text-sm font-medium mb-6 max-w-[240px]">
-                        Comprehensive clinical guide to global medical conditions.
-                      </p>
-                      <div className="flex items-center gap-4 text-slate-400 group-hover:text-white transition-colors">
-                        <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-indigo-600 transition-colors">
-                          <BookOpen className="w-5 h-5" />
-                        </div>
-                        <span className="text-xs font-bold uppercase tracking-widest">5,000+ Conditions</span>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800">Nearby Hospitals</p>
+                        <p className="text-[10px] text-slate-400 font-semibold">Active ERs & emergency nodes</p>
                       </div>
                     </div>
+                    <ChevronRight size={14} className="text-slate-300 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
                   </div>
                 </NavLink>
-              </div>
 
-              <div className="md:col-span-1 lg:col-span-6 xl:col-span-4">
-                <NavLink to="/symptoms" className="block h-full">
-                  <div className="h-full min-h-[160px] group bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-rose-500/10 hover:border-rose-200 transition-all duration-500 flex items-center gap-6">
-                    <div className="w-20 h-20 bg-rose-500 rounded-[1.5rem] flex items-center justify-center text-white shrink-0 shadow-lg shadow-rose-200 group-hover:rotate-6 transition-transform">
-                      <Activity size={32} />
+                <NavLink to="/medical" className="group block">
+                  <div className="flex items-center justify-between p-3 bg-slate-50 hover:bg-secondary-light/30 border border-transparent hover:border-secondary-light rounded-xl transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-white rounded-lg shadow-sm text-secondary">
+                        <HeartPulse size={16} />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800">Pharmacies</p>
+                        <p className="text-[10px] text-slate-400 font-semibold">Find prescription locations</p>
+                      </div>
                     </div>
-                    <div className="flex-1 overflow-hidden">
-                      <h4 className="text-xl font-black text-slate-900 tracking-tight  italic">Symptom Mapping</h4>
-                      <p className="text-slate-400 text-[10px] font-black  tracking-[0.1em] mt-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-                        Live Pattern Analysis
-                      </p>
-                    </div>
+                    <ChevronRight size={14} className="text-slate-300 group-hover:text-secondary group-hover:translate-x-0.5 transition-all" />
                   </div>
                 </NavLink>
-              </div>
 
-              <div className="md:col-span-1 lg:col-span-6 xl:col-span-4">
-                <NavLink to="/precaution" className="block h-full">
-                  <div className="h-full min-h-[160px] group bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-500 flex items-center gap-6">
-                    <div className="w-20 h-20 bg-blue-900 rounded-[1.5rem] flex items-center justify-center text-white shrink-0 shadow-lg shadow-blue-200 group-hover:-rotate-6 transition-transform">
-                      <ShieldAlert size={32} />
+                {/* Added Admin Panel Route */}
+                <NavLink to="/medicinefinder" className="group block">
+                  <div className="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-200/50 border border-transparent hover:border-slate-300 rounded-xl transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-white rounded-lg shadow-sm text-slate-700">
+                        <Pill size={16} />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800">AI Medicine Analysis</p>
+                        <p className="text-[10px] text-slate-400 font-semibold">Get a Medice Information</p>
+                      </div>
                     </div>
-                    <div className="flex-1 overflow-hidden">
-                      <h4 className="text-xl font-black text-slate-900 tracking-tight  italic">Safety Protocols</h4>
-                      <p className="text-slate-400 text-[10px] font-black  tracking-[0.1em] mt-2 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                        Prevention Guides
-                      </p>
-                    </div>
+                    <ChevronRight size={14} className="text-slate-300 group-hover:text-slate-700 group-hover:translate-x-0.5 transition-all" />
                   </div>
                 </NavLink>
-              </div>
-            </div>
-
-            <div className="w-full mt-12">
-              <div className="relative w-full overflow-hidden bg-white rounded-md md:rounded-xl border border-slate-200 shadow-2xl group transition-all duration-500">
-                <div className="relative flex flex-col lg:flex-row items-center justify-between p-6 md:p-12 lg:p-16 gap-10">
-                  <div className="flex-1 space-y-6 text-center lg:text-left">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100">
-                      <HeartPulse size={16} className="animate-pulse" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em]">Community Health</span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">
-                      Access Expert Care <br />
-                      <span className="text-indigo-600">Without the Cost.</span>
-                    </h2>
-                    <p className="text-slate-500 text-sm md:text-base max-w-xl font-medium leading-relaxed mx-auto lg:mx-0">
-                      Connect with certified medical professionals offering their time and expertise for free.
-                    </p>
-                  </div>
-
-                  <div className="flex-shrink-0 w-full lg:w-auto">
-                    <NavLink to="/doctors" className="block">
-                      <button className="group/btn relative w-full flex items-center justify-center gap-4 bg-slate-900 hover:bg-indigo-600 text-white px-8 py-5 rounded-[24px] transition-all duration-300 active:scale-95">
-                        <div className="flex flex-col items-start">
-                          <span className="text-[9px] font-bold uppercase tracking-widest opacity-70 text-left">Get Started</span>
-                          <span className="text-sm font-black uppercase tracking-tight">Find Volunteer Doctors</span>
-                        </div>
-                        <ArrowRight size={20} />
-                      </button>
-                    </NavLink>
-                  </div>
-                </div>
               </div>
             </div>
           </section>
 
-          {/* Footer */}
-          <footer className="w-full py-16 bg-white border-t border-slate-100 mt-12">
-            <div className="max-w-5xl mx-auto px-6 flex flex-col items-center">
-              <div className="flex items-center gap-2 mb-8">
-                <HeartPulse className="text-indigo-600" size={24} />
-                <span className="text-lg font-black tracking-widest text-slate-900 uppercase">
-                  Health<span className="text-indigo-600">Bridge</span>
-                </span>
-              </div>
-              <div className="flex gap-8 mb-10">
-                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Twitter size={20} /></a>
-                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Linkedin size={20} /></a>
-                <a href="#" className="text-slate-300 hover:text-indigo-500 transition-all"><Instagram size={20} /></a>
-              </div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] text-center">
-                © {new Date().getFullYear()} HealthBridge Systems • Secure Medical Network
-              </p>
-            </div>
-          </footer>
-        </div>
+          {/* Quick Stats Banner */}
+          <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <StatsWidget icon={<Users className="text-primary" />} label="Specialists" value="142" desc="Verified Doctors" />
+            <StatsWidget icon={<MapPin className="text-secondary" />} label="Medical Centers" value="38" desc="Nearby Units" />
+            <StatsWidget icon={<Activity className="text-accent" />} label="Daily Inquiries" value="1,894" desc="+22% this week" />
+            <StatsWidget icon={<Clock className="text-amber-500" />} label="Avg Consultation" value="15m" desc="Immediate triage" />
+          </section>
 
-        {showInstall && (
-  <button
-    onClick={handleInstallClick}
-    className="fixed bottom-6 right-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm transition-all active:scale-95 z-50"
-  >
-    Install App
-  </button>
-)}
-      </main>
+          {/* Main Content Split: Inner Hero and Resources */}
+          <section className="mb-8">
+            <div className="relative w-full bg-white border border-slate-200 rounded-3xl p-6 md:p-10 shadow-sm overflow-hidden flex flex-col lg:flex-row gap-8 items-center">
+
+              {/* Decorative Background Element */}
+              <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-50/50 blur-[100px] pointer-events-none" />
+
+              {/* Content Area (Cleaned up: removed redundant card classes) */}
+              <div className="flex-1 relative z-10">
+                <h1 className="relative z-10 text-xl md:text-2xl lg:text-2xl font-bold tracking-tight text-slate-900 mb-4 leading-none">
+                  Healthcare Reimagined.
+                </h1>
+                <p className="relative z-10 text-slate-500 text-xs md:text-sm max-w-md mb-8 leading-relaxed font-semibold">
+                  Integrating verified medical networks, safety directories, and real-time medical vaults into a seamless clinical console.
+                </p>
+
+                <div className="relative z-10 flex flex-wrap gap-3">
+                  <button onClick={() => navigate('/medicinefinder')} className="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl font-bold text-xs shadow-md shadow-primary/10 transition-all active:scale-95">
+                    AI Medicine Analysis
+                  </button>
+                  <button onClick={() => navigate('/doctors')} className="bg-slate-50 hover:bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-bold text-xs transition-all active:scale-95 border border-slate-200">
+                    Consult Doctors
+                  </button>
+                </div>
+              </div>
+
+              {/* Integrated Volunteer Teaser */}
+              <div className="lg:w-72 shrink-0 bg-indigo-600 p-6 rounded-2xl text-white relative z-10 shadow-lg">
+                <p className="text-indigo-200 text-[9px] font-black uppercase tracking-widest mb-2">Network Expansion</p>
+                <h4 className="font-bold text-lg leading-tight mb-2">Volunteer Network</h4>
+                <p className="text-indigo-100 text-xs font-medium mb-6 leading-relaxed">
+                  Join 120+ active specialists providing digital guidance.
+                </p>
+                <NavLink to="/doctormailtoadmin">
+                  <button className="w-full bg-white text-indigo-600 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-50 transition-all active:scale-95 shadow-sm">
+                    Register as Volunteer
+                  </button>
+                </NavLink>
+              </div>
+            </div>
+          </section>
+          {/* Section 1: Clinical Directories & Locators */}
+
+          <section className="mb-8">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="font-bold text-slate-900 text-sm tracking-tight">Clinical Directories & Locators</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              <HubCard
+                to="/hospital"
+                icon={<Building2 size={24} />}
+                title="Hospitals Nearby"
+                desc="Fetch live capacity stats and ER availability."
+                accentColor="text-primary hover:border-primary/40"
+              />
+              <HubCard
+                to="/medical"
+                icon={<Pill size={24} />}
+                title="Medical Locator"
+                desc="Find nearby medical shops and drug distributors."
+                accentColor="text-secondary hover:border-secondary/40"
+              />
+              <HubCard
+                to="/medicinefinderourdata"
+                icon={<LibraryBig size={24} />}
+                title="Medicine Vault"
+                desc="Lookup chemistry profiles, and drug interactions."
+                accentColor="text-indigo-600 hover:border-indigo-600/40"
+              />
+              <HubCard
+                to="/diseasedesc"
+                icon={<BookOpenText size={24} />}
+                title="Medical Encyclopedia"
+                desc="Comprehensive knowledge base of diseases."
+                accentColor="text-emerald-600 hover:border-emerald-600/40"
+              />
+            </div>
+          </section>
+
+          {/* Section 2: Health Management & Diagnostics */}
+          <section className="mb-10">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="font-bold text-slate-900 text-sm tracking-tight">Health Management & Diagnostics</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              <HubCard
+                to="/patient"
+                icon={<Stethoscope size={24} />}
+                title="Disease Management"
+                desc="Log symptoms to receive personalized recovery steps."
+                accentColor="text-rose-500 hover:border-rose-500/40"
+              />
+              <HubCard
+                to="/diet"
+                icon={<Salad size={24} />}
+                title="Today's Diet Planner"
+                desc="Customized nutritional and meal tracking."
+                accentColor="text-lime-600 hover:border-lime-600/40"
+              />
+              <HubCard
+                to="/symptoms"
+                icon={<ClipboardList size={24} />}
+                title="Symptom Collections"
+                desc="Browse databases of common indicator profiles."
+                accentColor="text-orange-500 hover:border-orange-500/40"
+              />
+              <HubCard
+                to="/precaution"
+                icon={<ShieldAlert size={24} />}
+                title="Precautionary Measures"
+                desc="Vital guidelines and preventative health steps."
+                accentColor="text-cyan-600 hover:border-cyan-600/40"
+              />
+            </div>
+          </section>
+
+          {/* Verified Professionals Listing */}
+          <section className="mb-8 bg-white border border-slate-100 p-6 rounded-2xl shadow-premium">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Expertise Doctor Consultant</h3>
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">Verified Practitioners</p>
+              </div>
+              <NavLink to="/doctors" className="text-primary text-xs font-bold hover:underline flex items-center gap-1">
+                View all <ChevronRight size={14} />
+              </NavLink>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {doctors.map((doc) => (
+                <DocCard
+                  key={doc._id}
+                  name={doc.name}
+                  spec={doc.specialty || doc.specialization}
+                  rate={doc.rating || "5.0"}
+                  img={doc.image}
+                />
+              ))}
+            </div>
+          </section>
+
+          {/* Banner bottom: Free Consultations */}
+          <section className="mb-8">
+            <div className="relative w-full overflow-hidden bg-white text-slate-900 rounded-2xl border border-slate-200 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+              {/* Subtle Decorative Blob */}
+              <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-50/50 blur-[100px] pointer-events-none" />
+
+              <div className="text-center md:text-left space-y-2 relative z-10">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full border border-indigo-100 text-[9px] font-black uppercase tracking-wider">
+                  <HeartPulse size={12} className="animate-pulse" /> Community Health
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 leading-none">
+                  Access digital guidance <br className="hidden md:inline" /> without costs
+                </h3>
+                <p className="text-slate-500 text-xs font-semibold max-w-md">
+                  Consult with certified clinical volunteers online. High-quality support is just a few clicks away.
+                </p>
+              </div>
+
+              <NavLink to="/doctors" className="shrink-0 w-full md:w-auto relative z-10">
+                <button className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3.5 rounded-xl font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/20 transition-all flex items-center justify-center gap-2 active:scale-95">
+                  Consult Volunteer Doctors <ArrowRight size={15} />
+                </button>
+              </NavLink>
+            </div>
+          </section>
+
+          {/* Simple Footer */}
+          <footer className="py-8 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <HeartPulse className="text-primary w-5 h-5" />
+              <span className="font-bold text-slate-800 text-xs tracking-tight uppercase">
+                Health<span className="text-primary">Care</span> Systems
+              </span>
+            </div>
+            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center">
+              © {new Date().getFullYear()} HealthCare Systems • Secure Clinical Environment
+            </p>
+          </footer>
+
+          {showInstall && (
+            <button
+              onClick={handleInstallClick}
+              className="fixed bottom-20 right-6 bg-primary hover:bg-primary-dark text-white px-5 py-3 rounded-xl shadow-2xl font-bold text-xs uppercase tracking-wider transition-all active:scale-95 z-50 border border-primary/20 flex items-center gap-2"
+            >
+              <Zap size={14} /> Install App
+            </button>
+          )}
+        </main>
+      </div>
     </div>
   );
 };
 
-// Helper Components
-const SupportItem = ({ icon, label }) => (
-  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors cursor-pointer">
-    <div className="flex items-center gap-3">{icon} <span className="text-sm font-bold text-slate-700">{label}</span></div>
-    <span className="text-[10px] font-bold text-slate-300">Find →</span>
+// Helper components
+const StatsWidget = ({ icon, label, value, desc }) => (
+  <div className="bg-white border border-slate-100 p-4 rounded-xl shadow-premium flex items-center gap-4 hover:-translate-y-0.5 transition-all duration-300">
+    <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
+      {icon}
+    </div>
+    <div>
+      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider leading-none mb-1">{label}</p>
+      <p className="text-lg font-black text-slate-800 leading-none mb-0.5">{value}</p>
+      <p className="text-[9px] text-slate-400 font-semibold leading-none">{desc}</p>
+    </div>
   </div>
 );
 
-const DocCard = ({ name, spec, rate, initial, color, img }) => (
-  <div className="bg-white p-5 rounded-md border border-slate-100 shadow-sm hover:shadow-md transition-all group">
-    <div className="flex items-start gap-4 mb-4">
-      <div className={`w-12 h-12 rounded-xl overflow-hidden ${color} flex items-center justify-center font-bold text-cyan-700 uppercase shrink-0`}>
-        {img ? (
-          <img src={img} alt={name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-        ) : (
-          initial
-        )}
+const HubCard = ({ to, icon, title, desc, accentColor }) => (
+  <NavLink to={to} className="group block h-full">
+    <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-premium hover:shadow-premium-hover transition-all duration-300 flex flex-col justify-between h-full hover:-translate-y-0.5">
+      <div>
+        <div className={`text-2xl ${accentColor} mb-3 shrink-0`}>{icon}</div>
+        <h4 className="font-bold text-slate-800 text-sm mb-1.5 group-hover:text-primary transition-colors">{title}</h4>
+        <p className="text-slate-400 text-[11px] font-semibold leading-relaxed mb-4">{desc}</p>
       </div>
-      <div className="overflow-hidden">
-        <h4 className="font-bold text-slate-900 text-sm truncate">{name}</h4>
-        <p className="text-xs text-slate-400 truncate">{spec}</p>
+      <div className={`flex items-center gap-1 text-[10px] font-black uppercase tracking-wider mt-auto pt-4 ${accentColor}`}>
+        Access Directory <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-all" />
       </div>
     </div>
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-1">
-        <Star size={14} className="fill-yellow-400 text-yellow-400" />
-        <span className="text-xs font-bold text-slate-700">{rate}</span>
+  </NavLink>
+);
+
+const DocCard = ({ name, spec, rate, img }) => (
+  <div className="bg-white p-4 rounded-xl border border-slate-100 hover:border-primary/20 hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
+    <div className="flex items-start gap-3.5 mb-3">
+      <div className="w-11 h-11 rounded-xl overflow-hidden bg-slate-50 border border-slate-150 flex items-center justify-center font-bold text-primary uppercase shrink-0">
+        {img ? (
+          <img src={img} alt={name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        ) : (
+          name ? name.split(' ').map(n => n[0]).join('') : 'DR'
+        )}
+      </div>
+      <div className="overflow-hidden min-w-0">
+        <h4 className="font-bold text-slate-800 text-xs truncate leading-tight group-hover:text-primary transition-colors">{name}</h4>
+        <p className="text-[10px] text-slate-400 truncate mt-0.5 font-semibold">{spec || "Medical Specialist"}</p>
+      </div>
+    </div>
+    <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+      <div className="flex items-center gap-0.5">
+        <Star size={12} className="fill-amber-400 text-amber-400" />
+        <span className="text-[10px] font-black text-slate-700">{rate}</span>
       </div>
       <NavLink to="/doctors">
-        <button className="bg-cyan-50 text-cyan-600 px-3 py-1.5 rounded-lg text-[10px] font-black hover:bg-cyan-500 hover:text-white transition-all">
-          Take Consult
+        <button className="bg-primary-light/50 text-primary hover:bg-primary hover:text-white px-2.5 py-1 rounded-lg text-[9px] font-black uppercase transition-all select-none">
+          Consult
         </button>
       </NavLink>
     </div>

@@ -8,9 +8,9 @@ import {
   Fingerprint,
   Dna,
   Search,
-  ArrowLeft
+  ArrowLeft,
+  ChevronDown
 } from "lucide-react";
-import Sidebar from "../Components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
 const SymptomNavigator = () => {
@@ -63,148 +63,139 @@ const SymptomNavigator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Sidebar />
-      
-      {/* Container: Responsive Margin */}
-      <div className="flex-1 lg:ml-64 transition-all duration-300">
-        <style>{`
-          @keyframes loading-slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(200%); }
-          }
-          .animate-loading-bar {
-            animation: loading-slide 1.5s infinite linear;
-          }
-        `}</style>
+    <div className="min-h-screen bg-[#F8FAFC] antialiased text-slate-800">
+      <Header />
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-12 relative z-10">
-          
-          {/* Top Nav */}
-          <button 
-            onClick={() => navigate(-1)} 
-            className="flex items-center gap-2 text-slate-400 font-black text-[10px] uppercase tracking-widest hover:text-cyan-600 transition-colors mb-8 group"
-          >
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
-            Back to Directory
-          </button>
+      {/* Main Content Pane */}
+      <div className="transition-all duration-300">
 
-          <div className="flex flex-col lg:flex-row justify-between lg:items-end mb-10 gap-8 border-b border-slate-200 pb-10">
-            <div className="space-y-2">
+        <main className="max-w-screen mx-auto px-4 md:px-8 py-8">
 
-              <h1 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter">
-                SYMPTOM <span className="text-cyan-600">COLLECTIONS</span>
+
+          {/* Section Header Controls */}
+          <div className="flex flex-col md:flex-row justify-between md:items-center gap-6 border-b border-slate-200 pb-6 mb-8">
+            <div>
+              <h1 className="text-xl font-bold tracking-tight text-slate-900">
+                Symptom Collections
               </h1>
-              <div className="flex items-center gap-3 text-cyan-600 mb-4">
-                <div className="p-2 bg-cyan-500/10 rounded-lg border border-cyan-500/30">
-                  <Dna size={10} className="animate-pulse" />
-                </div>
-                <span className="text-xs font-bold uppercase tracking-[0.4em]">
-                  Symptoms Data Core
+              <div className="flex items-center gap-2 text-cyan-600 mt-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-600">
+                  Symptoms Core Engine
                 </span>
               </div>
             </div>
 
-
-            <div className="w-full lg:w-96">
-              <div className="flex items-center gap-2 mb-3 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-                <Search size={12} /> Identifier Selection
-              </div>
-
-              <div className="relative group">
-                <div className="absolute -inset-0.5 bg-cyan-400 rounded-xl blur opacity-10 group-hover:opacity-30 transition"></div>
+            {/* Pathology Selection Dropdown */}
+            <div className="w-full md:w-72 shrink-0">
+              <div className="relative">
                 <select
                   value={selectedDisease}
                   onChange={handleDiseaseChange}
                   disabled={loading}
-                  className="relative w-full bg-white border border-slate-300 py-4 px-5 rounded-xl text-slate-900 font-bold text-sm focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 outline-none appearance-none cursor-pointer disabled:bg-slate-50 disabled:cursor-not-allowed transition-all"
+                  className="w-full bg-white border border-slate-200 py-2.5 pl-4 pr-10 rounded-xl text-slate-800 font-semibold text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 appearance-none cursor-pointer disabled:bg-slate-50 disabled:cursor-not-allowed transition-all"
                 >
                   <option value="">
-                    {loading ? "SCANNING..." : "SELECT PATHOLOGY..."}
+                    {loading ? "Scanning Registries..." : "Select Pathology..."}
                   </option>
                   {uniqueDiseases.map((d, i) => (
                     <option key={i} value={d}>{d}</option>
                   ))}
                 </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-600 font-bold">
-                  ↓
-                </div>
+                <ChevronDown
+                  size={16}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                />
               </div>
             </div>
           </div>
 
+          {/* Dynamic Display Wrapper */}
           {!selectedDisease ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            /* Empty/Initial Analytics Overview States */
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { icon: <Database />, title: "Dataset", val: "Verified" },
-                { icon: <Binary />, title: "Protocol", val: "v4.0.2" },
-                { icon: <FlaskConical />, title: "Lab Status", val: "Online" }
+                { icon: <Database size={16} />, title: "Dataset Registry", val: "Verified Records" },
+                { icon: <Binary size={16} />, title: "Protocol Schema", val: "v4.0.2 Engine" },
+                { icon: <FlaskConical size={16} />, title: "System Status", val: "Operational" }
               ].map((stat, i) => (
-                <div key={i} className="bg-white border border-slate-200 p-6 md:p-10 rounded-[2.5rem] flex flex-col items-center text-center shadow-sm hover:border-cyan-200 transition-colors">
-                  <div className="text-cyan-500 mb-5 scale-125">{stat.icon}</div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                    {stat.title}
+                <div key={i} className="bg-white border border-slate-200 p-5 rounded-xl flex items-center gap-4 shadow-sm hover:border-cyan-200 transition-colors">
+                  <div className="p-2.5 bg-cyan-50/60 text-cyan-600 rounded-lg border border-cyan-100">
+                    {stat.icon}
                   </div>
-                  <div className="text-2xl font-black text-slate-900 tracking-tight">{stat.val}</div>
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      {stat.title}
+                    </p>
+                    <p className="text-sm font-bold text-slate-800 mt-0.5">
+                      {stat.val}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
           ) : fetchingDetails ? (
-            <div className="flex flex-col items-center justify-center py-32 space-y-8 bg-white rounded-[3rem] border border-slate-100">
-              <div className="w-48 h-1.5 bg-slate-100 rounded-full overflow-hidden relative">
-                <div className="absolute top-0 left-0 w-1/3 h-full bg-cyan-500 animate-loading-bar"></div>
-              </div>
-              <span className="text-[10px] text-cyan-600 font-black tracking-[0.5em] animate-pulse">
-                DECRYPTING CLINICAL PATTERNS
+            /* Loading Context View */
+            <div className="flex flex-col items-center justify-center py-24 bg-white rounded-xl border border-slate-200 shadow-sm">
+              <div className="w-6 h-6 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mb-3" />
+              <span className="text-[10px] text-cyan-600 font-bold tracking-wider uppercase">
+                Mapping Clinical Presentation Variants...
               </span>
             </div>
           ) : (
-            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="bg-cyan-500/10 border border-cyan-500/20 px-5 py-3 rounded-2xl flex items-center gap-3">
-                  <Fingerprint size={16} className="text-cyan-600" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-                    ID: <span className="text-cyan-600 ml-1">{selectedDisease}</span>
-                  </span>
+            /* Symptom Results Grid View */
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+
+              {/* Context Meta Badges */}
+              <div className="flex flex-wrap gap-2">
+                <div className="bg-cyan-50 text-cyan-700 border border-cyan-100 px-3 py-1.5 rounded-lg flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide">
+                  <Fingerprint size={14} className="text-cyan-600" />
+                  <span>ID Target: <span className="text-slate-800 font-semibold normal-case ml-0.5">{selectedDisease}</span></span>
                 </div>
 
-                <div className="bg-white border border-slate-200 px-5 py-3 rounded-2xl flex items-center gap-3">
-                  <LayoutGrid size={16} className="text-slate-400" />
-                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    Variants: <span className="text-slate-900 ml-1">{diseaseSymptoms.length}</span>
-                  </span>
+                <div className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                  <LayoutGrid size={14} className="text-slate-400" />
+                  <span>Identified Bundles: <span className="text-slate-800 font-semibold ml-0.5">{diseaseSymptoms.length}</span></span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {/* Diagnostic Matrix Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {diseaseSymptoms.map((row, idx) => (
-                  <div key={idx} className="group relative bg-white border border-slate-200 rounded-[2rem] p-6 sm:p-8 hover:border-cyan-400 transition-all shadow-sm hover:shadow-xl hover:shadow-cyan-500/5">
-                    <span className="absolute right-6 top-4 text-5xl sm:text-7xl font-black text-slate-50/80 pointer-events-none select-none group-hover:text-cyan-50 transition-colors">
-                      {idx + 1}
-                    </span>
-
-                    <div className="relative z-10 flex flex-col h-full">
-                      <div className="flex items-center gap-2 mb-6">
-                        <div className="h-1.5 w-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div>
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                          Symptom Bundle
+                  <div
+                    key={idx}
+                    className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-cyan-300 transition-all flex flex-col justify-between group"
+                  >
+                    <div>
+                      {/* Bundle Descriptor Title Bar */}
+                      <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-50">
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                            Presentation Variant
+                          </span>
+                        </div>
+                        <span className="text-xs font-bold text-slate-300 group-hover:text-cyan-500 transition-colors">
+                          #{String(idx + 1).padStart(2, '0')}
                         </span>
                       </div>
 
-                      <div className="flex flex-wrap gap-2 mb-8">
+                      {/* Array Content Pills */}
+                      <div className="flex flex-wrap gap-1.5 mb-6">
                         {row.map((sym, i) => (
-                          <div key={i} className="bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl text-[10px] font-bold text-slate-600 uppercase tracking-tight group-hover:bg-white transition-colors">
+                          <span
+                            key={i}
+                            className="bg-slate-50 text-slate-600 border border-slate-200/60 px-2.5 py-1 rounded-md text-[10px] font-semibold tracking-wide"
+                          >
                             {sym}
-                          </div>
+                          </span>
                         ))}
                       </div>
+                    </div>
 
-                      <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
-                        <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">
-                          Analysis Verified
-                        </span>
-                        <Binary size={14} className="text-slate-200 group-hover:text-cyan-200 transition-colors" />
-                      </div>
+                    {/* Footing Validation Stamp */}
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      <span>Clinical Verification</span>
+                      <Binary size={12} className="text-slate-300 group-hover:text-cyan-500 transition-colors" />
                     </div>
                   </div>
                 ))}
@@ -212,6 +203,7 @@ const SymptomNavigator = () => {
             </div>
           )}
         </main>
+
       </div>
     </div>
   );
