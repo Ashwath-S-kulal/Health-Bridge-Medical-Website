@@ -19,7 +19,7 @@ function getBoundingBox(lat, lon, radiusKm) {
 
 // Global API Helper
 async function fetchHospitals(query) {
-  const response = await fetch("/api/nearby", {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URI}/api/nearby`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
