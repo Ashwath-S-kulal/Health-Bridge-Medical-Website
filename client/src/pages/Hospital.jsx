@@ -17,24 +17,23 @@ function getBoundingBox(lat, lon, radiusKm) {
   return { south: lat - latDelta, north: lat + latDelta, west: lon - lonDelta, east: lon + lonDelta };
 }
 
-
+// Global API Helper
 async function fetchHospitals(query) {
-  const response = await fetch(
-    "/api/nearby",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: `data=${encodeURIComponent(query)}`
-    }
-  );
+  const response = await fetch("/api/nearby", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ query })
+  });
 
-  if (!response.ok) {
-    throw new Error("Hospital server unavailable");
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(data.error || "Failed to fetch hospitals");
   }
 
-  return response.json();
+  return data;
 }
 
 export default function HealthCommandCenter() {
@@ -45,7 +44,7 @@ export default function HealthCommandCenter() {
   const [locationInput, setLocationInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [currentArea, setCurrentArea] = useState("Locating...");
-  const [userCoords, setUserCoords] = useState(null); // Save current user coords for routing
+  const [userCoords, setUserCoords] = useState(null); 
   const [filterEmergency, setFilterEmergency] = useState(false);
   const [sortBy, setSortBy] = useState("distance");
   const [filterDistance, setFilterDistance] = useState(25);
@@ -55,7 +54,9 @@ export default function HealthCommandCenter() {
 
   const RADIUS_KM = 25;
   const debounceTimer = useRef(null);
+  const loadedRef = useRef(false); // Prevents duplicate initializations in strict mode
 
+  // Custom location search auto-suggestions
   useEffect(() => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
@@ -63,8 +64,7 @@ export default function HealthCommandCenter() {
       debounceTimer.current = setTimeout(async () => {
         try {
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`,
-
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`
           );
           const data = await res.json();
           setSuggestions(data);
@@ -77,7 +77,11 @@ export default function HealthCommandCenter() {
     return () => clearTimeout(debounceTimer.current);
   }, [locationInput]);
 
+  // Initial GPS Signal Acquisition
   useEffect(() => {
+    if (loadedRef.current) return;
+    loadedRef.current = true;
+
     setLoadingText("Acquiring GPS Signal...");
     setLoading(true);
     navigator.geolocation.getCurrentPosition(
@@ -106,8 +110,7 @@ export default function HealthCommandCenter() {
       const query = `[out:json];(node["amenity"="hospital"](${bbox.south},${bbox.west},${bbox.north},${bbox.east});way["amenity"="hospital"](${bbox.south},${bbox.west},${bbox.north},${bbox.east}););out center tags;`;
 
       const geoPromise = forcedAddress ? Promise.resolve({ display_name: forcedAddress }) : fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`,
-
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`
       ).then(res => res.json());
 
       setLoadingText("Triangulating Medical Grid...");
@@ -119,6 +122,11 @@ export default function HealthCommandCenter() {
 
       setCurrentArea(geoData.display_name || "Current Location");
       setLoadingText("Processing Records...");
+
+      if (!overpassData?.elements?.length) {
+        setHospitals([]);
+        return;
+      }
 
       const processed = overpassData.elements.map(el => {
         const hLat = el.lat || el.center?.lat;
@@ -134,7 +142,7 @@ export default function HealthCommandCenter() {
           beds: el.tags?.beds || Math.floor(Math.random() * 40) + 10,
           address: el.tags?.["addr:street"] ? `${el.tags["addr:street"]}, ${el.tags["addr:city"] || ""}` : "Verified Medical Zone"
         };
-      }).filter(h => h.dist <= RADIUS_KM);
+      }).filter(h => h.dist <= RADIUS_KM && h.lat !== undefined && h.lon !== undefined);
 
       setHospitals(processed);
     } catch (err) {
@@ -154,7 +162,6 @@ export default function HealthCommandCenter() {
     return [...list].sort((a, b) => sortBy === "distance" ? a.dist - b.dist : b.beds - a.beds);
   }, [hospitals, filterEmergency, filterDistance, filterOpen, sortBy, searchQuery]);
 
-  // Dynamic Direction URL builder
   const directionUrl = useMemo(() => {
     if (!selectedHospital) return "";
     const base = "https://www.google.com/maps/dir/?api=1";
@@ -168,7 +175,6 @@ export default function HealthCommandCenter() {
       <div className="flex-1 w-full min-w-0 flex flex-col transition-all duration-300">
         <Header />
 
-        {/* Hide control configurations when the map is taking up the full page view */}
         {!selectedHospital && (
           <section className="bg-white border-b border-slate-200 p-3 sm:p-4 sticky top-11 z-30 shadow-sm">
             <div className="max-w-6xl mx-auto space-y-3">
@@ -215,8 +221,8 @@ export default function HealthCommandCenter() {
                   <button
                     onClick={() => setFilterEmergency(!filterEmergency)}
                     className={`flex items-center gap-1.5 px-3 py-2 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all border ${filterEmergency
-                      ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                        ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
+                        : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                       }`}
                   >
                     <ShieldAlert size={12} /> Emergency Only
@@ -296,7 +302,7 @@ export default function HealthCommandCenter() {
                   height="100%"
                   style={{ border: 0, minHeight: "calc(100vh - 180px)" }}
                   loading="lazy"
-                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe  width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
+                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
                   className="w-full h-full block"
                   allow="geolocation"
                 />
