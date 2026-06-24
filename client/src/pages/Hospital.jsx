@@ -113,7 +113,7 @@ export default function HealthCommandCenter() {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`
       ).then(res => res.json());
 
-      setLoadingText("Triangulating Medical Grid...");
+      setLoadingText("Mapping Hospital Grid...");
 
       const [geoData, overpassData] = await Promise.all([
         geoPromise,
