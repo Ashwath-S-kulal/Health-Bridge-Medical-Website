@@ -28,23 +28,24 @@ async function fetchOverpassFastest(query) {
   const timeoutId = setTimeout(() => controller.abort(), 12000);
 
   try {
-    const promises = OVERPASS_SERVERS.map(url =>
-      fetch(url, {
+    const promises = OVERPASS_SERVERS.map(url => {
+      // URLSearchParams natively formats the body and prevents the browser
+      // from sending the CORS preflight (OPTIONS) request that causes the 406 error.
+      const params = new URLSearchParams();
+      params.append("data", query);
+
+      return fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded" // Added to prevent phantom CORS errors
-        },
-        body: `data=${encodeURIComponent(query)}`,
+        body: params, // Pass the params object directly, NO manual headers!
         signal: controller.signal
       }).then(async res => {
         if (!res.ok) {
-          const errText = await res.text();
-          console.error(`Overpass Server ${url} failed:`, errText);
+          console.error(`Overpass Server ${url} rejected with status: ${res.status}`);
           throw new Error(`Server ${url} failed`);
         }
         return res.json();
-      })
-    );
+      });
+    });
     return await Promise.any(promises);
   } catch (error) {
     if (error.name === 'AbortError') throw new Error("Request timed out.");
