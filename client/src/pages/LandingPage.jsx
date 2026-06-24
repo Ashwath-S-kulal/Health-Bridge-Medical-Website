@@ -172,11 +172,11 @@ const Dashboard = () => {
           </section>
 
           {/* Quick Stats Banner */}
-          <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <StatsWidget icon={<Users className="text-primary" />} label="Specialists" value="142" desc="Verified Doctors" />
-            <StatsWidget icon={<MapPin className="text-secondary" />} label="Medical Centers" value="38" desc="Nearby Units" />
-            <StatsWidget icon={<Activity className="text-accent" />} label="Daily Inquiries" value="1,894" desc="+22% this week" />
-            <StatsWidget icon={<Clock className="text-amber-500" />} label="Avg Consultation" value="15m" desc="Immediate triage" />
+          <section className="hidden md:grid  grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <StatsWidget icon={<Users className="text-primary" />} label="Specialists" value="10+" desc="Verified Doctors" />
+            <StatsWidget icon={<MapPin className="text-secondary" />} label="Medical Centers" value="100+" desc="Nearby Medicals" />
+            <StatsWidget icon={<Activity className="text-accent" />} label="Daily Inquiries" value="100+" desc="+22% this week" />
+            <StatsWidget icon={<Clock className="text-amber-500" />} label="Avg Fetching Distance" value="50 KM" desc="Nearby hospitals" />
           </section>
 
           {/* Main Content Split: Inner Hero and Resources */}

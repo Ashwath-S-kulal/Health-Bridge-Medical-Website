@@ -9,13 +9,16 @@ import { useSelector } from 'react-redux';
 const SEARCHABLE_PAGES = [
     { label: 'Dashboard', path: '/' },
     { label: 'Patient Portal', path: '/patienthub' },
-    { label: 'Medical Facilities', path: '/nearbyfacility' },
-    { label: 'MediVault', path: '/medicinefinderourdata' },
-    { label: 'Disease Vault', path: '/diseasevault' },
-    { label: 'Encyclopedia', path: '/diseasedesc' },
+    { label: 'Medical Facilities', path: '/medical' },
+    { label: 'Hospital Facilities', path: '/hospital' },
+    { label: 'Medicine Data', path: '/medicinefinderourdata' },
+    { label: 'Medicine Scan', path: '/medicinefinder' },
+    { label: 'Doctor Consult', path: '/doctors' },
+    { label: 'Disease Encyclopedia', path: '/diseasedesc' },
     { label: 'Volunteer Network', path: '/doctormailtoadmin' },
     { label: 'Profile', path: '/profile' },
-    { label: 'Symptoms Analysis', path: '/symptoms' },
+    { label: 'Symptoms Collection', path: '/symptoms' },
+    { label: 'Precautionary Measures', path: '/precaution' },
     { label: 'Diet Plan', path: '/diet' },
 ];
 
@@ -66,7 +69,8 @@ export default function Header() {
     const filteredRoutes = searchQuery
         ? SEARCHABLE_PAGES.filter(p => p.label.toLowerCase().includes(searchQuery.toLowerCase()))
         : [];
-    // Format breadcrumbs from path
+
+
     const getBreadcrumbs = () => {
         const paths = location.pathname.split('/').filter(Boolean);
         if (paths.length === 0) return [{ label: 'Dashboard', path: '/' }];
@@ -76,7 +80,6 @@ export default function Header() {
 
         paths.forEach((p) => {
             currentPath += `/${p}`;
-            // Clean up name
             let label = p.charAt(0).toUpperCase() + p.slice(1);
             if (p === 'patienthub') label = 'Patient Portal';
             if (p === 'nearbyfacility') label = 'Medical Facilities';
@@ -91,7 +94,6 @@ export default function Header() {
 
     const breadcrumbs = getBreadcrumbs();
 
-    // Mock clinical notifications
     const notifications = [
         { id: 1, text: "Dr. Carter verified your clinical file", time: "10m ago", read: false },
         { id: 2, text: "New precaution guide available: Influenza", time: "2h ago", read: true },
@@ -101,8 +103,6 @@ export default function Header() {
 
     return (
         <header className="sticky top-0 z-40 w-full glassmorphism border-b border-slate-100 px-4 py-3 md:px-8 flex items-center justify-between select-none bg-white/80 backdrop-blur-md">
-
-            {/* --- BREADCRUMB / BRAND SECTION --- */}
             <div className="flex items-center gap-2 md:gap-3">
                 <div className="flex items-center gap-1.5 md:gap-2">
                     {breadcrumbs.map((crumb, idx) => (
@@ -123,7 +123,6 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* --- GLOBAL SEARCH BAR --- */}
             <div className="hidden md:block relative">
                 <div className="flex items-center bg-slate-50 border border-slate-200/60 rounded-xl px-3 py-1.5 w-60 lg:w-80 gap-2 focus-within:border-primary/50 focus-within:bg-white focus-within:ring-4 focus-within:ring-primary-light/50">
                     <Search size={15} className="text-slate-400" />
@@ -140,7 +139,6 @@ export default function Header() {
                     />
                 </div>
 
-                {/* Dropdown Results */}
                 {showSearch && searchQuery && (
                     <div className="absolute top-full mt-2 w-full bg-white border border-slate-100 rounded-2xl shadow-xl p-2 z-50">
                         {filteredRoutes.length > 0 ? (
@@ -163,14 +161,11 @@ export default function Header() {
                 )}
             </div>
 
-            {/* --- TOP HEADER ACTIONS --- */}
             <div className="flex items-center gap-2 md:gap-3">
-
-                {/* Healthcare Assistant Button */}
                 <div className="relative">
                     <button
                         onClick={() => setShowAssistant(!showAssistant)}
-                        className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark text-white px-3 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-wider shadow-md shadow-primary/10 transition-all hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer"
+                        className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark text-white px-2 md:px-3 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-wider shadow-md shadow-primary/10 transition-all hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer"
                     >
                         <Sparkles size={13} className="animate-pulse" />
                         <span className="hidden sm:inline">Clinical AI</span>
@@ -236,7 +231,7 @@ export default function Header() {
 
 
 
-               
+
 
                 {/* --- ADDED: PROFILE REDIRECT ICON --- */}
                 <NavLink
