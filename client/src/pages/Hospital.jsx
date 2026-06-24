@@ -17,39 +17,24 @@ function getBoundingBox(lat, lon, radiusKm) {
   return { south: lat - latDelta, north: lat + latDelta, west: lon - lonDelta, east: lon + lonDelta };
 }
 
-const OVERPASS_SERVERS = [
-  "https://overpass-api.de/api/interpreter",
-  "https://overpass.kumi.systems/api/interpreter",
-  "https://lz4.overpass-api.de/api/interpreter"
-];
 
-async function fetchOverpassFastest(query) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 12000);
+async function fetchHospitals(query) {
+  const response = await fetch(
+    "https://overpass-api.de/api/interpreter",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `data=${encodeURIComponent(query)}`
+    }
+  );
 
-  try {
-    const promises = OVERPASS_SERVERS.map(url =>
-      fetch(url, {
-        method: "POST",
-        // 1. ADD THESE HEADERS
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Accept": "application/json"
-        },
-        body: `data=${encodeURIComponent(query)}`,
-        signal: controller.signal
-      }).then(res => {
-        if (!res.ok) throw new Error(`Server ${url} failed with status: ${res.status}`);
-        return res.json();
-      })
-    );
-    return await Promise.any(promises);
-  } catch (error) {
-    if (error.name === 'AbortError') throw new Error("Request timed out.");
-    throw new Error("All data sync servers failed.");
-  } finally {
-    clearTimeout(timeoutId);
+  if (!response.ok) {
+    throw new Error("Hospital server unavailable");
   }
+
+  return response.json();
 }
 
 export default function HealthCommandCenter() {
@@ -79,7 +64,7 @@ export default function HealthCommandCenter() {
         try {
           const res = await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`,
-            { headers: { 'User-Agent': 'HealthApp/1.0' } }
+
           );
           const data = await res.json();
           setSuggestions(data);
@@ -122,14 +107,14 @@ export default function HealthCommandCenter() {
 
       const geoPromise = forcedAddress ? Promise.resolve({ display_name: forcedAddress }) : fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`,
-        { headers: { 'User-Agent': 'HealthApp/1.0' } }
+
       ).then(res => res.json());
 
       setLoadingText("Triangulating Medical Grid...");
 
       const [geoData, overpassData] = await Promise.all([
         geoPromise,
-        fetchOverpassFastest(query)
+        fetchHospitals(query)
       ]);
 
       setCurrentArea(geoData.display_name || "Current Location");
@@ -230,8 +215,8 @@ export default function HealthCommandCenter() {
                   <button
                     onClick={() => setFilterEmergency(!filterEmergency)}
                     className={`flex items-center gap-1.5 px-3 py-2 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all border ${filterEmergency
-                        ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
-                        : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                      ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
+                      : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                       }`}
                   >
                     <ShieldAlert size={12} /> Emergency Only

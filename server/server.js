@@ -15,6 +15,7 @@ import medicineDataRoutes from "./routes/medicineData.route.js"
 import patientRoutes from "./routes/patient.route.js"
 import dietRoutes from "./routes/diet.routes.js"
 import chatbotRoutes from "./routes/chatbot.route.js"
+import nearbyRoutes from "./routes/nearby.route.js"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,6 +45,7 @@ app.use("/api/medicine", medicineDataRoutes)
 app.use("/api/patient", patientRoutes);
 app.use("/api/diet",dietRoutes)
 app.use("/api/chatbot",chatbotRoutes)
+app.use("/api/nearby", nearbyRoutes)
 
 
 app.get("/", (req, res) => {
