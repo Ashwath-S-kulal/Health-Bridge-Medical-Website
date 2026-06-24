@@ -55,7 +55,7 @@ return (
         <div className="transition-all duration-300 pb-16">
             
             {/* Professional Header Section */}
-            <header className="pt-16 md:pt-10 pb-6 px-4 md:px-8 bg-white border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-md bg-white/80">
+            <header className="pt-3 md:pt-10 pb-6 px-4 md:px-8 bg-white border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-md bg-white/80">
                 <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                     
                     {/* Brand & Search Block */}

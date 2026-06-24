@@ -128,7 +128,7 @@ return (
     <div className="transition-all duration-300 pb-16">
       
       {/* Top Section Header */}
-      <header className="pt-10 pb-6 px-4 md:px-8 border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+      <header className="pt-3 md:pt-10 pb-6 px-4 md:px-8 border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold tracking-tight text-slate-900">MedScan Intelligence</h2>
