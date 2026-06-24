@@ -74,7 +74,7 @@ export default function HealthCommandCenter() {
         try {
           const res = await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`,
-            { headers: { 'User-Agent': 'HealthApp/1.0' } }
+            { headers: HEADERS }
           );
           const data = await res.json();
           setSuggestions(data);
@@ -117,7 +117,7 @@ export default function HealthCommandCenter() {
 
       const geoPromise = forcedAddress ? Promise.resolve({ display_name: forcedAddress }) : fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`,
-        { headers: { 'User-Agent': 'HealthApp/1.0' } }
+        { headers: HEADERS }
       ).then(res => res.json());
 
       setLoadingText("Triangulating Medical Grid...");
