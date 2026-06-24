@@ -31,10 +31,17 @@ async function fetchOverpassFastest(query) {
     const promises = OVERPASS_SERVERS.map(url =>
       fetch(url, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded" // Added to prevent phantom CORS errors
+        },
         body: `data=${encodeURIComponent(query)}`,
         signal: controller.signal
-      }).then(res => {
-        if (!res.ok) throw new Error(`Server ${url} failed`);
+      }).then(async res => {
+        if (!res.ok) {
+          const errText = await res.text();
+          console.error(`Overpass Server ${url} failed:`, errText);
+          throw new Error(`Server ${url} failed`);
+        }
         return res.json();
       })
     );
@@ -55,7 +62,7 @@ export default function HealthCommandCenter() {
   const [locationInput, setLocationInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [currentArea, setCurrentArea] = useState("Locating...");
-  const [userCoords, setUserCoords] = useState(null); // Save current user coords for routing
+  const [userCoords, setUserCoords] = useState(null);
   const [filterEmergency, setFilterEmergency] = useState(false);
   const [sortBy, setSortBy] = useState("distance");
   const [filterDistance, setFilterDistance] = useState(25);
@@ -70,16 +77,16 @@ export default function HealthCommandCenter() {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
     if (locationInput.length > 2) {
+      // Increased debounce to 1200ms to safely respect Nominatim's 1 req/sec limit
       debounceTimer.current = setTimeout(async () => {
         try {
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`,
-            { headers: { 'User-Agent': 'HealthApp/1.0' } }
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5&email=admin@yourdomain.com`
           );
           const data = await res.json();
           setSuggestions(data);
         } catch (e) { console.error(e); }
-      }, 400);
+      }, 1200);
     } else {
       setSuggestions([]);
     }
@@ -116,8 +123,7 @@ export default function HealthCommandCenter() {
       const query = `[out:json];(node["amenity"="hospital"](${bbox.south},${bbox.west},${bbox.north},${bbox.east});way["amenity"="hospital"](${bbox.south},${bbox.west},${bbox.north},${bbox.east}););out center tags;`;
 
       const geoPromise = forcedAddress ? Promise.resolve({ display_name: forcedAddress }) : fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`,
-        { headers: { 'User-Agent': 'HealthApp/1.0' } }
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}&email=admin@yourdomain.com`
       ).then(res => res.json());
 
       setLoadingText("Triangulating Medical Grid...");
@@ -164,13 +170,12 @@ export default function HealthCommandCenter() {
     return [...list].sort((a, b) => sortBy === "distance" ? a.dist - b.dist : b.beds - a.beds);
   }, [hospitals, filterEmergency, filterDistance, filterOpen, sortBy, searchQuery]);
 
-  // Dynamic Direction URL builder
+  // Secure HTTPS URL for Google Maps Directions API
   const directionUrl = useMemo(() => {
     if (!selectedHospital) return "";
-    const base = "https://www.google.com/maps/dir/?api=1";
-    const dest = `&destination=${selectedHospital.lat},${selectedHospital.lon}`;
+    const dest = `${selectedHospital.lat},${selectedHospital.lon}`;
     const origin = userCoords ? `&origin=${userCoords.lat},${userCoords.lon}` : "";
-    return `${base}${origin}${dest}`;
+    return `https://www.google.com/maps/dir/?api=1${origin}&destination=${dest}`;
   }, [selectedHospital, userCoords]);
 
   return (
@@ -178,7 +183,6 @@ export default function HealthCommandCenter() {
       <div className="flex-1 w-full min-w-0 flex flex-col transition-all duration-300">
         <Header />
 
-        {/* Hide control configurations when the map is taking up the full page view */}
         {!selectedHospital && (
           <section className="bg-white border-b border-slate-200 p-3 sm:p-4 sticky top-11 z-30 shadow-sm">
             <div className="max-w-6xl mx-auto space-y-3">
@@ -300,13 +304,14 @@ export default function HealthCommandCenter() {
                 </div>
               </div>
               <div className="flex-1 w-full h-full relative bg-slate-100">
+                {/* Updated to standard secure HTTPS Google Maps embed */}
                 <iframe
                   title="Full Bleed Command Map"
                   width="100%"
                   height="100%"
                   style={{ border: 0, minHeight: "calc(100vh - 180px)" }}
                   loading="lazy"
-                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe  width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
+                  src={`https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed`}
                   className="w-full h-full block"
                   allow="geolocation"
                 />
