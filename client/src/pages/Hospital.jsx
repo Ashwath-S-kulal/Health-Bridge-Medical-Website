@@ -306,7 +306,7 @@ export default function HealthCommandCenter() {
                   height="100%"
                   style={{ border: 0, minHeight: "calc(100vh - 180px)" }}
                   loading="lazy"
-                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe allow="geolocation" width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
+                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe  width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
                   className="w-full h-full block"
                   allow="geolocation"
                 />
