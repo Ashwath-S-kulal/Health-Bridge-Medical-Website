@@ -12,11 +12,7 @@ const Login = () => {
 
         <div className="flex-1 flex items-center justify-center p-4 bg-slate-50">
           <div className="w-full max-w-md">
-            <div className="md:hidden flex items-center justify-center gap-3 mb-10">
-              <Activity className="text-cyan-600" size={32} />
-              <h1 className="text-2xl font-black tracking-tighter italic">MEDICA CORE</h1>
-            </div>
-
+            
             <div className="bg-white p-10 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.04)] border border-slate-100">
               <div className="mb-10">
                 <h3 className="text-2xl font-bold text-slate-900 mb-2">Portal Login</h3>
