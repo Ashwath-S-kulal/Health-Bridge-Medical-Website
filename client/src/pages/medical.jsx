@@ -311,6 +311,7 @@ export default function MedicalStoreCenter() {
                                     loading="lazy"
                                     srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedStore.lat},${selectedStore.lon}&z=15&output=embed"></iframe>`}
                                     className="w-full h-full block"
+                                    allow="geolocation"
                                 />
                             </div>
                         </div>
