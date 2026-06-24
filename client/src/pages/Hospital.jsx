@@ -29,12 +29,15 @@ async function fetchOverpassFastest(query) {
 
   try {
     const promises = OVERPASS_SERVERS.map(url =>
-      fetch(url, {
-        method: "POST",
-        body: `data=${encodeURIComponent(query)}`,
+      // Append the query directly to the URL parameters
+      fetch(`${url}?data=${encodeURIComponent(query)}`, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        },
         signal: controller.signal
       }).then(res => {
-        if (!res.ok) throw new Error(`Server ${url} failed`);
+        if (!res.ok) throw new Error(`Server ${url} failed with status ${res.status}`);
         return res.json();
       })
     );
