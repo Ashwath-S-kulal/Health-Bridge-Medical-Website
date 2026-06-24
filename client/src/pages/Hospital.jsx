@@ -167,10 +167,10 @@ export default function HealthCommandCenter() {
   // Dynamic Direction URL builder
   const directionUrl = useMemo(() => {
     if (!selectedHospital) return "";
-    const base = "https://www.google.com/maps/dir/?api=1";
-    const dest = `&destination=${selectedHospital.lat},${selectedHospital.lon}`;
-    const origin = userCoords ? `&origin=${userCoords.lat},${userCoords.lon}` : "";
-    return `${base}${origin}${dest}`;
+    const dest = `${selectedHospital.lat},${selectedHospital.lon}`;
+    const origin = userCoords ? `${userCoords.lat},${userCoords.lon}` : "";
+    // Use the official secure Google Maps Directions API URL
+    return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}`;
   }, [selectedHospital, userCoords]);
 
   return (
@@ -225,8 +225,8 @@ export default function HealthCommandCenter() {
                   <button
                     onClick={() => setFilterEmergency(!filterEmergency)}
                     className={`flex items-center gap-1.5 px-3 py-2 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all border ${filterEmergency
-                        ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
-                        : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                      ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
+                      : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                       }`}
                   >
                     <ShieldAlert size={12} /> Emergency Only
@@ -306,7 +306,7 @@ export default function HealthCommandCenter() {
                   height="100%"
                   style={{ border: 0, minHeight: "calc(100vh - 180px)" }}
                   loading="lazy"
-                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe  width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
+                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
                   className="w-full h-full block"
                   allow="geolocation"
                 />
