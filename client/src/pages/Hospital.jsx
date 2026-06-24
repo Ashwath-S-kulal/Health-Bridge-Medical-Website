@@ -173,6 +173,7 @@ export default function HealthCommandCenter() {
     return `${base}${origin}${dest}`;
   }, [selectedHospital, userCoords]);
 
+  
   return (
     <div className="flex min-h-screen bg-[#F8FAFC]">
       <div className="flex-1 w-full min-w-0 flex flex-col transition-all duration-300">
