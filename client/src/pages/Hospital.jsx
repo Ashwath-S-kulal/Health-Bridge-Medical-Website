@@ -28,24 +28,16 @@ async function fetchOverpassFastest(query) {
   const timeoutId = setTimeout(() => controller.abort(), 12000);
 
   try {
-    const promises = OVERPASS_SERVERS.map(url => {
-      // URLSearchParams natively formats the body and prevents the browser
-      // from sending the CORS preflight (OPTIONS) request that causes the 406 error.
-      const params = new URLSearchParams();
-      params.append("data", query);
-
-      return fetch(url, {
+    const promises = OVERPASS_SERVERS.map(url =>
+      fetch(url, {
         method: "POST",
-        body: params, // Pass the params object directly, NO manual headers!
+        body: `data=${encodeURIComponent(query)}`,
         signal: controller.signal
-      }).then(async res => {
-        if (!res.ok) {
-          console.error(`Overpass Server ${url} rejected with status: ${res.status}`);
-          throw new Error(`Server ${url} failed`);
-        }
+      }).then(res => {
+        if (!res.ok) throw new Error(`Server ${url} failed`);
         return res.json();
-      });
-    });
+      })
+    );
     return await Promise.any(promises);
   } catch (error) {
     if (error.name === 'AbortError') throw new Error("Request timed out.");
@@ -63,7 +55,7 @@ export default function HealthCommandCenter() {
   const [locationInput, setLocationInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [currentArea, setCurrentArea] = useState("Locating...");
-  const [userCoords, setUserCoords] = useState(null);
+  const [userCoords, setUserCoords] = useState(null); // Save current user coords for routing
   const [filterEmergency, setFilterEmergency] = useState(false);
   const [sortBy, setSortBy] = useState("distance");
   const [filterDistance, setFilterDistance] = useState(25);
@@ -78,16 +70,16 @@ export default function HealthCommandCenter() {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
     if (locationInput.length > 2) {
-      // Increased debounce to 1200ms to safely respect Nominatim's 1 req/sec limit
       debounceTimer.current = setTimeout(async () => {
         try {
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5&email=admin@yourdomain.com`
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`,
+            { headers: { 'User-Agent': 'HealthApp/1.0' } }
           );
           const data = await res.json();
           setSuggestions(data);
         } catch (e) { console.error(e); }
-      }, 1200);
+      }, 400);
     } else {
       setSuggestions([]);
     }
@@ -124,7 +116,8 @@ export default function HealthCommandCenter() {
       const query = `[out:json];(node["amenity"="hospital"](${bbox.south},${bbox.west},${bbox.north},${bbox.east});way["amenity"="hospital"](${bbox.south},${bbox.west},${bbox.north},${bbox.east}););out center tags;`;
 
       const geoPromise = forcedAddress ? Promise.resolve({ display_name: forcedAddress }) : fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}&email=admin@yourdomain.com`
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`,
+        { headers: { 'User-Agent': 'HealthApp/1.0' } }
       ).then(res => res.json());
 
       setLoadingText("Triangulating Medical Grid...");
@@ -171,12 +164,13 @@ export default function HealthCommandCenter() {
     return [...list].sort((a, b) => sortBy === "distance" ? a.dist - b.dist : b.beds - a.beds);
   }, [hospitals, filterEmergency, filterDistance, filterOpen, sortBy, searchQuery]);
 
-  // Secure HTTPS URL for Google Maps Directions API
+  // Dynamic Direction URL builder
   const directionUrl = useMemo(() => {
     if (!selectedHospital) return "";
-    const dest = `${selectedHospital.lat},${selectedHospital.lon}`;
+    const base = "https://www.google.com/maps/dir/?api=1";
+    const dest = `&destination=${selectedHospital.lat},${selectedHospital.lon}`;
     const origin = userCoords ? `&origin=${userCoords.lat},${userCoords.lon}` : "";
-    return `https://www.google.com/maps/dir/?api=1${origin}&destination=${dest}`;
+    return `${base}${origin}${dest}`;
   }, [selectedHospital, userCoords]);
 
   return (
@@ -184,6 +178,7 @@ export default function HealthCommandCenter() {
       <div className="flex-1 w-full min-w-0 flex flex-col transition-all duration-300">
         <Header />
 
+        {/* Hide control configurations when the map is taking up the full page view */}
         {!selectedHospital && (
           <section className="bg-white border-b border-slate-200 p-3 sm:p-4 sticky top-11 z-30 shadow-sm">
             <div className="max-w-6xl mx-auto space-y-3">
@@ -305,14 +300,13 @@ export default function HealthCommandCenter() {
                 </div>
               </div>
               <div className="flex-1 w-full h-full relative bg-slate-100">
-                {/* Updated to standard secure HTTPS Google Maps embed */}
                 <iframe
                   title="Full Bleed Command Map"
                   width="100%"
                   height="100%"
                   style={{ border: 0, minHeight: "calc(100vh - 180px)" }}
                   loading="lazy"
-                  src={`https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed`}
+                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe  width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
                   className="w-full h-full block"
                   allow="geolocation"
                 />
