@@ -17,23 +17,24 @@ function getBoundingBox(lat, lon, radiusKm) {
     return { south: lat - latDelta, north: lat + latDelta, west: lon - lonDelta, east: lon + lonDelta };
 }
 
-// Global API Helper
-async function fetchHospitals(query) {
-  const response = await fetch(`${import.meta.env.VITE_BASE_URI}/api/nearby`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ query })
-  });
+// Global API Helper - Reusing your centralized backend controller path
+async function fetchMedicalData(query) {
+    // Relative path bypasses manual base URI dependencies and browser CORS blocking
+    const response = await fetch("/api/nearby", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ query })
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (!response.ok || !data.success) {
-    throw new Error(data.error || "Failed to fetch hospitals");
-  }
+    if (!response.ok || !data.success) {
+        throw new Error(data.error || "Failed to fetch medical records");
+    }
 
-  return data;
+    return data;
 }
 
 export default function MedicalStoreCenter() {
@@ -53,7 +54,6 @@ export default function MedicalStoreCenter() {
 
     const RADIUS_KM = 25;
     const debounceTimer = useRef(null);
-      const loadedRef = useRef(false)
 
     useEffect(() => {
         if (debounceTimer.current) clearTimeout(debounceTimer.current);
@@ -102,8 +102,8 @@ export default function MedicalStoreCenter() {
             setLoadingText("Establishing Server Connection...");
             const bbox = getBoundingBox(targetLat, targetLon, RADIUS_KM);
 
-            // Changed query targeting "pharmacy" instead of "hospital"
-            const query = `[out:json];(node["amenity"="pharmacy"](${bbox.south},${bbox.west},${bbox.north},${bbox.east});way["amenity"="pharmacy"](${bbox.south},${bbox.west},${bbox.north},${bbox.east}););out center tags;`;
+            // Targets pharmacy nodes and ways smoothly 
+            const query = `[out:json][timeout:15];(node["amenity"="pharmacy"](${bbox.south},${bbox.west},${bbox.north},${bbox.east});way["amenity"="pharmacy"](${bbox.south},${bbox.west},${bbox.north},${bbox.east}););out center tags;`;
 
             const geoPromise = forcedAddress ? Promise.resolve({ display_name: forcedAddress }) : fetch(
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`,
@@ -111,10 +111,10 @@ export default function MedicalStoreCenter() {
 
             setLoadingText("Triangulating Medical Retail Grid...");
 
-              const [geoData, overpassData] = await Promise.all([
-        geoPromise,
-        fetchHospitals(query)
-      ]);
+            const [geoData, overpassData] = await Promise.all([
+                geoPromise,
+                fetchMedicalData(query)
+            ]);
 
             setCurrentArea(geoData.display_name || "Current Location");
             setLoadingText("Processing Store Records...");
@@ -211,9 +211,9 @@ export default function MedicalStoreCenter() {
                                     <button
                                         onClick={() => setFilter247(!filter247)}
                                         className={`flex items-center gap-1.5 px-3 py-2 rounded text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all border ${filter247
-                                                ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
-                                                : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
-                                            }`}
+                                            ? 'bg-rose-600 border-rose-600 text-white shadow-sm'
+                                            : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                                        }`}
                                     >
                                         <ShieldAlert size={12} /> Open 24/7 Only
                                     </button>
@@ -251,15 +251,12 @@ export default function MedicalStoreCenter() {
                     {selectedStore ? (
                         <div className="flex-1 w-full flex flex-col bg-white min-h-[calc(100vh-100px)] relative animate-fadeIn">
                             <div className="bg-slate-900 text-white p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 shadow-md z-10 w-full">
-
-                                {/* Left Section: Back Button & Info */}
                                 <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto overflow-hidden">
                                     <button
                                         onClick={() => setSelectedStore(null)}
                                         className="shrink-0 p-2 hover:bg-slate-800 text-slate-300 hover:text-white rounded-md transition-colors flex items-center gap-1.5 text-xs font-semibold"
                                     >
                                         <ArrowLeft size={16} />
-                                        {/* Hide "to List" on extra small screens to save space */}
                                         <span>Back <span className="hidden xs:inline sm:hidden md:inline">to List</span></span>
                                     </button>
 
@@ -274,7 +271,6 @@ export default function MedicalStoreCenter() {
                                     </div>
                                 </div>
 
-                                {/* Right Section: Actions */}
                                 <div className="flex items-center w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
                                     <a
                                         href={directionUrl}
@@ -287,7 +283,6 @@ export default function MedicalStoreCenter() {
                                         <ExternalLink size={12} className="shrink-0" />
                                     </a>
                                 </div>
-
                             </div>
 
                             <div className="flex-1 w-full h-full relative bg-slate-100">
@@ -382,14 +377,14 @@ export default function MedicalStoreCenter() {
             </div>
 
             <style jsx>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(4px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-      `}</style>
+                .no-scrollbar::-webkit-scrollbar { display: none; }
+                .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(4px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+            `}</style>
         </div>
     );
 }
