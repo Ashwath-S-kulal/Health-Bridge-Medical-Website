@@ -74,7 +74,7 @@ export default function HealthCommandCenter() {
         try {
           const res = await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput)}&limit=5`,
-            { headers: HEADERS }
+            { headers: { 'User-Agent': 'HealthApp/1.0' } }
           );
           const data = await res.json();
           setSuggestions(data);
@@ -117,7 +117,7 @@ export default function HealthCommandCenter() {
 
       const geoPromise = forcedAddress ? Promise.resolve({ display_name: forcedAddress }) : fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${targetLat}&lon=${targetLon}`,
-        { headers: HEADERS }
+        { headers: { 'User-Agent': 'HealthApp/1.0' } }
       ).then(res => res.json());
 
       setLoadingText("Triangulating Medical Grid...");
@@ -173,7 +173,6 @@ export default function HealthCommandCenter() {
     return `${base}${origin}${dest}`;
   }, [selectedHospital, userCoords]);
 
-  
   return (
     <div className="flex min-h-screen bg-[#F8FAFC]">
       <div className="flex-1 w-full min-w-0 flex flex-col transition-all duration-300">
@@ -307,8 +306,9 @@ export default function HealthCommandCenter() {
                   height="100%"
                   style={{ border: 0, minHeight: "calc(100vh - 180px)" }}
                   loading="lazy"
-                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
+                  srcDoc={`<style>html,body{margin:0;height:100%;overflow:hidden;}</style><iframe allow="geolocation" width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=${selectedHospital.lat},${selectedHospital.lon}&z=15&output=embed"></iframe>`}
                   className="w-full h-full block"
+                  allow="geolocation"
                 />
               </div>
             </div>
