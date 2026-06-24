@@ -20,7 +20,7 @@ function getBoundingBox(lat, lon, radiusKm) {
 
 async function fetchHospitals(query) {
   const response = await fetch(
-    "https://overpass-api.de/api/interpreter",
+    "api/nearby",
     {
       method: "POST",
       headers: {
