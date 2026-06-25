@@ -6,15 +6,12 @@ const OVERPASS_SERVERS = [
 ];
 
 async function fetchOverpassFastest(query) {
-  // Create a proper form-encoded body string required by strict Overpass servers
   const bodyParams = new URLSearchParams();
   bodyParams.append('data', query);
 
-  // Map each server to an active fetch promise running concurrently
   const fetchPromises = OVERPASS_SERVERS.map(async (server) => {
-    // Add an internal timeout controller so a hanging server doesn't hold up your backend
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000); // 6 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 6000); 
 
     try {
       const response = await fetch(server, {
@@ -22,7 +19,6 @@ async function fetchOverpassFastest(query) {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Accept": "application/json",
-          // The strict main servers reject empty or generic user agents with 406
           "User-Agent": "HealthCommandCenterApp/1.0 (Medical Emergency Fetcher)"
         },
         body: bodyParams.toString(),
@@ -39,7 +35,6 @@ async function fetchOverpassFastest(query) {
 
       const data = await response.json();
       
-      // Ensure the server returned actual map elements before declaring it the winner
       if (!data || !data.elements) {
         throw new Error(`Server ${server} returned an empty or malformed payload`);
       }
@@ -48,11 +43,10 @@ async function fetchOverpassFastest(query) {
     } catch (err) {
       clearTimeout(timeoutId);
       console.error(`Failure on mirror [${server}]:`, err.message);
-      throw err; // Essential: must rethrow so Promise.any knows this individual runner failed
+      throw err; 
     }
   });
 
-  // Race the servers! Promise.any resolves as soon as the first promise fulfills cleanly.
   try {
     return await Promise.any(fetchPromises);
   } catch (aggregateError) {
